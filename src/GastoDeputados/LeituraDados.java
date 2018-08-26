@@ -9,23 +9,22 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class LeituraDados {
     
     Deputado[] deputados;
-    int error_count, tam;
-    File file;
+    private int error_count, tam;
+    private File file;
     
     public LeituraDados(String nome_arquivo, int tam) {
-        
         this.deputados = new Deputado[tam];
         
         this.error_count = 0;
     
         this.file = new File(nome_arquivo);
+        
+        this.tam = tam;
     
         this.reader();
     
@@ -41,9 +40,9 @@ public class LeituraDados {
             for (int i = 0; i < this.tam; i++){
 
                 line = br.readLine();
-
-                //Regex para pegar todos separados por virgulas fora das aspas
-                String[] position = line.split(",");
+                
+                // Separando cada linha lida pela ocorrencia de ;
+                String[] position = line.split(";");
                 
 
                 // Evitando ler a primeira coluna
@@ -51,23 +50,12 @@ public class LeituraDados {
                     continue;
                 }
 
-                //System.out.println(position[9]);
 
-                try {
-                    Deputado dept = new Deputado(Integer.parseInt(position[0]), position[1], Integer.parseInt(position[2]), position[3],
+                Deputado dept = new Deputado(Integer.parseInt(position[0]), position[1], Integer.parseInt(position[2]), position[3],
                                             position[4], position[5], position[6], position[7],
                                             position[8], Float.parseFloat(position[9]));
-                    deputados[i] = dept;
-                
-                // Problema a ser resolvido: virgula no meio de strings
-                } catch(NumberFormatException e) {
-                    System.out.println(e.getMessage());
-                    System.out.println(line);
-                    this.error_count++;
-                }
+                deputados[i] = dept;
 
-
-                //System.out.println(deputados.get(i-1).name);
 
             }
 
