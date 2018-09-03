@@ -77,65 +77,57 @@ public class THash {
         }
         
         int pos = this.hash_divisao(k + colisoes);
-        
+
         while (pos < this.m && this.count < this.m) {
-            if (this.tabela[pos] != null) {
+            if (this.tabela[pos] == null) {
                 return pos;
             }
             
+            colisoes++;
             this.count++;
-            pos = this.hash_divisao(pos);
- 
+            pos = this.hash_divisao(k+colisoes);
         }
         return -1;
     }
     
-    private void sondagem_quadratica(int k) {
+    private int sondagem_quadratica(int k, int colisoes) {
         
-        if (this.count == this.tam) {
+        if (this.count >= this.m) {
             // Depois implementar throw de um erro
             System.out.println("Tabela Cheia");
-            return;
+            return -1;
         }
         
-        int pos = this.hash_divisao(k);
-        
-        // Verificando se a posição está vazia
-        if (this.tabela[pos] == null) {
-            this.tabela[pos] = k;
-        } else {
-            for (int i = pos; i < this.m; i++) {
-                if (this.tabela[i] != null) {
-                    this.tabela[i] = k;
-                    break;
-                }
+        int pos = this.hash_divisao(k + colisoes*colisoes);
+
+        while (pos < this.m && this.count < this.m) {
+            if (this.tabela[pos] == null) {
+                return pos;
             }
+            
+            colisoes++;
+            this.count++;
+            pos = this.hash_divisao(k+colisoes*colisoes);
         }
-        
-        this.count++;
+        return -1;
     }
     
-    public void inserir(int k) {
+    public void inserir(Integer k) {
         int pos = this.hash_divisao(k);
         
         if (this.tabela[pos] == null) {
             this.tabela[pos] = k;
         } else {
-            pos = this.sondagem_linear(k, 1);
-            if (pos > 0)
+            pos = this.sondagem_quadratica(k, 1);
+            if (pos >= 0)
                 this.tabela[pos] = k;
         }
         
     }
     
-//    
-//    public void get_divisao(int k) {
-//        int pos = k % m;
-//        if (this.tabela[pos] != 0) {
-//            return pos;
-//        } else {
-//            return 0;
-//        }
-//    }
+    public void imprime() {
+        for (int i = 0; i < this.m; i++)
+            System.out.println(this.tabela[i]);
+    }
     
 }
