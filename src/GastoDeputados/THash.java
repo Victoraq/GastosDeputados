@@ -5,6 +5,8 @@
  */
 package GastoDeputados;
 
+import java.util.Arrays;
+
 /**
  *
  * @author victor
@@ -12,27 +14,62 @@ package GastoDeputados;
 
 
 public class THash {
-    private int tam, m, count;
+    private int tam, m, count, tam_max;
     private Integer tabela[];
     
     public THash(int tam) {
         this.tam = tam;
-        tabela = new Integer[tam];
         this.count = 0;
+        this.tam_max = tam * 2 + 3;
+        this.encontra_primo();
+        this.tabela = new Integer[this.m];
+
     }
     
-    // Pendente
-    private void encontra_primo(int valor) {
-        
+    private void encontra_primo() {
+        // In general Sieve of Sundaram, produces 
+        // primes smaller than (2*x + 2) for a number
+        // given number x. Since we want primes 
+        // smaller than n, we reduce n to half
+        int nNew = (this.tam_max - 2) / 2;
+
+        // This array is used to separate numbers of the 
+        // form i+j+2ij from others where 1 <= i <= j
+        boolean marked[] = new boolean[nNew + 1];
+
+        // Initalize all elements as not marked
+        Arrays.fill(marked, false);
+
+        // Main logic of Sundaram. Mark all numbers of the
+        // form i + j + 2ij as true where 1 <= i <= j
+        int last = nNew;
+        loop:
+        for (int i = 1; i <= nNew; i++)
+            for (int j = i; (i + j + 2 * i * j) <= nNew; j++){
+                try { 
+                    last = i + j + 2 * i * j;
+                    marked[i + j + 2 * i * j] = true;
+                } catch(Exception e) {
+                    System.out.println(e.getMessage());
+                    break loop;
+                }
+            }
+        for (int k=this.tam/2; k < nNew+1; k++) {
+            if (marked[k] == false && k * 2 + 1 > this.tam) {
+                this.m = k * 2 + 1;
+                break;
+            }
+        }
+        System.out.println("Primo: "+this.m);
     }
     
     private int hash_divisao(int k) {
-        int pos = k % m;
+        int pos = k % this.m;
         return pos;
     }
     
     private int sondagem_linear(int k, int colisoes) {
-        
+
         if (this.count >= this.m) {
             // Depois implementar throw de um erro
             System.out.println("Tabela Cheia");
