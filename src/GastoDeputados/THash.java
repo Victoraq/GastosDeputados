@@ -68,6 +68,12 @@ public class THash {
         return pos;
     }
     
+    private int hash_multiplicacao(int k) {
+        double AUREA = 0.61803399;
+        
+         return (int) Math.floor(m * (k*AUREA - Math.floor(k*AUREA)));
+    }
+    
     private int sondagem_linear(int k, int colisoes) {
 
         if (this.count >= this.m) {
@@ -112,13 +118,36 @@ public class THash {
         return -1;
     }
     
+    private int duplo_hash(int k, int colisoes) {
+        if (this.count >= this.m) {
+            // Depois implementar throw de um erro
+            System.out.println("Tabela Cheia");
+            return -1;
+        }
+        
+        int hash1 = this.hash_divisao(k);
+        int hash2 = this.hash_multiplicacao(k);
+        int pos = this.hash_divisao(hash1 + colisoes * hash2);
+
+        while (pos < this.m && this.count < this.m) {
+            if (this.tabela[pos] == null) {
+                return pos;
+            }
+            
+            colisoes++;
+            this.count++;
+            pos = this.hash_divisao(hash1 + colisoes * hash2);
+        }
+        return -1;
+    }
+    
     public void inserir(Integer k) {
         int pos = this.hash_divisao(k);
         
         if (this.tabela[pos] == null) {
             this.tabela[pos] = k;
         } else {
-            pos = this.sondagem_quadratica(k, 1);
+            pos = this.duplo_hash(k, 1);
             if (pos >= 0)
                 this.tabela[pos] = k;
         }
