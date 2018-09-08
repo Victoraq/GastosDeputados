@@ -5,6 +5,7 @@
  */
 package GastoDeputados;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
@@ -16,14 +17,17 @@ import java.util.Arrays;
 public class THash {
     private int tam, m, count, tam_max;
     private Integer tabela[];
+    private ArrayList[] tabela_encad_sep;
     
     public THash(int tam) {
         this.tam = tam;
         this.count = 0;
         this.tam_max = tam * 2 + 3;
         this.encontra_primo();
+        this.m = 7;
+        // Problema a ser resolvido: Como usar a mesma lista para ambos métodos
         this.tabela = new Integer[this.m];
-
+        this.tabela_encad_sep = new ArrayList[this.m];
     }
     
     private void encontra_primo() {
@@ -141,22 +145,49 @@ public class THash {
         return -1;
     }
     
-    public void inserir(Integer k) {
+    private void encad_separado(int k) {
+        // Posição em que sera adicionado o valor
         int pos = this.hash_divisao(k);
         
-        if (this.tabela[pos] == null) {
-            this.tabela[pos] = k;
-        } else {
-            pos = this.duplo_hash(k, 1);
-            if (pos >= 0)
-                this.tabela[pos] = k;
-        }
+        // Se a posição está vazia criamos uma lista na mesma
+        if (this.tabela_encad_sep[pos] == null) {
+            ArrayList<Integer> list = new ArrayList<>();
+            this.tabela_encad_sep[pos] = list;
+        } 
         
+        // Adicionando o valor na lista
+        this.tabela_encad_sep[pos].add(k);
+        
+    }
+    
+    public void inserir(Integer k) {
+//        int pos = this.hash_divisao(k);
+//        
+//        if (this.tabela[pos] == null) {
+//            this.tabela[pos] = k;
+//        } else {
+//            pos = this.duplo_hash(k, 1);
+//            if (pos >= 0)
+//                this.tabela[pos] = k;
+//        }
+        this.encad_separado(k);
     }
     
     public void imprime() {
         for (int i = 0; i < this.m; i++)
             System.out.println(this.tabela[i]);
+    }
+    public void imprime_encad_pos() {
+        for (int i = 0; i < this.m; i++)
+            if (this.tabela_encad_sep[i] != null) {
+                for (int j = 0; j < this.tabela_encad_sep[i].size(); j++) { 		      
+                    System.out.print(this.tabela_encad_sep[i].get(j)+" -> "); 		
+                }
+                System.out.println();
+            } else {
+                System.out.println(this.tabela_encad_sep[i]);
+            }
+            
     }
     
 }
