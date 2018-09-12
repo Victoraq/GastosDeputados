@@ -18,6 +18,7 @@ public class THash {
     private int tam, m, count, tam_max;
     private Integer tabela[];
     private ArrayList[] tabela_encad_sep;
+    private Integer indice_encad_c[];
     
     public THash(int tam) {
         this.tam = tam;
@@ -160,17 +161,47 @@ public class THash {
         
     }
     
+    private int encad_coalescido(int k, int colisoes) {
+        if (this.count >= this.m) {
+            // Depois implementar throw de um erro
+            System.out.println("Tabela Cheia");
+            return -1;
+        }
+
+        int pos_inicial = this.hash_divisao(k);
+        int pos = this.hash_divisao(k+colisoes);
+
+        while (pos < this.m && this.count < this.m) {
+            // Se encontrar uma posição vazia na tabela é salvo tal indice 
+            // na posição anterior para servir de referencia para percorrer posteriormente
+            if (this.tabela[pos] == null) {
+                
+                this.indice_encad_c[pos_inicial] = pos;
+                
+                return pos;
+            }
+            
+            colisoes++;
+            this.count++;
+            // Determinando a proxima posição a ser checada com a função hash
+            // Se tivesse porão seria na ultima posição vazia
+            pos_inicial = pos;
+            pos = this.hash_divisao(k+colisoes);
+        }
+        return -1;
+    }
+    
     public void inserir(Integer k) {
-//        int pos = this.hash_divisao(k);
-//        
-//        if (this.tabela[pos] == null) {
-//            this.tabela[pos] = k;
-//        } else {
-//            pos = this.duplo_hash(k, 1);
-//            if (pos >= 0)
-//                this.tabela[pos] = k;
-//        }
-        this.encad_separado(k);
+        int pos = this.hash_divisao(k);
+        
+        if (this.tabela[pos] == null) {
+            this.tabela[pos] = k;
+        } else {
+            pos = this.encad_coalescido(k, 1);
+            if (pos >= 0)
+                this.tabela[pos] = k;
+        }
+//        this.encad_separado(k);
     }
     
     public void imprime() {
