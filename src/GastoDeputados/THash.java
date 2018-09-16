@@ -16,7 +16,7 @@ import java.util.Arrays;
 
 public class THash {
     private int tam, m, count, tam_max;
-    private Integer tabela[];
+    private Object tabela[];
     private ArrayList[] tabela_encad_sep;
     private Integer indice_encad_c[];
     
@@ -25,13 +25,18 @@ public class THash {
         this.count = 0;
         this.tam_max = tam * 2 + 3;
         this.encontra_primo();
-        this.m = 7;
-        // Problema a ser resolvido: Como usar a mesma lista para ambos métodos
-        this.tabela = new Integer[this.m];
+        // Problema a ser resolvido: Como usar a mesma lista para ambos métodos ou seria melhor criar classes?
+        this.tabela = new Deputado[this.m];
         this.tabela_encad_sep = new ArrayList[this.m];
+        this.indice_encad_c = new Integer[this.m];
     }
     
     private void encontra_primo() {
+        
+        /* Algoritmo modificado de :
+            https://www.geeksforgeeks.org/sieve-sundaram-print-primes-smaller-n/
+        */
+        
         // In general Sieve of Sundaram, produces 
         // primes smaller than (2*x + 2) for a number
         // given number x. Since we want primes 
@@ -80,16 +85,11 @@ public class THash {
     }
     
     private int sondagem_linear(int k, int colisoes) {
-
-        if (this.count >= this.m) {
-            // Depois implementar throw de um erro
-            System.out.println("Tabela Cheia");
-            return -1;
-        }
         
         int pos = this.hash_divisao(k + colisoes);
+        this.count++; // Contagem de colisões global
 
-        while (pos < this.m && this.count < this.m) {
+        while (pos < this.m & colisoes < this.m) {
             if (this.tabela[pos] == null) {
                 return pos;
             }
@@ -103,15 +103,10 @@ public class THash {
     
     private int sondagem_quadratica(int k, int colisoes) {
         
-        if (this.count >= this.m) {
-            // Depois implementar throw de um erro
-            System.out.println("Tabela Cheia");
-            return -1;
-        }
-        
         int pos = this.hash_divisao(k + colisoes*colisoes);
-
-        while (pos < this.m && this.count < this.m) {
+        this.count++; // Contagem de colisões global
+        
+        while (pos < this.m && colisoes < this.m) {
             if (this.tabela[pos] == null) {
                 return pos;
             }
@@ -124,17 +119,13 @@ public class THash {
     }
     
     private int duplo_hash(int k, int colisoes) {
-        if (this.count >= this.m) {
-            // Depois implementar throw de um erro
-            System.out.println("Tabela Cheia");
-            return -1;
-        }
         
         int hash1 = this.hash_divisao(k);
         int hash2 = this.hash_multiplicacao(k);
         int pos = this.hash_divisao(hash1 + colisoes * hash2);
+        this.count++; // Contagem de colisões global
 
-        while (pos < this.m && this.count < this.m) {
+        while (pos < this.m && colisoes < this.m) {
             if (this.tabela[pos] == null) {
                 return pos;
             }
@@ -158,20 +149,18 @@ public class THash {
         
         // Adicionando o valor na lista
         this.tabela_encad_sep[pos].add(k);
-        
+        this.count++; // Contagem de colisões global
+
     }
     
     private int encad_coalescido(int k, int colisoes) {
-        if (this.count >= this.m) {
-            // Depois implementar throw de um erro
-            System.out.println("Tabela Cheia");
-            return -1;
-        }
 
         int pos_inicial = this.hash_divisao(k);
         int pos = this.hash_divisao(k+colisoes);
+        this.count++; // Contagem de colisões global
 
-        while (pos < this.m && this.count < this.m) {
+
+        while (pos < this.m && colisoes < this.m) {
             // Se encontrar uma posição vazia na tabela é salvo tal indice 
             // na posição anterior para servir de referencia para percorrer posteriormente
             if (this.tabela[pos] == null) {
@@ -336,4 +325,11 @@ public class THash {
             
     }
     
+    /**
+    * Retorna o valor de colisões global até a ultima inserção
+    * @return Quantidade de colisões
+    */
+    public int get_colisoes() {
+        return this.count;
+    }    
 }
