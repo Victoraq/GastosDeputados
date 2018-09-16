@@ -197,11 +197,126 @@ public class THash {
         if (this.tabela[pos] == null) {
             this.tabela[pos] = k;
         } else {
-            pos = this.encad_coalescido(k, 1);
+            pos = this.sondagem_linear(k, 1);
             if (pos >= 0)
                 this.tabela[pos] = k;
         }
 //        this.encad_separado(k);
+    }
+    
+    public void inserir_encad_separado(Deputado dep) {
+        int k;
+        
+        //Evitando leitura de valores null
+        try{
+            k = dep.deputy_id;}
+        catch(Exception ex) {
+            System.out.println(ex.getMessage());
+            System.out.println(dep);
+            return;
+        } 
+        
+        int pos = this.hash_divisao(k);
+        
+        if (this.tabela[pos] == null) {
+            this.tabela[pos] = dep;
+        } else {
+            this.encad_separado(k);
+            if (pos >= 0)
+                this.tabela[pos] = dep;
+        }
+    }
+    
+    public void inserir_duplo_hash(Deputado dep) {
+        int k;
+        
+        //Evitando leitura de valores null
+        try{
+            k = dep.deputy_id;}
+        catch(Exception ex) {
+            System.out.println(ex.getMessage());
+            System.out.println(dep);
+            return;
+        } 
+        
+        int pos = this.hash_divisao(k);
+        
+        if (this.tabela[pos] == null) {
+            this.tabela[pos] = dep;
+        } else {
+            this.duplo_hash(k, 1);
+            if (pos >= 0)
+                this.tabela[pos] = dep;
+        }
+    }
+    
+    public void inserir_encad_coalescido(Deputado dep) {
+        int k;
+        
+        //Evitando leitura de valores null
+        try{
+            k = dep.deputy_id;}
+        catch(Exception ex) {
+            System.out.println(ex.getMessage());
+            System.out.println(dep);
+            return;
+        } 
+        
+        int pos = this.hash_divisao(k);
+        
+        if (this.tabela[pos] == null) {
+            this.tabela[pos] = dep;
+        } else {
+            this.encad_coalescido(k, 1);
+            if (pos >= 0)
+                this.tabela[pos] = dep;
+        }
+    }
+    
+    public void inserir_sondagem_linear(Deputado dep) {
+        int k;
+        
+        //Evitando leitura de valores null
+        try{
+            k = dep.deputy_id;}
+        catch(Exception ex) {
+            System.out.println(ex.getMessage());
+            System.out.println(dep);
+            return;
+        }    
+            
+        int pos = this.hash_divisao(k);
+        
+        if (this.tabela[pos] == null) {
+            this.tabela[pos] = dep;
+        } else {
+            this.sondagem_linear(k, 1);
+            if (pos >= 0)
+                this.tabela[pos] = dep;
+        }
+    }
+    
+    public void inserir_sondagem_quad(Deputado dep) {
+        int k;
+        
+        //Evitando leitura de valores null
+        try{
+            k = dep.deputy_id;}
+        catch(Exception ex) {
+            System.out.println(ex.getMessage());
+            System.out.println(dep);
+            return;
+        } 
+                
+        int pos = this.hash_divisao(k);
+        
+        if (this.tabela[pos] == null) {
+            this.tabela[pos] = dep;
+        } else {
+            this.sondagem_quadratica(k, 1);
+            if (pos >= 0)
+                this.tabela[pos] = dep;
+        }
     }
     
     public void imprime() {
