@@ -12,36 +12,13 @@
 *.sar
 *.class
 
-# Maven 
-target/
-
-# IntelliJ project files 
-*.iml
-*.iws
-*.ipr
-.idea/
-
-# eclipse project file
-.settings/
-.classpath
-.project
-
 # NetBeans specific
-nbproject/*
-build/*
+nbproject/private/
+build/
 nbbuild/
 dist/
 nbdist/
-nbactions.xml
-nb-configuration.xml
-
-
-# OS
-.DS_Store
+.nb-gradle/
 
 # Misc
-*.swp
-release.properties
-pom.xml.releaseBackup
-pom.xml.tag
 .deputies_dataset.csv
