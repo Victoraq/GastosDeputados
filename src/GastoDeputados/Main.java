@@ -16,7 +16,7 @@ public class Main {
      */
     public static void main(String[] args) {
         
-        LeituraDados dados = new LeituraDados("/home/victor/Documentos/ED2/Java/data/deputies_dataset_tratado.csv", 10000);
+        LeituraDados dados = new LeituraDados("../../deputies_dataset.csv", 10000);
         
         
     }
