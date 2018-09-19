@@ -27,8 +27,8 @@ target/
 .project
 
 # NetBeans specific
-nbproject/
-build/
+nbproject/*
+build/*
 nbbuild/
 dist/
 nbdist/
@@ -45,4 +45,3 @@ release.properties
 pom.xml.releaseBackup
 pom.xml.tag
 .deputies_dataset.csv
-.build-impl.xml
