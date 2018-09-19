@@ -13,14 +13,14 @@
 *.class
 
 # NetBeans specific
-.nbproject/*
+nbproject/*
 build/
 nbbuild/
 dist/
 nbdist/
 .nb-gradle/
-build.xml
-manifest.mf
+*.xml
+*.mf
 
 # Misc
 .deputies_dataset.csv
