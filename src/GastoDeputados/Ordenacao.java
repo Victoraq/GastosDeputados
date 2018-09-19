@@ -15,14 +15,14 @@ public class Ordenacao {
     public Ordenacao() {
     }
     
-    public void troca(int[] array, int index1,int index2) {
+    public void troca(Integer[] array, int index1,int index2) {
         int aux;
         aux = array[index1];
         array[index1] = array[index2];
         array[index2] = aux;
     }
     
-    public void bubbleSort(int[] array) {
+    public void bubbleSort(Integer[] array) {
         boolean trocou = true;
         int tam = array.length;
         int atual, proximo;
@@ -42,7 +42,7 @@ public class Ordenacao {
         }
     }
     
-    public void insertionSort(int[] array) {
+    public void insertionSort(Integer[] array) {
         int tam = array.length;
         int ind_aux;
         int ordenado, proximo;
@@ -65,7 +65,7 @@ public class Ordenacao {
         
     }
     
-    public void maxHeapfy(int[] array, int fim) {
+    public void maxHeapfy(Integer[] array, int fim) {
         int tam = fim;
         int p = (int) tam/2 - 1; // Ponteiro para percorrer o array
         boolean existe2 = true;
@@ -92,16 +92,13 @@ public class Ordenacao {
         }
     }
     
-    public void HeapSort(int[] array) {
+    public void HeapSort(Integer[] array) {
         int tam = array.length;
         
         for (int i = tam-1; i > 1; i--) {
             
             maxHeapfy(array, i);
             troca(array, 0, i);
-            for(int j = 0; j < 5; j++)
-                System.out.println(array[j]);
-            System.out.println("\nIndice: "+i+"\n");
         }
         
     }
