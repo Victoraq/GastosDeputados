@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package GastoDeputados;
 
 import java.io.BufferedReader;
@@ -12,10 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Random;
 
-/**
- *
- * @author victor
- */
+
 public class Cenario01 {
     
     public static void preenche_rand(Integer matrix[][]) {
@@ -88,7 +80,7 @@ public class Cenario01 {
             preenche_rand(test);
             for (int i = 0; i < num_testes; i++) {
                 long ini = System.currentTimeMillis();
-                ord.QuickSort(test[i]);
+                //ord.QuickSort(test[i]);
                 System.out.println("Duração: "+(System.currentTimeMillis() - ini));
             }
         }

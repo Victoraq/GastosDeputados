@@ -1,0 +1,23 @@
+package GastoDeputados;
+
+public class BubbleSort extends Ordenacao{
+    public void BubbleSort(Integer[] array) {
+        boolean trocou = true;
+        int tam = array.length;
+        int atual, proximo;
+        
+        while(trocou) {
+            trocou = false;
+            for (int i = 0; i < tam - 1; i++) {
+                
+                atual = array[i];
+                proximo = array[i+1];
+                
+                if (atual > proximo) {
+                    troca(array, i, i+1);
+                    trocou = true;
+                }
+            }
+        }
+    }
+}
