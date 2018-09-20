@@ -1,7 +1,12 @@
-package GastoDeputados;
+package Ordenacao;
+
+import GastoDeputados.Ordenacao;
 
 public class InsertionSort extends Ordenacao{
-    public void InsertionSort(Integer[] array) {
+    
+    public InsertionSort() {}
+    
+    public void ordenar(Integer[] array){
         int tam = array.length;
         int ind_aux;
         int ordenado, proximo;

@@ -1,7 +1,12 @@
-package GastoDeputados;
+package Ordenacao;
+
+import GastoDeputados.Ordenacao;
 
 public class QuickSort extends Ordenacao{
-    public void QuickSort(Integer[] array) {
+    
+    public QuickSort() {}
+    
+    public void ordenar(Integer[] array){
         this.auxQuickSort(array, 0, array.length -1);
     }
     

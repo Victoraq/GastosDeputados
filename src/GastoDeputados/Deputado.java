@@ -7,7 +7,7 @@ package GastoDeputados;
 public class Deputado {
     int bugged_date;
     String receipt_date;
-    int deputy_id;
+    public int deputy_id;
     String political_party;
     String state_code;
     String name;

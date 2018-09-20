@@ -1,5 +1,11 @@
 package GastoDeputados;
 
+
+import TabelaHash.DuploHash;
+import TabelaHash.ECoalescido;
+import TabelaHash.ESeparado;
+import TabelaHash.SLinear;
+import TabelaHash.SQuadratica;
 import java.util.Random;
 
 /**
@@ -12,8 +18,14 @@ public class Cenario04 {
         int tam = 2*N[N.length-1]; //Quantidade de valores a serem lidos
         
         // Lendo dados dos deputados
-        LeituraDados deputados = new LeituraDados("/home/victor/Documentos/ED2/Java/data/deputies_dataset_tratado.csv", tam);
-        THash tabela;
+        LeituraDados deputados = new LeituraDados("../../deputies_dataset_tratado.csv", tam);
+        
+        // Criando as tabelas
+        DuploHash tabela_DuploHash;
+        ECoalescido tabela_ECoalescido;
+        ESeparado tabela_ESeparado;
+        SLinear tabela_SLinear;
+        SQuadratica tabela_SQuadratica;
         
         Random rand = new Random(System.currentTimeMillis());   
         int pos;
@@ -22,13 +34,13 @@ public class Cenario04 {
         System.out.println("Sondagem Linear: ");
         for (int i = 0; i < N.length; i++) {
             long ini = System.currentTimeMillis();
-            tabela = new THash(N[i]);
+            tabela_SLinear = new SLinear(N[i]);
             for (int j = 0; j < N[i]; j++) {
                 pos = Math.abs(rand.nextInt() % (tam-1)); // Modulo para evitar valores maiores que o indice
-                tabela.inserir_sondagem_linear(deputados.deputados[pos]);
+                tabela_SLinear.inserir(deputados.deputados[pos]);
             }
             System.out.println("Duração: "+(System.currentTimeMillis() - ini));
-            System.out.println("Numero de colisoes: "+tabela.get_colisoes());
+            System.out.println("Numero de colisoes: "+tabela_SLinear.get_colisoes());
             System.out.println("Fim N = "+N[i]+'\n');
         }
         
@@ -36,13 +48,13 @@ public class Cenario04 {
         System.out.println("Sondagem Quadratica: ");
         for (int i = 0; i < N.length; i++) {
             long ini = System.currentTimeMillis();
-            tabela = new THash(N[i]);
+            tabela_SQuadratica = new SQuadratica(N[i]);
             for (int j = 0; j < N[i]; j++) {
                 pos = Math.abs(rand.nextInt() % (tam-1)); // Modulo para evitar valores maiores que o indice
-                tabela.inserir_sondagem_quad(deputados.deputados[pos]);
+                tabela_SQuadratica.inserir(deputados.deputados[pos]);
             }
             System.out.println("Duração: "+(System.currentTimeMillis() - ini));
-            System.out.println("Numero de colisoes: "+tabela.get_colisoes());
+            System.out.println("Numero de colisoes: "+tabela_SQuadratica.get_colisoes());
             System.out.println("Fim N = "+N[i]+'\n');
         }
         
@@ -50,13 +62,13 @@ public class Cenario04 {
         System.out.println("Duplo Hash: ");
         for (int i = 0; i < N.length; i++) {
             long ini = System.currentTimeMillis();
-            tabela = new THash(N[i]);
+            tabela_DuploHash = new DuploHash(N[i]);
             for (int j = 0; j < N[i]; j++) {
                 pos = Math.abs(rand.nextInt() % (tam-1)); // Modulo para evitar valores maiores que o indice
-                tabela.inserir_duplo_hash(deputados.deputados[pos]);
+                tabela_DuploHash.inserir(deputados.deputados[pos]);
             }
             System.out.println("Duração: "+(System.currentTimeMillis() - ini));
-            System.out.println("Numero de colisoes: "+tabela.get_colisoes());
+            System.out.println("Numero de colisoes: "+tabela_DuploHash.get_colisoes());
             System.out.println("Fim N = "+N[i]+'\n');
         }
         
@@ -64,13 +76,13 @@ public class Cenario04 {
         System.out.println("Encadeamento Separado: ");
         for (int i = 0; i < N.length; i++) {
             long ini = System.currentTimeMillis();
-            tabela = new THash(N[i]);
+            tabela_ESeparado = new ESeparado(N[i]);
             for (int j = 0; j < N[i]; j++) {
                 pos = Math.abs(rand.nextInt() % (tam-1)); // Modulo para evitar valores maiores que o indice
-                tabela.inserir_encad_separado(deputados.deputados[pos]);
+                tabela_ESeparado.inserir(deputados.deputados[pos]);
             }
             System.out.println("Duração: "+(System.currentTimeMillis() - ini));
-            System.out.println("Numero de colisoes: "+tabela.get_colisoes());
+            System.out.println("Numero de colisoes: "+tabela_ESeparado.get_colisoes());
             System.out.println("Fim N = "+N[i]+'\n');
         }
         
@@ -78,13 +90,13 @@ public class Cenario04 {
         System.out.println("Encadeamento Coaslescido: ");
         for (int i = 0; i < N.length; i++) {
             long ini = System.currentTimeMillis();
-            tabela = new THash(N[i]);
+            tabela_ECoalescido = new ECoalescido(N[i]);
             for (int j = 0; j < N[i]; j++) {
                 pos = Math.abs(rand.nextInt() % (tam-1)); // Modulo para evitar valores maiores que o indice
-                tabela.inserir_encad_coalescido(deputados.deputados[pos]);
+                tabela_ECoalescido.inserir(deputados.deputados[pos]);
             }
             System.out.println("Duração: "+(System.currentTimeMillis() - ini));
-            System.out.println("Numero de colisoes: "+tabela.get_colisoes());
+            System.out.println("Numero de colisoes: "+tabela_ECoalescido.get_colisoes());
             System.out.println("Fim N = "+N[i]+'\n');
         }
                 

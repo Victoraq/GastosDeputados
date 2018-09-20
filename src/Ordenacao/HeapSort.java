@@ -1,8 +1,20 @@
-package GastoDeputados;
+package Ordenacao;
+
+import GastoDeputados.Ordenacao;
 
 public class HeapSort extends Ordenacao{
     
-    public void maxHeapfy(Integer[] array, int fim) {
+    public HeapSort() {}
+    
+    public void ordenar(Integer[] array){
+        int tam = array.length;
+        for (int i = tam-1; i > 1; i--) {
+            maxHeapfy(array, i);
+            troca(array, 0, i);
+        }
+    }
+    
+    private void maxHeapfy(Integer[] array, int fim) {
         int tam = fim;
         int p = (int) tam/2 - 1; // Ponteiro para percorrer o array
         boolean existe2 = true;
@@ -26,14 +38,6 @@ public class HeapSort extends Ordenacao{
                 }
             }
             p--;
-        }
-    }
-    
-    public void HeapSort(Integer[] array) {
-        int tam = array.length;
-        for (int i = tam-1; i > 1; i--) {
-            maxHeapfy(array, i);
-            troca(array, 0, i);
         }
     }
 }

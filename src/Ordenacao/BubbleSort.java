@@ -1,7 +1,12 @@
-package GastoDeputados;
+package Ordenacao;
+
+import GastoDeputados.Ordenacao;
 
 public class BubbleSort extends Ordenacao{
-    public void BubbleSort(Integer[] array) {
+    
+    public BubbleSort() {}
+    
+    public void ordenar(Integer[] array){
         boolean trocou = true;
         int tam = array.length;
         int atual, proximo;
