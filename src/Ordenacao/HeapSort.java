@@ -1,7 +1,5 @@
 package Ordenacao;
 
-import GastoDeputados.Ordenacao;
-
 public class HeapSort extends Ordenacao{
     
     public HeapSort() {}

@@ -1,7 +1,5 @@
 package Ordenacao;
 
-import GastoDeputados.Ordenacao;
-
 public class InsertionSort extends Ordenacao{
     
     public InsertionSort() {}

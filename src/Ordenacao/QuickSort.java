@@ -1,7 +1,5 @@
 package Ordenacao;
 
-import GastoDeputados.Ordenacao;
-
 public class QuickSort extends Ordenacao{
     
     public QuickSort() {}
