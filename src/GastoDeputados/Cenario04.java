@@ -13,7 +13,7 @@ import java.util.Random;
  * @author victor
  */
 public class Cenario04 {
-    public static void main(String[] args) {
+    public static void main1(String[] args) {
         int N[] = {1000, 5000, 10000, 50000, 100000, 500000}; //Array com a quantidade de valores a serem testados
         int tam = 2*N[N.length-1]; //Quantidade de valores a serem lidos
         

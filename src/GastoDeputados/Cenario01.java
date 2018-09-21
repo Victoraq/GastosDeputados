@@ -28,7 +28,7 @@ public class Cenario01 {
         }
     }
     
-    public static void main(String[] args) throws IOException {
+    public static void main1(String[] args) throws IOException {
         
         Ordenacao ord = new Ordenacao();
         File entrada = new File("/home/victor/Documentos/ED2/Java/data/entrada.txt");

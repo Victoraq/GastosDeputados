@@ -23,18 +23,23 @@ public class HeapSort extends Ordenacao{
             int filho1 = array[2*p];
             int filho2 = array[2*p+1];
             
-            if (2*p+1 >= tam) 
+            if (2*p+1 >= tam){
                 existe2 = false;
+            }
 
             if (filho1 < filho2 && existe2) {
                 if (pai < filho2) {
                     troca(array, p, 2*p+1);
+                    super.compara(2);
                 }
             } else {
                 if (pai < filho1) {
                     troca(array, p, 2*p);
+                    super.compara(2);
                 }
+                
             }
+            super.compara();
             p--;
         }
     }
