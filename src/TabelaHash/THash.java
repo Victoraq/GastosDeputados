@@ -10,17 +10,23 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class THash {
-    protected int tam, m, count, tam_max;
+    protected int tam, m, numColisoes, numComparacoes, numPosPreenchidas;
     protected Object tabela[];
     
     public THash(int tam) {
         this.tam = tam;
-        this.count = 0;
-        this.tam_max = tam * 2 + 3;
+        this.numPosPreenchidas = 0;
+        this.numColisoes = 0;
+        this.numComparacoes = 0;
+        this.m = tam * 2 + 3;
         this.tabela = new Deputado[this.m];
     }
     
-    protected void encontra_primo() {
+    public int getnumComparacoes() {
+        return this.numComparacoes;
+    }
+    
+    protected void encontraPrimo() {
         
         /* Algoritmo modificado de :
             https://www.geeksforgeeks.org/sieve-sundaram-print-primes-smaller-n/
@@ -30,7 +36,7 @@ public class THash {
         // primes smaller than (2*x + 2) for a number
         // given number x. Since we want primes 
         // smaller than n, we reduce n to half
-        int nNew = (this.tam_max - 2) / 2;
+        int nNew = (this.m - 2) / 2;
 
         // This array is used to separate numbers of the 
         // form i+j+2ij from others where 1 <= i <= j
@@ -62,12 +68,12 @@ public class THash {
         System.out.println("Primo: "+this.m);
     }
     
-    protected int hash_divisao(int k) {
+    protected int hashDivisao(int k) {
         int pos = k % this.m;
         return pos;
     }
     
-    protected int hash_multiplicacao(int k) {
+    protected int hashMultiplicacao(int k) {
         double AUREA = 0.61803399;
         
          return (int) Math.floor(m * (k*AUREA - Math.floor(k*AUREA)));
@@ -76,9 +82,5 @@ public class THash {
     public void imprime() {
         for (int i = 0; i < this.m; i++)
             System.out.println(this.tabela[i]);
-    }
-        
-    public int get_colisoes() {
-        return this.count;
     }    
 }

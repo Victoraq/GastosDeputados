@@ -4,26 +4,27 @@ import GastoDeputados.Deputado;
 import java.util.ArrayList;
 
 public class ESeparado extends THash{
-    protected ArrayList[] tabela_encad_sep;
+    private ArrayList[] tabelaESeparado;
     
     public ESeparado(int tam){
         super(tam);
-        this.tabela_encad_sep = new ArrayList[this.m];
+        this.tabelaESeparado = new ArrayList[this.m];
     }
     
     public void inserir(Deputado dep) {
         int k;
         
-        //Evitando leitura de valores null
         try{
-            k = dep.deputy_id;}
-        catch(Exception ex) {
+            k = dep.deputy_id;
+        } catch(Exception ex) {
+            // Evita a inserção de valor null.
+            // Se acontecer, imprime a mensagem e retorna.
             System.out.println(ex.getMessage());
             System.out.println(dep);
             return;
         } 
         
-        int pos = super.hash_divisao(k);
+        int pos = super.hashDivisao(k);
         
         if (this.tabela[pos] == null) {
             this.tabela[pos] = dep;
@@ -36,19 +37,20 @@ public class ESeparado extends THash{
     
     private void auxInsercao(int k) {
         // Posição em que sera adicionado o valor
-        int pos = super.hash_divisao(k);
+        int pos = super.hashDivisao(k);
         
         // Se a posição está vazia criamos uma lista na mesma
-        if (this.tabela_encad_sep[pos] == null) {
+        if (this.tabelaESeparado[pos] == null) {
             ArrayList<Integer> list = new ArrayList<>();
             this.tabela_encad_sep[pos] = list;
         } 
         
         // Adicionando o valor na lista
         this.tabela_encad_sep[pos].add(k);
-        this.count++; // Contagem de colisões global
+        this.numColisoes++; // Contagem de colisões global
     }
     
+    @Override
     public void imprime() {
         for (int i = 0; i < this.m; i++){
             if (this.tabela_encad_sep[i] != null) {

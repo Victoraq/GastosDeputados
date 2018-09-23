@@ -1,9 +1,20 @@
 package Ordenacao;
 
+/**
+ *
+ * @author Carlos Alexandre
+ */
 public class HeapSort extends Ordenacao{
     
+    /**
+     *
+     */
     public HeapSort() {}
     
+    /**
+     *
+     * @param array
+     */
     public void ordenar(Integer[] array){
         int tam = array.length;
         for (int i = tam-1; i > 1; i--) {

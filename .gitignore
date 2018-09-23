@@ -1,26 +1,13 @@
-# Binaries
-*.7z
-*.dmg
-*.gz
-*.iso
-*.jar
-*.rar
-*.tar
-*.zip
-*.war
-*.ear
-*.sar
+# Compiled class file
 *.class
 
 # NetBeans specific
-nbproject/*
+nbproject/private/
 build/
 nbbuild/
 dist/
 nbdist/
 .nb-gradle/
-*.xml
-*.mf
 
-# Misc
-.deputies_dataset.csv
+# Outros Arquivos
+.deputies_dataset_tratado.csv

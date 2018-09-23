@@ -27,23 +27,23 @@ public class Ordenacao {
         return this.numCopias;
     }
     
-    public void compara(){
+    protected void compara(){
         numComparacoes++;
     }
     
-    public void copia(){
+    protected void copia(){
         numCopias ++;
     }
     
-    public void compara(int num){
+    protected void compara(int num){
         numComparacoes += num;
     }
     
-    public void copia(int num){
+    protected void copia(int num){
         numCopias += num;
     }
     
-    public void troca(Integer[] array, int index1, int index2) {
+    protected void troca(Integer[] array, int index1, int index2) {
         int aux;
         aux = array[index1];
         array[index1] = array[index2];
