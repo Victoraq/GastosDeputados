@@ -1,12 +1,24 @@
 package TabelaHash;
 import GastoDeputados.Deputado;
 
+/**
+ * Classe que implementa o algoritmo de tratamento de colisao Duplo Hash.
+ */
 public class DuploHash extends THash{
     
+    /**
+    * Construtor da classe DuploHash.
+    * @param tam - Tamanho da tabela
+    */
     public DuploHash(int tam) {
         super(tam);
     }
     
+    /**
+    * Metodo que calcula a posicao da tabela com o hash duplo.
+    * @param k - Valor da chave.
+    * @param colisoes - Quantidade de colisoes.
+    */
     private int hashDuplo(int k, int colisoes) {
         int hk1 = super.hashDivisao(k); // Usa a hash da divisao comum como primeira funcao
         int hk2 = 1 + (k % (this.m - 1)); // Usa a hash de divisao com m' como segunda funcao
@@ -16,6 +28,10 @@ public class DuploHash extends THash{
         return pos;
     }
     
+    /**
+     * Metodo que faz a insercao de objetos na tabela.
+     * @param dep - objeto da classe Deputado a ser inserido na tabela.
+     */
     public void inserir(Deputado dep) {
         int k;
         

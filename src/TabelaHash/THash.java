@@ -2,22 +2,43 @@ package TabelaHash;
 import GastoDeputados.Deputado;
 import java.util.Arrays;
 
+/**
+ * Classe que implementa funcoes gerais dos algoritmos de
+ * tratamento de colisão de tabela hash.
+ */
 public class THash {
-    protected int tam, m, numComparacoes, numPosPreenchidas;
+
+    /**
+     * m - tamanho da tabela.
+     * numComparacoes - quantidade de comparacoes.
+     * numPosPreenchidas - quantidade de posicoes preenchidas na tabela.
+     * tabela[] - vetor dos valores desejados.
+     */
+    protected int m, numComparacoes, numPosPreenchidas;
     protected Object tabela[];
     
+    /**
+    * Construtor da classe THash.
+    * @param tam - Tamanho da tabela
+    */
     public THash(int tam) {
-        this.tam = tam;
+        this.m = tam;
         this.numPosPreenchidas = 0;
         this.numComparacoes = 0;
-        this.m = tam * 2 + 3;
         this.tabela = new Deputado[this.m];
     }
     
+    /**
+     * Método que retorna o numero de comparacoes da tabela em todas as insercoes.
+     * @return Quantidade de comparacoes das insercoes. 
+    */
     public int getNumComparacoes() {
         return this.numComparacoes;
     }
     
+    /**
+     *
+     */
     protected void encontraPrimo() {
         
         /* Algoritmo modificado de :
@@ -60,17 +81,30 @@ public class THash {
         System.out.println("Primo: "+this.m);
     }
     
+    /**
+     * Método que retorna o valor do hash da divisao para as classes do pacote.
+     * @param k - valor da chave.
+     * @return Valor da funcao hash de acordo com o parametro k.
+    */
     protected int hashDivisao(int k) {
         int pos = k % this.m;
         return pos;
     }
     
+    /**
+     * Método que retorna o valor do hash da multiplicacao para as classes do pacote.
+     * @param k - valor da chave.
+     * @return Valor da funcao hash de acordo com o parametro k.
+    */
     protected int hashMultiplicacao(int k) {
         double AUREA = 0.61803399;
         
          return (int) Math.floor(m * (k*AUREA - Math.floor(k*AUREA)));
     }
     
+    /**
+     * Método que imprime a tabela na tela.
+     */
     public void imprime() {
         for (int i = 0; i < this.m; i++)
             System.out.println(this.tabela[i]);

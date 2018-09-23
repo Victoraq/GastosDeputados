@@ -2,14 +2,25 @@ package TabelaHash;
 import GastoDeputados.Deputado;
 import java.util.ArrayList;
 
+/**
+ * Classe que implementa o algoritmo de tratamento de colisao Encadeamento Separado.
+ */
 public class ESeparado extends THash{
-    private ArrayList[] tabelaESeparado;
+    private ArrayList[] tabelaESeparado; // Estrutura de lista utilizada no algoritmo.
     
+    /**
+     * Construtor da classe ESeparado.
+     * @param tam - tamanho da tabela
+     */
     public ESeparado(int tam){
         super(tam);
         this.tabelaESeparado = new ArrayList[this.m];
     }
     
+    /**
+     * Metodo que faz a insercao de objetos na tabela.
+     * @param dep - objeto da classe Deputado a ser inserido na tabela.
+     */
     public void inserir(Deputado dep) {
         int k;
         
@@ -36,6 +47,9 @@ public class ESeparado extends THash{
         }
     }
     
+    /**
+    * Método que imprime a tabela na tela, sobrepondo com o descrito na superclasse.
+    */
     @Override
     public void imprime() {
         for (int i = 0; i < this.m; i++){

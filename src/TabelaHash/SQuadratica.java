@@ -1,12 +1,24 @@
 package TabelaHash;
 import GastoDeputados.Deputado;
 
+/**
+ * Classe que implementa o algoritmo de tratamento de colisao Sondagem Quadratica.
+ */
 public class SQuadratica extends THash{
     
+    /**
+    * Construtor da classe SQuadratica.
+    * @param tam - Tamanho da tabela
+    */
     public SQuadratica(int tam){
         super(tam);
     }
     
+    /**
+    * Metodo que calcula a posicao da tabela com o hash quadratico utilizando a funcao da divisao.
+    * @param k - Valor da chave.
+    * @param colisoes - Quantidade de colisoes.
+    */
     private int hashQuadratica(int k, int colisoes) {
         int hk = super.hashDivisao(k); // Usa a hash de divisao
         double auxPos = (hk + (0.5*colisoes) + (0.5*colisoes*colisoes)) % this.m;
@@ -14,6 +26,10 @@ public class SQuadratica extends THash{
         return pos;
     }
     
+    /**
+     * Metodo que faz a insercao de objetos na tabela.
+     * @param dep - objeto da classe Deputado a ser inserido na tabela.
+     */
     public void inserir(Deputado dep) {
         int k;
         
