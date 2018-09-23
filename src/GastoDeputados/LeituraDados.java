@@ -25,7 +25,7 @@ public class LeituraDados {
     
     }
     
-    private void reader() {
+    public void reader() {
         try {
             FileReader fr = new FileReader(this.file);
             BufferedReader br = new BufferedReader(fr);

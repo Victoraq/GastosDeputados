@@ -6,6 +6,9 @@ import TabelaHash.ECoalescido;
 import TabelaHash.ESeparado;
 import TabelaHash.SLinear;
 import TabelaHash.SQuadratica;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.Random;
 
 /**
@@ -13,16 +16,17 @@ import java.util.Random;
  * @author victor
  */
 public class Cenario04 {
-    public static void main1(String[] args) {
+    public static void main(String[] args) {
         int N[] = {1000, 5000, 10000, 50000, 100000, 500000}; //Array com a quantidade de valores a serem testados
         int tam = 2*N[N.length-1]; //Quantidade de valores a serem lidos
         
         // Lendo dados dos deputados
         LeituraDados deputados = new LeituraDados("../../deputies_dataset_tratado.csv", tam);
+        deputados.reader();
         
         // Criando as tabelas
         DuploHash tabela_DuploHash;
-        ECoalescido tabela_ECoalescido;
+        //ECoalescido tabela_ECoalescido;
         ESeparado tabela_ESeparado;
         SLinear tabela_SLinear;
         SQuadratica tabela_SQuadratica;
@@ -40,7 +44,7 @@ public class Cenario04 {
                 tabela_SLinear.inserir(deputados.deputados[pos]);
             }
             System.out.println("Duração: "+(System.currentTimeMillis() - ini));
-            System.out.println("Numero de colisoes: "+tabela_SLinear.get_colisoes());
+            System.out.println("Numero de colisoes: " + tabela_SLinear.getNumComparacoes());
             System.out.println("Fim N = "+N[i]+'\n');
         }
         
@@ -54,7 +58,7 @@ public class Cenario04 {
                 tabela_SQuadratica.inserir(deputados.deputados[pos]);
             }
             System.out.println("Duração: "+(System.currentTimeMillis() - ini));
-            System.out.println("Numero de colisoes: "+tabela_SQuadratica.get_colisoes());
+            System.out.println("Numero de colisoes: " + tabela_SQuadratica.getNumComparacoes());
             System.out.println("Fim N = "+N[i]+'\n');
         }
         
@@ -68,7 +72,7 @@ public class Cenario04 {
                 tabela_DuploHash.inserir(deputados.deputados[pos]);
             }
             System.out.println("Duração: "+(System.currentTimeMillis() - ini));
-            System.out.println("Numero de colisoes: "+tabela_DuploHash.get_colisoes());
+            System.out.println("Numero de colisoes: " + tabela_DuploHash.getNumComparacoes());
             System.out.println("Fim N = "+N[i]+'\n');
         }
         
@@ -82,23 +86,23 @@ public class Cenario04 {
                 tabela_ESeparado.inserir(deputados.deputados[pos]);
             }
             System.out.println("Duração: "+(System.currentTimeMillis() - ini));
-            System.out.println("Numero de colisoes: "+tabela_ESeparado.get_colisoes());
+            System.out.println("Numero de colisoes: " + tabela_ESeparado.getNumComparacoes());
             System.out.println("Fim N = "+N[i]+'\n');
         }
         
         // Analise encadeamento coaslescido
-        System.out.println("Encadeamento Coaslescido: ");
-        for (int i = 0; i < N.length; i++) {
-            long ini = System.currentTimeMillis();
-            tabela_ECoalescido = new ECoalescido(N[i]);
-            for (int j = 0; j < N[i]; j++) {
-                pos = Math.abs(rand.nextInt() % (tam-1)); // Modulo para evitar valores maiores que o indice
-                tabela_ECoalescido.inserir(deputados.deputados[pos]);
-            }
-            System.out.println("Duração: "+(System.currentTimeMillis() - ini));
-            System.out.println("Numero de colisoes: "+tabela_ECoalescido.get_colisoes());
-            System.out.println("Fim N = "+N[i]+'\n');
-        }
+//        System.out.println("Encadeamento Coaslescido: ");
+//        for (int i = 0; i < N.length; i++) {
+//            long ini = System.currentTimeMillis();
+//            tabela_ECoalescido = new ECoalescido(N[i]);
+//            for (int j = 0; j < N[i]; j++) {
+//                pos = Math.abs(rand.nextInt() % (tam-1)); // Modulo para evitar valores maiores que o indice
+//                tabela_ECoalescido.inserir(deputados.deputados[pos]);
+//            }
+//            System.out.println("Duração: "+(System.currentTimeMillis() - ini));
+//            System.out.println("Numero de colisoes: " + tabela_ECoalescido.getNumComparacoes());
+//            System.out.println("Fim N = "+N[i]+'\n');
+//        }
                 
     }
 }

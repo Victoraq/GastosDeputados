@@ -17,7 +17,7 @@ public class SLinear extends THash{
         int k;
         
         // Verifica se ha local vazio na tabela, caso contrario não realiza a insercao.
-        if(this.numPosPreenchidas >= this.tam){
+        if(this.numPosPreenchidas >= this.m){
             System.out.println("Tabela cheia!");
             System.out.println(dep);
         }else{
@@ -37,19 +37,18 @@ public class SLinear extends THash{
             if (this.tabela[pos] == null) {
                 // Se estiver vazio, apenas insere e atualiza o contador de insercoes
                 this.tabela[pos] = dep;
-                this.numPosPreenchidas++;
             } else {
                 // Caso contario, calcula-se a proxima posicao a medida que ocorre as colisoes
-                this.numComparacoes++; // A medida que for ocorrendo comparacoes, aumenta uma. 
                 while(this.tabela[pos] != null){
-                    this.numComparacoes++;
+                    this.numComparacoes++; // A medida que for ocorrendo comparacoes, aumenta uma.
                     numColisoes++;
                     pos = this.hashLinear(k, numColisoes);
                 }
                 
                 this.tabela[pos] = dep; // Caso encontrada posicao livre, inserir valor na tabela
-                numPosPreenchidas++;  // Atualizar posicoes posOcupadas
             }
+            
+            numPosPreenchidas++;  // Atualizar posicoes posOcupadas
         }
     }
 }

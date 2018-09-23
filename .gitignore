@@ -10,4 +10,4 @@ nbdist/
 .nb-gradle/
 
 # Outros Arquivos
-.deputies_dataset_tratado.csv
+*.csv
