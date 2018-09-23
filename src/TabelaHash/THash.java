@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class THash {
-    protected int tam, m, numColisoes, numComparacoes, numPosPreenchidas;
+    protected int tam, m, numComparacoes, numPosPreenchidas;
     protected Object tabela[];
     
     public THash(int tam) {
