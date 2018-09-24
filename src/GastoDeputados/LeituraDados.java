@@ -22,10 +22,14 @@ public class LeituraDados {
         this.tam = tam;
     
         this.reader();
-    
+        
     }
     
-    public void reader() {
+    public Deputado[] getDeputados() {
+        return this.deputados;
+    }
+    
+    private void reader() {
         try {
             FileReader fr = new FileReader(this.file);
             BufferedReader br = new BufferedReader(fr);
