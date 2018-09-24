@@ -42,6 +42,7 @@ public class LeituraDados {
 
                 // Evitando ler a primeira coluna
                 if ("bugged_date".equals(position[0])) {
+                    i--;
                     continue;
                 }
 
