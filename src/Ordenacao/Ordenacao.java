@@ -52,8 +52,8 @@ public class Ordenacao {
         numCopias += num;
     }
     
-    protected void troca(Integer[] array, int index1, int index2) {
-        int aux;
+    protected void troca(Object[] array, int index1, int index2) {
+        Object aux;
         aux = array[index1];
         array[index1] = array[index2];
         array[index2] = aux;
