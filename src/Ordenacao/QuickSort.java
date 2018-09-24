@@ -51,6 +51,7 @@ public class QuickSort extends Ordenacao{
             }
             
             this.troca(array, i, j);
+            super.copia();
             
             // Atualizando o indice do pivo
             if (ind_pivo == i)
@@ -80,7 +81,6 @@ public class QuickSort extends Ordenacao{
         while(i < j) {
             // Percorre o vetor enquanto i < pivo e j > pivo
             // ind_pivo != i para evitar casos em que os valores são iguais
-            try {
             while (array[i].getDeputy_id() <= pivo && ind_pivo != i) {
                 i++;
                 super.compara();
@@ -88,8 +88,6 @@ public class QuickSort extends Ordenacao{
             while (array[j].getDeputy_id() >= pivo && ind_pivo != j){
                 j--;
                 super.compara();
-            }}catch(Exception e) {
-                System.out.println(array.length + "  " + i + " " + j + " "+e.getMessage());
             }
             
             this.troca(array, i, j);
