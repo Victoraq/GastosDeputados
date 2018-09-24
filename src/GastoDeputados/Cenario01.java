@@ -2,7 +2,6 @@ package GastoDeputados;
 
 import Ordenacao.QuickSort;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -87,7 +86,7 @@ public class Cenario01 {
         
         System.out.println("Ordenando Array de Inteiros");
         
-        fw_int.write("tam,duracao,num_comparacao \n");
+        fw_int.write("tam,duracao,num_comparacao,num_copia \n");
         fw_int.flush();
         
         for (int seed = 0; seed < 5; seed++) {
@@ -102,10 +101,10 @@ public class Cenario01 {
                 
                 System.out.println("Tam: "+test[i].length);
                 System.out.println("Duração: "+ord.getDuracao());
-                System.out.println("Num. Comparacoes: "+ord.getNumComparacoes());
-                
+                System.out.println("Num. Copias: "+ord.getNumCopias());
+
                 String result = Integer.toString(test[i].length) + ',' + Double.toString((double)ord.getDuracao())
-                        + ',' + Double.toString(ord.getNumComparacoes()) +'\n';
+                        + ',' + Double.toString(ord.getNumComparacoes()) + ',' + Double.toString(ord.getNumCopias()) + '\n';
                 
                 fw_int.write(result);
                 fw_int.flush();
@@ -117,7 +116,7 @@ public class Cenario01 {
         
         System.out.println("Ordenando Array de Deputados");
         
-        fw_dep.write("tam,duracao,num_comparacao \n");
+        fw_dep.write("tam,duracao,num_comparacao,num_copia \n");
         fw_dep.flush();
         
         for (int seed = 0; seed < 5; seed++) {
@@ -132,7 +131,6 @@ public class Cenario01 {
                 Deputado[] auxDep = new Deputado[test[i].length];
                 for (int j = 0; j < test[i].length; j++) {
                     auxDep[j] = dep[test[i][j]];
-                    if (dep[test[i][j]] == null) System.out.println("aqui: "+test[i][j]);
                 }
                 
                 ord.ordenar(auxDep);
@@ -140,9 +138,10 @@ public class Cenario01 {
                 System.out.println("Tam: "+test[i].length);
                 System.out.println("Duração: "+ord.getDuracao());
                 System.out.println("Num. Comparacoes: "+ord.getNumComparacoes());
-                
+                System.out.println("Num. Copias: "+ord.getNumCopias());
+
                 String result = Integer.toString(test[i].length) + ',' + Double.toString((double)ord.getDuracao())
-                        + ',' + Double.toString(ord.getNumComparacoes()) +'\n';
+                        + ',' + Double.toString(ord.getNumComparacoes()) + ',' + Double.toString(ord.getNumCopias()) + '\n';
                 
                 fw_dep.write(result);
                 fw_dep.flush();
