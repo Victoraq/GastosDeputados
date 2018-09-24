@@ -70,7 +70,7 @@ public class QuickSort extends Ordenacao{
     private void auxQuickSort(Deputado[] array, int inicio, int fim) {
         int pivo, i, j;
         
-        pivo = array[inicio].deputy_id;
+        pivo = array[inicio].getDeputy_id();
         int ind_pivo = inicio;
         i = inicio;
         j = fim;
@@ -80,13 +80,16 @@ public class QuickSort extends Ordenacao{
         while(i < j) {
             // Percorre o vetor enquanto i < pivo e j > pivo
             // ind_pivo != i para evitar casos em que os valores são iguais
-            while (array[i].deputy_id <= pivo && ind_pivo != i) {
+            try {
+            while (array[i].getDeputy_id() <= pivo && ind_pivo != i) {
                 i++;
                 super.compara();
             }
-            while (array[j].deputy_id >= pivo && ind_pivo != j){
+            while (array[j].getDeputy_id() >= pivo && ind_pivo != j){
                 j--;
                 super.compara();
+            }}catch(Exception e) {
+                System.out.println(array.length + "  " + i + " " + j + " "+e.getMessage());
             }
             
             this.troca(array, i, j);
