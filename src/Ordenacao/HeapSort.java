@@ -17,10 +17,17 @@ public class HeapSort extends Ordenacao{
      */
     public void ordenar(Integer[] array){
         int tam = array.length;
+        long inicio, fim;
+        
+        inicio = System.currentTimeMillis();
+        
         for (int i = tam-1; i > 1; i--) {
             maxHeapfy(array, i);
             troca(array, 0, i);
         }
+        
+        fim = System.currentTimeMillis();
+        super.setDuracao(fim - inicio);
     }
     
     private void maxHeapfy(Integer[] array, int fim) {

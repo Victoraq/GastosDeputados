@@ -7,6 +7,10 @@ public class ShellSort extends Ordenacao{
     public void ordenar(Integer[] array){
         int i , j , value;
         int pos = 1;
+        long inicio, fim;
+
+        inicio = System.currentTimeMillis();
+        
         while(pos < array.length) {
             pos = 3*pos+1;
         }
@@ -22,5 +26,8 @@ public class ShellSort extends Ordenacao{
                 array[j] = value;
             }
         }
+        
+        fim = System.currentTimeMillis();
+        super.setDuracao(fim - inicio);
     }
 }

@@ -13,6 +13,7 @@ package Ordenacao;
 public class Ordenacao {
     private double numComparacoes;
     private double numCopias;
+    private long duracao;
     
     public Ordenacao() {
         this.numComparacoes = 0;
@@ -25,6 +26,14 @@ public class Ordenacao {
     
     public double getNumCopias(){
         return this.numCopias;
+    }
+
+    protected void setDuracao(long duracao) {
+        this.duracao = duracao;
+    }
+    
+    public long getDuracao() {
+        return duracao;
     }
     
     protected void compara(){

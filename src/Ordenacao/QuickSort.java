@@ -5,7 +5,14 @@ public class QuickSort extends Ordenacao{
     public QuickSort() {}
     
     public void ordenar(Integer[] array){
+        long inicio, fim;
+        
+        inicio = System.currentTimeMillis();
+        
         this.auxQuickSort(array, 0, array.length -1);
+        
+        fim = System.currentTimeMillis();
+        super.setDuracao(fim - inicio);
     }
     
     private void auxQuickSort(Integer[] array, int inicio, int fim) {
