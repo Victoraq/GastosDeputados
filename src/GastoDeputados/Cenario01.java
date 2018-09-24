@@ -1,10 +1,12 @@
 package GastoDeputados;
 
-import Ordenacao.Ordenacao;
+import Ordenacao.QuickSort;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Random;
 
@@ -28,12 +30,14 @@ public class Cenario01 {
         }
     }
     
-    public static void main1(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException {
         
-        Ordenacao ord = new Ordenacao();
         File entrada = new File("/home/victor/Documentos/ED2/Java/data/entrada.txt");
         FileReader fr;
+        FileWriter fw;
         BufferedReader br;
+        BufferedWriter bw;
+        File saida = new File("/home/victor/Documentos/ED2/Java/data/saida.csv");
         
         // Variaveis para o numero de testes e tamanho de cada um
         int num_testes, tam = 0;
@@ -43,6 +47,9 @@ public class Cenario01 {
         try {
             fr = new FileReader(entrada);
             br = new BufferedReader(fr);
+            
+            fw = new FileWriter(saida);
+            bw = new BufferedWriter(fw);
         } catch(FileNotFoundException e) {
             System.out.println(e.getMessage());
             return;
@@ -66,23 +73,28 @@ public class Cenario01 {
             test[i] = new Integer[tam];
         }
         
-//        preenche_rand(test);
-        
-        // Testes de ordenação
-        
-//        System.out.println("Antes:");
-//        imprime(test[3]);
-//        ord.bubbleSort(test[3]);
-//        System.out.println("Depois:");
-//        imprime(test[3]);
+        fw.write("tam,duracao,num_comparacao \n");
+        fw.flush();
         
         for (int seed = 0; seed < 5; seed++) {
             System.out.println("Seed "+seed);
             preenche_rand(test);
+            QuickSort ord = new QuickSort();
+
+            
             for (int i = 0; i < num_testes; i++) {
-                long ini = System.currentTimeMillis();
-                //ord.QuickSort(test[i]);
-                System.out.println("Duração: "+(System.currentTimeMillis() - ini));
+                ord.ordenar(test[i]);
+                
+                System.out.println("Tam: "+test[i].length);
+                System.out.println("Duração: "+ord.getDuracao());
+                System.out.println("Num. Comparacoes: "+ord.getNumComparacoes());
+                
+                String result = Integer.toString(test[i].length) + ',' + Double.toString((double)ord.getDuracao())
+                        + ',' + Double.toString(ord.getNumComparacoes()) +'\n';
+                
+                fw.write(result);
+                fw.flush();
+
             }
         }
     }
