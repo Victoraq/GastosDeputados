@@ -41,7 +41,7 @@ public class DuploHash extends THash{
             System.out.println(dep);
         }else{
             try{
-                k = dep.deputy_id;
+                k = dep.getDeputy_id();
             }catch(Exception ex) {
                 // Evita a inserção de valor null.
                 // Se acontecer, imprime a mensagem e retorna.
