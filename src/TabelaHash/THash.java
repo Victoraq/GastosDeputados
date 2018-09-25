@@ -9,12 +9,13 @@ import java.util.Arrays;
 public class THash {
 
     /**
+     * tam - tamanho original dos dados
      * m - tamanho da tabela.
      * numComparacoes - quantidade de comparacoes.
      * numPosPreenchidas - quantidade de posicoes preenchidas na tabela.
      * tabela[] - vetor dos valores desejados.
      */
-    protected int m, numComparacoes, numPosPreenchidas;
+    protected int tam, m, numComparacoes, numPosPreenchidas;
     protected Object tabela[];
     
     /**
@@ -22,7 +23,10 @@ public class THash {
     * @param tam - Tamanho da tabela
     */
     public THash(int tam) {
-        this.m = tam;
+        this.tam = tam;
+        //Tamanho da tabela será o primeiro primo maior que this.tam
+        // A fim de reduzir o número de colisões
+        this.m = this.encontraPrimo(this.tam);
         this.numPosPreenchidas = 0;
         this.numComparacoes = 0;
         this.tabela = new Deputado[this.m];
@@ -37,19 +41,19 @@ public class THash {
     }
     
     /**
-     *
+     * Método que retorna o primeiro primo maior que o parametro passado
+     * Algoritmo modificado de :
+     *      https://www.geeksforgeeks.org/sieve-sundaram-print-primes-smaller-n/
+     * @param x - valor determinante para encontrar primo
+     * @return Primeiro primo maior que x
      */
-    protected void encontraPrimo() {
-        
-        /* Algoritmo modificado de :
-            https://www.geeksforgeeks.org/sieve-sundaram-print-primes-smaller-n/
-        */
+    private int encontraPrimo(int x) {
         
         // In general Sieve of Sundaram, produces 
         // primes smaller than (2*x + 2) for a number
         // given number x. Since we want primes 
         // smaller than n, we reduce n to half
-        int nNew = (this.m - 2) / 2;
+        int nNew = (x - 2) / 2;
 
         // This array is used to separate numbers of the 
         // form i+j+2ij from others where 1 <= i <= j
@@ -72,13 +76,15 @@ public class THash {
                     break loop;
                 }
             }
-        for (int k=this.tam/2; k < nNew+1; k++) {
+        for (int k=x/2; k < nNew+1; k++) {
             if (marked[k] == false && k * 2 + 1 > this.tam) {
-                this.m = k * 2 + 1;
-                break;
+                return k * 2 + 1;
             }
         }
-        System.out.println("Primo: "+this.m);
+        
+        // Caso não encontre o primo
+        return x;
+//        System.out.println("Primo: "+this.m);
     }
     
     /**
