@@ -6,9 +6,11 @@ import TabelaHash.ECoalescido;
 import TabelaHash.ESeparado;
 import TabelaHash.SLinear;
 import TabelaHash.SQuadratica;
-import java.io.BufferedReader;
+import TabelaHash.THash;
+import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Random;
 
 /**
@@ -17,6 +19,21 @@ import java.util.Random;
  */
 public class Cenario04 {
     public static void main(String[] args) {
+    
+    public static void imprime_dados(long tempo_inicial, long memory_inicial, THash tabela) {
+        long tempo_final, memory_final;
+        
+        Runtime runtime = Runtime.getRuntime();
+        
+        tempo_final = System.currentTimeMillis();
+        memory_final = runtime.totalMemory() - runtime.freeMemory();
+        
+        System.out.println("Duração: "+(tempo_final - tempo_inicial));
+        System.out.println("Numero de colisoes: " + tabela.getNumComparacoes());
+        System.out.println("Memoria utilizada: " + (memory_final - memory_inicial));
+        System.out.println("Fim N = "+tabela.getTam()+'\n');
+    }
+    
         int N[] = {1000, 5000, 10000, 50000, 100000, 500000}; //Array com a quantidade de valores a serem testados
         int tam = 2*N[N.length-1]; //Quantidade de valores a serem lidos
         
