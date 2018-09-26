@@ -18,7 +18,6 @@ import java.util.Random;
  * @author victor
  */
 public class Cenario04 {
-    public static void main(String[] args) {
     
     public static void imprime_dados(long tempo_inicial, long memory_inicial, THash tabela) {
         long tempo_final, memory_final;
@@ -34,92 +33,135 @@ public class Cenario04 {
         System.out.println("Fim N = "+tabela.getTam()+'\n');
     }
     
+    public static void main(String[] args) throws IOException {
         int N[] = {1000, 5000, 10000, 50000, 100000, 500000}; //Array com a quantidade de valores a serem testados
         int tam = 2*N[N.length-1]; //Quantidade de valores a serem lidos
         
         // Lendo dados dos deputados
-        LeituraDados deputados = new LeituraDados("../../deputies_dataset_tratado.csv", tam);
-        deputados.reader();
+        LeituraDados reader = new LeituraDados("/home/victor/Documentos/ED2/Java/data/deputies_dataset_tratado.csv", tam);
+        Deputado[] deputados = reader.getDeputados();
         
         // Criando as tabelas
         DuploHash tabela_DuploHash;
-        //ECoalescido tabela_ECoalescido;
+        ECoalescido tabela_ECoalescido;
         ESeparado tabela_ESeparado;
         SLinear tabela_SLinear;
         SQuadratica tabela_SQuadratica;
         
+        // Arquivos de saida e seus respectivos writters
+        FileWriter fw_SLinear, fw_SQuad, fw_DuploHash, fw_ESeparado, fw_ECoalescido;
+        File saida_SLinear = new File("/home/victor/Documentos/ED2/Java/data/saida_SLinear.csv");
+        File saida_SQuad = new File("/home/victor/Documentos/ED2/Java/data/saida_SQuad.csv");
+        File saida_DuploHash = new File("/home/victor/Documentos/ED2/Java/data/saida_DuploHash.csv");
+        File saida_ESeparado = new File("/home/victor/Documentos/ED2/Java/data/saida_ESeparado.csv");
+        File saida_ECoalescido = new File("/home/victor/Documentos/ED2/Java/data/saida_ECoalescido.csv");
+        
+        Runtime runtime = Runtime.getRuntime();
+        long memory_inicial, ini;
+        
         Random rand = new Random(System.currentTimeMillis());   
         int pos;
         
-        // Analise sondagem linear
+        // Inicializando variaveis de escrita
+        try {
+            fw_SLinear = new FileWriter(saida_SLinear);
+            fw_SQuad = new FileWriter(saida_SQuad);
+            fw_DuploHash = new FileWriter(saida_DuploHash);
+            fw_ESeparado = new FileWriter(saida_ESeparado);
+            fw_ECoalescido = new FileWriter(saida_ECoalescido);
+        } catch(FileNotFoundException e) {
+            System.out.println(e.getMessage());
+            return;
+        }
+        
+        // Analise Sondagem Linear
         System.out.println("Sondagem Linear: ");
+        
         for (int i = 0; i < N.length; i++) {
-            long ini = System.currentTimeMillis();
+            ini = System.currentTimeMillis();   // Inicio da execução
+            memory_inicial = runtime.totalMemory() - runtime.freeMemory();  // Memoria utilizada em bytes
+            
             tabela_SLinear = new SLinear(N[i]);
+            
             for (int j = 0; j < N[i]; j++) {
                 pos = Math.abs(rand.nextInt() % (tam-1)); // Modulo para evitar valores maiores que o indice
-                tabela_SLinear.inserir(deputados.deputados[pos]);
+                tabela_SLinear.inserir(deputados[pos]);
             }
-            System.out.println("Duração: "+(System.currentTimeMillis() - ini));
-            System.out.println("Numero de colisoes: " + tabela_SLinear.getNumComparacoes());
-            System.out.println("Fim N = "+N[i]+'\n');
+            
+            imprime_dados(ini,memory_inicial,tabela_SLinear);
         }
         
         // Analise sondagem quadratica 
         System.out.println("Sondagem Quadratica: ");
+        
         for (int i = 0; i < N.length; i++) {
-            long ini = System.currentTimeMillis();
+            ini = System.currentTimeMillis();   // Inicio da execução
+            memory_inicial = runtime.totalMemory() - runtime.freeMemory();  // Memoria utilizada em bytes
+            
             tabela_SQuadratica = new SQuadratica(N[i]);
+            
             for (int j = 0; j < N[i]; j++) {
                 pos = Math.abs(rand.nextInt() % (tam-1)); // Modulo para evitar valores maiores que o indice
-                tabela_SQuadratica.inserir(deputados.deputados[pos]);
+                tabela_SQuadratica.inserir(deputados[pos]);
             }
-            System.out.println("Duração: "+(System.currentTimeMillis() - ini));
-            System.out.println("Numero de colisoes: " + tabela_SQuadratica.getNumComparacoes());
-            System.out.println("Fim N = "+N[i]+'\n');
+            
+            imprime_dados(ini,memory_inicial,tabela_SQuadratica);
+
         }
         
         // Analise duplo hash
         System.out.println("Duplo Hash: ");
+        
         for (int i = 0; i < N.length; i++) {
-            long ini = System.currentTimeMillis();
+            ini = System.currentTimeMillis();   // Inicio da execução
+            memory_inicial = runtime.totalMemory() - runtime.freeMemory();  // Memoria utilizada em bytes
+            
             tabela_DuploHash = new DuploHash(N[i]);
+            
             for (int j = 0; j < N[i]; j++) {
                 pos = Math.abs(rand.nextInt() % (tam-1)); // Modulo para evitar valores maiores que o indice
-                tabela_DuploHash.inserir(deputados.deputados[pos]);
+                tabela_DuploHash.inserir(deputados[pos]);
             }
-            System.out.println("Duração: "+(System.currentTimeMillis() - ini));
-            System.out.println("Numero de colisoes: " + tabela_DuploHash.getNumComparacoes());
-            System.out.println("Fim N = "+N[i]+'\n');
+            
+            imprime_dados(ini,memory_inicial,tabela_DuploHash);
+
         }
         
         // Analise encadeamento separado
         System.out.println("Encadeamento Separado: ");
+        
+        
         for (int i = 0; i < N.length; i++) {
-            long ini = System.currentTimeMillis();
+            ini = System.currentTimeMillis();   // Inicio da execução
+            memory_inicial = runtime.totalMemory() - runtime.freeMemory();  // Memoria utilizada em bytes
+            
             tabela_ESeparado = new ESeparado(N[i]);
+            
             for (int j = 0; j < N[i]; j++) {
                 pos = Math.abs(rand.nextInt() % (tam-1)); // Modulo para evitar valores maiores que o indice
-                tabela_ESeparado.inserir(deputados.deputados[pos]);
+                tabela_ESeparado.inserir(deputados[pos]);
             }
-            System.out.println("Duração: "+(System.currentTimeMillis() - ini));
-            System.out.println("Numero de colisoes: " + tabela_ESeparado.getNumComparacoes());
-            System.out.println("Fim N = "+N[i]+'\n');
+            
+            imprime_dados(ini,memory_inicial,tabela_ESeparado);
+
         }
         
         // Analise encadeamento coaslescido
-//        System.out.println("Encadeamento Coaslescido: ");
-//        for (int i = 0; i < N.length; i++) {
-//            long ini = System.currentTimeMillis();
-//            tabela_ECoalescido = new ECoalescido(N[i]);
-//            for (int j = 0; j < N[i]; j++) {
-//                pos = Math.abs(rand.nextInt() % (tam-1)); // Modulo para evitar valores maiores que o indice
-//                tabela_ECoalescido.inserir(deputados.deputados[pos]);
-//            }
-//            System.out.println("Duração: "+(System.currentTimeMillis() - ini));
-//            System.out.println("Numero de colisoes: " + tabela_ECoalescido.getNumComparacoes());
-//            System.out.println("Fim N = "+N[i]+'\n');
-//        }
+        System.out.println("Encadeamento Coaslescido: ");
+        
+        for (int i = 0; i < N.length; i++) {
+            ini = System.currentTimeMillis();   // Inicio da execução
+            memory_inicial = runtime.totalMemory() - runtime.freeMemory();  // Memoria utilizada em bytes
+            
+            tabela_ECoalescido = new ECoalescido(N[i]);
+            
+            for (int j = 0; j < N[i]; j++) {
+                pos = Math.abs(rand.nextInt() % (tam-1)); // Modulo para evitar valores maiores que o indice
+                tabela_ECoalescido.inserir(deputados[pos]);
+            }
+            
+            imprime_dados(ini,memory_inicial,tabela_ECoalescido);
+        }
                 
     }
 }
