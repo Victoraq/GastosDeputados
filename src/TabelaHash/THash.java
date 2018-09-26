@@ -27,6 +27,8 @@ public class THash {
         //Tamanho da tabela será o primeiro primo maior que this.tam
         // A fim de reduzir o número de colisões
         this.m = this.encontraPrimo(this.tam);
+        System.out.println("Primo encontrado: "+this.m);
+
         this.numPosPreenchidas = 0;
         this.numComparacoes = 0;
         this.tabela = new Deputado[this.m];
@@ -41,6 +43,14 @@ public class THash {
     }
     
     /**
+     * Método que retorna o tamanho inicial da tabela.
+     * @return tamanho inicial da tabela. 
+    */
+    public int getTam() {
+        return tam;
+    }
+    
+    /**
      * Método que retorna o primeiro primo maior que o parametro passado
      * Algoritmo modificado de :
      *      https://www.geeksforgeeks.org/sieve-sundaram-print-primes-smaller-n/
@@ -48,12 +58,12 @@ public class THash {
      * @return Primeiro primo maior que x
      */
     private int encontraPrimo(int x) {
-        
+        System.out.println("Buscando primo");
         // In general Sieve of Sundaram, produces 
         // primes smaller than (2*x + 2) for a number
         // given number x. Since we want primes 
         // smaller than n, we reduce n to half
-        int nNew = (x - 2) / 2;
+        int nNew = ((x * 2 + 3) - 2) / 2;
 
         // This array is used to separate numbers of the 
         // form i+j+2ij from others where 1 <= i <= j
@@ -64,12 +74,11 @@ public class THash {
 
         // Main logic of Sundaram. Mark all numbers of the
         // form i + j + 2ij as true where 1 <= i <= j
-        int last = nNew;
+        int primo = x;
         loop:
-        for (int i = 1; i <= nNew; i++)
+        for (int i = 1; i <= nNew; i++) 
             for (int j = i; (i + j + 2 * i * j) <= nNew; j++){
                 try { 
-                    last = i + j + 2 * i * j;
                     marked[i + j + 2 * i * j] = true;
                 } catch(Exception e) {
                     System.out.println(e.getMessage());
@@ -78,13 +87,13 @@ public class THash {
             }
         for (int k=x/2; k < nNew+1; k++) {
             if (marked[k] == false && k * 2 + 1 > this.tam) {
-                return k * 2 + 1;
+                primo = k * 2 + 1;
+                break;
             }
         }
         
-        // Caso não encontre o primo
-        return x;
-//        System.out.println("Primo: "+this.m);
+        
+        return primo;
     }
     
     /**
@@ -105,7 +114,7 @@ public class THash {
     protected int hashMultiplicacao(int k) {
         double AUREA = 0.61803399;
         
-         return (int) Math.floor(m * (k*AUREA - Math.floor(k*AUREA)));
+        return (int) Math.floor(m * (k*AUREA - Math.floor(k*AUREA)));
     }
     
     /**
