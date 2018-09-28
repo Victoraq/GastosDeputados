@@ -19,18 +19,29 @@ import java.util.Random;
  */
 public class Cenario04 {
     
-    public static void imprime_dados(long tempo_inicial, long memory_inicial, THash tabela) {
+    public static void imprime_dados(long tempo_inicial, long memory_inicial, THash tabela, FileWriter fw) throws IOException {
         long tempo_final, memory_final;
         
         Runtime runtime = Runtime.getRuntime();
         
         tempo_final = System.currentTimeMillis();
-        memory_final = runtime.totalMemory() - runtime.freeMemory();
+        
+        runtime.gc(); // Rodando o Garbage Collector
+        memory_final = runtime.totalMemory() - runtime.freeMemory(); // Memoria utilizada em bytes
         
         System.out.println("Duração: "+(tempo_final - tempo_inicial));
         System.out.println("Numero de colisoes: " + tabela.getNumComparacoes());
         System.out.println("Memoria utilizada: " + (memory_final - memory_inicial));
         System.out.println("Fim N = "+tabela.getTam()+'\n');
+        
+        String result = Integer.toString(tabela.getTam()) + ',' + 
+                Double.toString((tempo_final - tempo_inicial)) + ',' + 
+                Double.toString(tabela.getNumComparacoes()) + ',' + 
+                Double.toString(memory_final - memory_inicial) + '\n';
+                
+        fw.write(result);
+        fw.flush();
+        
     }
     
     public static void main(String[] args) throws IOException {
@@ -74,94 +85,119 @@ public class Cenario04 {
             return;
         }
         
-        // Analise Sondagem Linear
-        System.out.println("Sondagem Linear: ");
+        String columns = "tam,duracao,num_comparacao,num_copia\n";
         
-        for (int i = 0; i < N.length; i++) {
-            ini = System.currentTimeMillis();   // Inicio da execução
-            memory_inicial = runtime.totalMemory() - runtime.freeMemory();  // Memoria utilizada em bytes
+        fw_SLinear.write(columns);
+        fw_SQuad.write(columns);
+        fw_DuploHash.write(columns);
+        fw_ESeparado.write(columns);
+        fw_ECoalescido.write(columns);
+    
+        for (int seed = 0; seed < 5; seed++) {
             
-            tabela_SLinear = new SLinear(N[i]);
-            
-            for (int j = 0; j < N[i]; j++) {
-                pos = Math.abs(rand.nextInt() % (tam-1)); // Modulo para evitar valores maiores que o indice
-                tabela_SLinear.inserir(deputados[pos]);
-            }
-            
-            imprime_dados(ini,memory_inicial,tabela_SLinear);
-        }
-        
-        // Analise sondagem quadratica 
-        System.out.println("Sondagem Quadratica: ");
-        
-        for (int i = 0; i < N.length; i++) {
-            ini = System.currentTimeMillis();   // Inicio da execução
-            memory_inicial = runtime.totalMemory() - runtime.freeMemory();  // Memoria utilizada em bytes
-            
-            tabela_SQuadratica = new SQuadratica(N[i]);
-            
-            for (int j = 0; j < N[i]; j++) {
-                pos = Math.abs(rand.nextInt() % (tam-1)); // Modulo para evitar valores maiores que o indice
-                tabela_SQuadratica.inserir(deputados[pos]);
-            }
-            
-            imprime_dados(ini,memory_inicial,tabela_SQuadratica);
+            System.out.println("Seed "+seed);
 
-        }
+            
+            // Analise Sondagem Linear
+//            System.out.println("Sondagem Linear: ");
+//                    
+//            for (int i = 0; i < N.length; i++) {
+//                ini = System.currentTimeMillis();   // Inicio da execução
+//
+//                runtime.gc(); // Rodando o Garbage Collector
+//                memory_inicial = runtime.totalMemory() - runtime.freeMemory();  // Memoria utilizada em bytes
+//
+//                tabela_SLinear = new SLinear(N[i]);
+//
+//                for (int j = 0; j < N[i]; j++) {
+//                    pos = Math.abs(rand.nextInt() % (tam-1)); // Modulo para evitar valores maiores que o indice
+//                    tabela_SLinear.inserir(deputados[pos]);
+//                }
+//
+//                imprime_dados(ini,memory_inicial,tabela_SLinear, fw_SLinear);
+//            }
         
-        // Analise duplo hash
-        System.out.println("Duplo Hash: ");
         
-        for (int i = 0; i < N.length; i++) {
-            ini = System.currentTimeMillis();   // Inicio da execução
-            memory_inicial = runtime.totalMemory() - runtime.freeMemory();  // Memoria utilizada em bytes
-            
-            tabela_DuploHash = new DuploHash(N[i]);
-            
-            for (int j = 0; j < N[i]; j++) {
-                pos = Math.abs(rand.nextInt() % (tam-1)); // Modulo para evitar valores maiores que o indice
-                tabela_DuploHash.inserir(deputados[pos]);
-            }
-            
-            imprime_dados(ini,memory_inicial,tabela_DuploHash);
+            // Analise sondagem quadratica 
+            System.out.println("Sondagem Quadratica: ");
+                    
+//            for (int i = 0; i < N.length; i++) {
+//                ini = System.currentTimeMillis();   // Inicio da execução
+//                
+//                runtime.gc(); // Rodando o Garbage Collector
+//                memory_inicial = runtime.totalMemory() - runtime.freeMemory();  // Memoria utilizada em bytes
+//
+//                tabela_SQuadratica = new SQuadratica(N[i]);
+//
+//                for (int j = 0; j < N[i]; j++) {
+//                    pos = Math.abs(rand.nextInt() % (tam-1)); // Modulo para evitar valores maiores que o indice
+//                    tabela_SQuadratica.inserir(deputados[pos]);
+//                }
+//
+//                imprime_dados(ini,memory_inicial,tabela_SQuadratica, fw_SQuad);
+//
+//            }
+       
+        
+            // Analise duplo hash
+//            System.out.println("Duplo Hash: ");
+//                    
+//            for (int i = 0; i < N.length; i++) {
+//                ini = System.currentTimeMillis();   // Inicio da execução
+//                
+//                runtime.gc(); // Rodando o Garbage Collector
+//                memory_inicial = runtime.totalMemory() - runtime.freeMemory();  // Memoria utilizada em bytes
+//
+//                tabela_DuploHash = new DuploHash(N[i]);
+//
+//                for (int j = 0; j < N[i]; j++) {
+//                    pos = Math.abs(rand.nextInt() % (tam-1)); // Modulo para evitar valores maiores que o indice
+//                    tabela_DuploHash.inserir(deputados[pos]);
+//                }
+//
+//                imprime_dados(ini,memory_inicial,tabela_DuploHash, fw_DuploHash);
+//
+//            }
+        
+            // Analise encadeamento separado
+//            System.out.println("Encadeamento Separado: ");
+//                    
+//            for (int i = 0; i < N.length; i++) {
+//                ini = System.currentTimeMillis();   // Inicio da execução
+//                
+//                runtime.gc(); // Rodando o Garbage Collector
+//                memory_inicial = runtime.totalMemory() - runtime.freeMemory();  // Memoria utilizada em bytes
+//
+//                tabela_ESeparado = new ESeparado(N[i]);
+//
+//                for (int j = 0; j < N[i]; j++) {
+//                    pos = Math.abs(rand.nextInt() % (tam-1)); // Modulo para evitar valores maiores que o indice
+//                    tabela_ESeparado.inserir(deputados[pos]);
+//                }
+//
+//                imprime_dados(ini,memory_inicial,tabela_ESeparado, fw_ESeparado);
 
-        }
+            
+        //}
         
-        // Analise encadeamento separado
-        System.out.println("Encadeamento Separado: ");
-        
-        
-        for (int i = 0; i < N.length; i++) {
-            ini = System.currentTimeMillis();   // Inicio da execução
-            memory_inicial = runtime.totalMemory() - runtime.freeMemory();  // Memoria utilizada em bytes
-            
-            tabela_ESeparado = new ESeparado(N[i]);
-            
-            for (int j = 0; j < N[i]; j++) {
-                pos = Math.abs(rand.nextInt() % (tam-1)); // Modulo para evitar valores maiores que o indice
-                tabela_ESeparado.inserir(deputados[pos]);
-            }
-            
-            imprime_dados(ini,memory_inicial,tabela_ESeparado);
-
-        }
-        
-        // Analise encadeamento coaslescido
-        System.out.println("Encadeamento Coaslescido: ");
-        
-        for (int i = 0; i < N.length; i++) {
-            ini = System.currentTimeMillis();   // Inicio da execução
-            memory_inicial = runtime.totalMemory() - runtime.freeMemory();  // Memoria utilizada em bytes
-            
-            tabela_ECoalescido = new ECoalescido(N[i]);
-            
-            for (int j = 0; j < N[i]; j++) {
-                pos = Math.abs(rand.nextInt() % (tam-1)); // Modulo para evitar valores maiores que o indice
-                tabela_ECoalescido.inserir(deputados[pos]);
-            }
-            
-            imprime_dados(ini,memory_inicial,tabela_ECoalescido);
-        }
+            // Analise encadeamento coaslescido
+            System.out.println("Encadeamento Coaslescido: ");
+                    
+            for (int i = 0; i < N.length; i++) {
+                ini = System.currentTimeMillis();   // Inicio da execução
                 
+                runtime.gc(); // Rodando o Garbage Collector
+                memory_inicial = runtime.totalMemory() - runtime.freeMemory();  // Memoria utilizada em bytes
+
+                tabela_ECoalescido = new ECoalescido(N[i]);
+
+                for (int j = 0; j < N[i]; j++) {
+                    pos = Math.abs(rand.nextInt() % (tam-1)); // Modulo para evitar valores maiores que o indice
+                    tabela_ECoalescido.inserir(deputados[pos]);
+                }
+
+                imprime_dados(ini,memory_inicial,tabela_ECoalescido, fw_ECoalescido);
+            }
+        }             
     }
 }

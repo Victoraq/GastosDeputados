@@ -86,7 +86,7 @@ public class Cenario01 {
         
         System.out.println("Ordenando Array de Inteiros");
         
-        fw_int.write("tam,duracao,num_comparacao,num_copia \n");
+        fw_int.write("tam,duracao,num_comparacao,num_copia\n");
         fw_int.flush();
         
         for (int seed = 0; seed < 5; seed++) {
