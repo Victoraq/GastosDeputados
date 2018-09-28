@@ -81,7 +81,7 @@ public class THash {
                 try { 
                     marked[i + j + 2 * i * j] = true;
                 } catch(Exception e) {
-                    System.out.println(e.getMessage());
+//                    System.out.println(e.getMessage());
                     break loop;
                 }
             }

@@ -83,11 +83,14 @@ public class ECoalescido extends THash{
 		}
                 
                 // Percorre de baixo para cima ate achar uma posicao vazia.
-		while(this.indiceECoalescido[novaPosicao] != -2){
+                do {
+                    // Evitando indices negativos
+                    if (novaPosicao <= 0)
+                        novaPosicao = this.m - 1;
                     novaPosicao--;
                     this.numComparacoes++;
-		}
-                
+                } while(this.indiceECoalescido[novaPosicao] != -2);
+
                 // Na posicao vazia, atualiza os valores e os indices
                 this.indiceECoalescido[posAnterior] = novaPosicao;
 		this.indiceECoalescido[novaPosicao] = -1;
