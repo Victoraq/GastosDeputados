@@ -24,6 +24,6 @@ GastosDeputados
 
 ![png](images/cenario04/comparacao.png)
 
-## Gráfico do número de cópias
+## Gráfico da quantidade de mémoria utilizada
 
 ![png](images/cenario04/memoria.png)
