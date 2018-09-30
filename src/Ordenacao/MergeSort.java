@@ -5,7 +5,14 @@ public class MergeSort extends Ordenacao{
     public MergeSort() {}
     
     public void ordenar(Integer[] array){
+        long inicio, fim;
+        
+        inicio = System.currentTimeMillis();
+        
         auxMergeSort(array, 0, array.length);
+        
+        fim = System.currentTimeMillis();
+        super.setDuracao(fim - inicio);
     }
     
     private void auxMergeSort(Integer[] array, int inicio, int fim){

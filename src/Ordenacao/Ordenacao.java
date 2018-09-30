@@ -11,6 +11,7 @@ public class Ordenacao {
      */
     private double numComparacoes;
     private double numCopias;
+    private long duracao;
     
     /**
      * Construtor da classe Ordenacao.
@@ -30,10 +31,15 @@ public class Ordenacao {
     public double getNumCopias(){
         return this.numCopias;
     }
+
+    protected void setDuracao(long duracao) {
+        this.duracao = duracao;
+    }
     
-    /**
-     * Métodos que acrescentam caso ocorram comparacoes e/ou copias durante a ordenacao.
-     */
+    public long getDuracao() {
+        return duracao;
+    }
+    
     protected void compara(){
         numComparacoes++;
     }
@@ -50,11 +56,8 @@ public class Ordenacao {
         numCopias += num;
     }
     
-    /**
-     * Método que realiza a troca de dois valores num vetor.
-     */
-    protected void troca(Integer[] array, int index1, int index2) {
-        int aux;
+    protected void troca(Object[] array, int index1, int index2) {
+        Object aux;
         aux = array[index1];
         array[index1] = array[index2];
         array[index2] = aux;
