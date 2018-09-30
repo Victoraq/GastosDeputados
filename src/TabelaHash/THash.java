@@ -72,8 +72,8 @@ public class THash {
                     break loop;
                 }
             }
-        for (int k=this.tam/2; k < nNew+1; k++) {
-            if (marked[k] == false && k * 2 + 1 > this.tam) {
+        for (int k=this.m/2; k < nNew+1; k++) {
+            if (marked[k] == false && k * 2 + 1 > this.m) {
                 this.m = k * 2 + 1;
                 break;
             }
