@@ -1,9 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package quicksortmed;
+
+package Ordenacao;
 
 public class QuickSortMed extends Ordenacao {
   private Integer [] vetor;
@@ -11,7 +7,7 @@ public class QuickSortMed extends Ordenacao {
       this.vetor=vetor;
 
   }
-  private int pivoMed (int i, int f){
+  private int pivoMed (int i, int f){ //Serve como auxiliar para ordenar.Só encontra o pivo, recendo o indice do inicio e do final
       int mediana;
       int pivo;
       int k=f-i+1;
@@ -22,16 +18,16 @@ public class QuickSortMed extends Ordenacao {
       }
       else{
           mediana=k/2;
-          pivo=mediana+i;
+          pivo=mediana+i;// O indice i serve para localizar qual partição estou me referindo
       }
      return pivo;
   }
-  private void troca(int i, int t){
+  private void troca(int i, int t){ //troca os valores de lugar
       int aux=vetor[i];
       vetor[i]=vetor[t];
       vetor[t]=aux;
   }
-  private void auxOrdenar(int i,int f,int pivo){
+  private void auxOrdenar(int i,int f,int pivo){ // ordena os tres valores adquiridos do meu vetor
       if(vetor[pivo]<vetor[i]){
           troca(pivo,i);
       }
@@ -50,8 +46,8 @@ public class QuickSortMed extends Ordenacao {
       int pivo=pivoMed(i,f);
       auxOrdenar(i,f,pivo);
       int k=f-i+1;
-      if (i >= f) return;
-      if(k>3){
+      if (i >= f) return;// verifica quando possuir uma partição de tamanho 1
+      if(k>3){ //Condição mínima para conseguirmos adquirir tres valores do vetor, não sendo escolher se o vetor for de tamanho 3 ou menor 
           while(i<f){
                 while(vetor[i]<vetor[pivo]&& i!=pivo){
                     i++;                  
@@ -72,8 +68,8 @@ public class QuickSortMed extends Ordenacao {
             
        
       } 
-      if(k==3){
-        auxOrdenar(i,f,pivo);
+      if(k==3){ // tratando os casos quando o vetor for de tamanho igual a tres
+        auxOrdenar(i,f,pivo); //Portanto, posso pular a escolha do pivo direto para a ordenação. Isso ocorre também para k=2.
       }
       if(k==2){
           if(vetor[i]>vetor[f]){
