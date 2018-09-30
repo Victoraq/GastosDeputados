@@ -15,7 +15,8 @@ public class THash {
      * numPosPreenchidas - quantidade de posicoes preenchidas na tabela.
      * tabela[] - vetor dos valores desejados.
      */
-    protected int tam, m, numComparacoes, numPosPreenchidas;
+    protected int tam, m, numPosPreenchidas;
+    protected double numComparacoes;
     protected Object tabela[];
     
     /**
@@ -38,7 +39,7 @@ public class THash {
      * Método que retorna o numero de comparacoes da tabela em todas as insercoes.
      * @return Quantidade de comparacoes das insercoes. 
     */
-    public int getNumComparacoes() {
+    public double getNumComparacoes() {
         return this.numComparacoes;
     }
     
