@@ -15,7 +15,7 @@ public class ShellSort extends Ordenacao{
             pos = 3*pos+1;
         }
         while ( pos > 1) {
-            pos /= 3; // divide gap por 3
+            pos /= 3; // divide pos por 3
             for(i = pos; i < array.length; i++) {
                 value = array[i];
                 j = i;
