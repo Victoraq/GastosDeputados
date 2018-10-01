@@ -22,7 +22,11 @@ public class LeituraDados {
         this.tam = tam;
     
         this.reader();
+        
+    }
     
+    public Deputado[] getDeputados() {
+        return this.deputados;
     }
     
     private void reader() {
@@ -42,6 +46,7 @@ public class LeituraDados {
 
                 // Evitando ler a primeira coluna
                 if ("bugged_date".equals(position[0])) {
+                    i--;
                     continue;
                 }
 

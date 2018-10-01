@@ -5,6 +5,11 @@
  */
 package GastoDeputados;
 
+import Ordenacao.HeapSort;
+import Ordenacao.InsertionSort;
+import Ordenacao.MergeSort;
+import Ordenacao.ShellSort;
+
 /**
  *
  * @author ice
@@ -16,9 +21,12 @@ public class Main {
      */
     public static void main(String[] args) {
         
-        LeituraDados dados = new LeituraDados("../../deputies_dataset.csv", 10000);
-        
-        
+       Integer array[] = {12, 4, 231, 23, 98, 34, 123, 3, 213, 1, 2, 122, 89, 7};
+       InsertionSort ord = new InsertionSort();
+       ord.ordenar(array);
+       ord.imprimir(array);
+       System.out.println(ord.getNumCopias());
+       System.out.println(ord.getNumComparacoes());
     }
     
 }

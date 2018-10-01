@@ -1,15 +1,33 @@
 package Ordenacao;
 
+/**
+ *
+ * @author Carlos Alexandre
+ */
 public class HeapSort extends Ordenacao{
     
+    /**
+     *
+     */
     public HeapSort() {}
     
+    /**
+     *
+     * @param array
+     */
     public void ordenar(Integer[] array){
         int tam = array.length;
+        long inicio, fim;
+        
+        inicio = System.currentTimeMillis();
+        
         for (int i = tam-1; i > 1; i--) {
             maxHeapfy(array, i);
             troca(array, 0, i);
         }
+        
+        fim = System.currentTimeMillis();
+        super.setDuracao(fim - inicio);
     }
     
     private void maxHeapfy(Integer[] array, int fim) {
@@ -23,18 +41,23 @@ public class HeapSort extends Ordenacao{
             int filho1 = array[2*p];
             int filho2 = array[2*p+1];
             
-            if (2*p+1 >= tam) 
+            if (2*p+1 >= tam){
                 existe2 = false;
+            }
 
             if (filho1 < filho2 && existe2) {
                 if (pai < filho2) {
                     troca(array, p, 2*p+1);
+                    super.compara(2);
                 }
             } else {
                 if (pai < filho1) {
                     troca(array, p, 2*p);
+                    super.compara(2);
                 }
+                
             }
+            super.compara();
             p--;
         }
     }

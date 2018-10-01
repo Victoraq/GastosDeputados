@@ -1,23 +1,24 @@
 package GastoDeputados;
 
-import Ordenacao.Ordenacao;
+import Ordenacao.QuickSort;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Random;
 
 
 public class Cenario01 {
     
-    public static void preenche_rand(Integer matrix[][]) {
+    public static void preenche_rand(Integer matrix[][], int limite) {
         Random rand = new Random(System.currentTimeMillis());
 
         for (int i = 0; i < matrix.length; i++) {
             // Preenchendo com valores aleatorios
             for (int j = 0; j < matrix[i].length; j++) {
-                matrix[i][j] = rand.nextInt();
+                matrix[i][j] = Math.abs(rand.nextInt() % limite);
             }
         }
     }
@@ -30,10 +31,14 @@ public class Cenario01 {
     
     public static void main(String[] args) throws IOException {
         
-        Ordenacao ord = new Ordenacao();
         File entrada = new File("/home/victor/Documentos/ED2/Java/data/entrada.txt");
         FileReader fr;
+        FileWriter fw_int, fw_dep;
         BufferedReader br;
+        File saida_int = new File("/home/victor/Documentos/ED2/Java/data/saida_int.csv");
+        File saida_dep= new File("/home/victor/Documentos/ED2/Java/data/saida_deputados.csv");
+        Deputado[] dep;
+        
         
         // Variaveis para o numero de testes e tamanho de cada um
         int num_testes, tam = 0;
@@ -43,6 +48,9 @@ public class Cenario01 {
         try {
             fr = new FileReader(entrada);
             br = new BufferedReader(fr);
+            
+            fw_int = new FileWriter(saida_int);
+            fw_dep = new FileWriter(saida_dep);
         } catch(FileNotFoundException e) {
             System.out.println(e.getMessage());
             return;
@@ -66,23 +74,78 @@ public class Cenario01 {
             test[i] = new Integer[tam];
         }
         
-//        preenche_rand(test);
+        // Lendo deputados com duas vezes mais dados que o maior numero de leituras requisitadas
+        int tam_leitura = test[test.length - 1].length * 2;
         
-        // Testes de ordenação
+        System.out.println("Tam Leitura: "+tam_leitura);
         
-//        System.out.println("Antes:");
-//        imprime(test[3]);
-//        ord.bubbleSort(test[3]);
-//        System.out.println("Depois:");
-//        imprime(test[3]);
+        dep = new LeituraDados("/home/victor/Documentos/ED2/Java/data/deputies_dataset_tratado.csv", 
+                            tam_leitura).getDeputados();
+        
+        // Analise para o array de int
+        
+        System.out.println("Ordenando Array de Inteiros");
+        
+        fw_int.write("tam,duracao,num_comparacao,num_copia\n");
+        fw_int.flush();
         
         for (int seed = 0; seed < 5; seed++) {
             System.out.println("Seed "+seed);
-            preenche_rand(test);
+            // Usando como limite de valores aleatório o tamanho do arquivo de deputados lido
+            preenche_rand(test, tam_leitura-1);
+            QuickSort ord = new QuickSort();
+
+            
             for (int i = 0; i < num_testes; i++) {
-                long ini = System.currentTimeMillis();
-                //ord.QuickSort(test[i]);
-                System.out.println("Duração: "+(System.currentTimeMillis() - ini));
+                ord.ordenar(test[i]);
+                
+                System.out.println("Tam: "+test[i].length);
+                System.out.println("Duração: "+ord.getDuracao());
+                System.out.println("Num. Copias: "+ord.getNumCopias());
+
+                String result = Integer.toString(test[i].length) + ',' + Double.toString((double)ord.getDuracao())
+                        + ',' + Double.toString(ord.getNumComparacoes()) + ',' + Double.toString(ord.getNumCopias()) + '\n';
+                
+                fw_int.write(result);
+                fw_int.flush();
+
+            }
+        }
+        
+        // Analise para o array de deputados
+        
+        System.out.println("Ordenando Array de Deputados");
+        
+        fw_dep.write("tam,duracao,num_comparacao,num_copia \n");
+        fw_dep.flush();
+        
+        for (int seed = 0; seed < 5; seed++) {
+            System.out.println("Seed "+seed);
+            // Usando como limite de valores aleatório o tamanho do arquivo de deputados lido
+            preenche_rand(test, tam_leitura-1);
+            QuickSort ord = new QuickSort();
+            
+            for (int i = 0; i < num_testes; i++) {
+                
+                // Gerando vetor de deputados com os indices aleatorios anteriormente gerados
+                Deputado[] auxDep = new Deputado[test[i].length];
+                for (int j = 0; j < test[i].length; j++) {
+                    auxDep[j] = dep[test[i][j]];
+                }
+                
+                ord.ordenar(auxDep);
+                
+                System.out.println("Tam: "+test[i].length);
+                System.out.println("Duração: "+ord.getDuracao());
+                System.out.println("Num. Comparacoes: "+ord.getNumComparacoes());
+                System.out.println("Num. Copias: "+ord.getNumCopias());
+
+                String result = Integer.toString(test[i].length) + ',' + Double.toString((double)ord.getDuracao())
+                        + ',' + Double.toString(ord.getNumComparacoes()) + ',' + Double.toString(ord.getNumCopias()) + '\n';
+                
+                fw_dep.write(result);
+                fw_dep.flush();
+
             }
         }
     }

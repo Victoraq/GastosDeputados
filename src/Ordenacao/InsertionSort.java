@@ -8,6 +8,10 @@ public class InsertionSort extends Ordenacao{
         int tam = array.length;
         int ind_aux;
         int ordenado, proximo;
+        long inicio, fim;
+        
+        inicio = System.currentTimeMillis();
+        
 
         for (int i = 1; i < tam; i++) {
             
@@ -16,14 +20,26 @@ public class InsertionSort extends Ordenacao{
             proximo = array[i];
             
             while(ordenado > proximo) {
-                array[ind_aux+1] = array[ind_aux];                    
+                super.compara();
+                array[ind_aux+1] = array[ind_aux];
                 ind_aux--;
-                if (ind_aux == -1)
+                super.copia();
+                
+                if (ind_aux == -1){
                     break;
+                }
+                
                 ordenado = array[ind_aux];
+                super.copia();
             }
+            super.compara();
+            
             array[ind_aux+1] = proximo;
-        }   
+            super.copia();
+        }
+        
+        fim = System.currentTimeMillis();
+        super.setDuracao(fim - inicio);
     }
 }
 
