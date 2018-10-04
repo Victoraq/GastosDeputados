@@ -23,7 +23,7 @@ public class Cenario02 {
     private double []comparacao;
     private double [] copia;
     public  Cenario02(){
-        dep=new LeituraDados("C:\\Users\\gabic\\Downloads\\Engenharia computacional\\ED2\\GastosDeputados\\deputies_dataset.csv",3014904).getDeputados();
+        dep=new LeituraDados("/home/victor/Documentos/ED2/Java/data/deputies_dataset_tratado.csv",3014904).getDeputados();
     }
     public Integer[] getVet() {
         return vet;
