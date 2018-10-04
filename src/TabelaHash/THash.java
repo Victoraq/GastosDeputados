@@ -28,7 +28,7 @@ public class THash {
         //Tamanho da tabela será o primeiro primo maior que this.tam
         // A fim de reduzir o número de colisões
         this.m = this.encontraPrimo(this.tam);
-        System.out.println("Primo encontrado: "+this.m);
+        //System.out.println("Primo encontrado: "+this.m);
 
         this.numPosPreenchidas = 0;
         this.numComparacoes = 0;
@@ -59,7 +59,7 @@ public class THash {
      * @return Primeiro primo maior que x
      */
     private int encontraPrimo(int x) {
-        System.out.println("Buscando primo");
+        //System.out.println("Buscando primo");
         // In general Sieve of Sundaram, produces 
         // primes smaller than (2*x + 2) for a number
         // given number x. Since we want primes 
@@ -95,6 +95,22 @@ public class THash {
         
         
         return primo;
+    }
+    
+    /**
+     * Método que retorna um valor int da soma dos valores in de cada caracter
+     * @param str
+     * @return Valor inteiro da str
+     */
+    protected int stringToNum(String str) {
+        char[] string_array = str.toCharArray();
+        int key = 0;
+        
+        for (char c : string_array) {
+            key += (int) c;
+        }
+        
+        return key;
     }
     
     /**

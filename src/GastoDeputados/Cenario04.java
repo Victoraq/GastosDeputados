@@ -29,10 +29,10 @@ public class Cenario04 {
         runtime.gc(); // Rodando o Garbage Collector
         memory_final = runtime.totalMemory() - runtime.freeMemory(); // Memoria utilizada em bytes
         
-        System.out.println("Duração: "+(tempo_final - tempo_inicial));
-        System.out.println("Numero de colisoes: " + tabela.getNumComparacoes());
-        System.out.println("Memoria utilizada: " + (memory_final - memory_inicial));
-        System.out.println("Fim N = "+tabela.getTam()+'\n');
+//        System.out.println("Duração: "+(tempo_final - tempo_inicial));
+//        System.out.println("Numero de colisoes: " + tabela.getNumComparacoes());
+//        System.out.println("Memoria utilizada: " + (memory_final - memory_inicial));
+//        System.out.println("Fim N = "+tabela.getTam()+'\n');
         
         String result = Integer.toString(tabela.getTam()) + ',' + 
                 Double.toString((tempo_final - tempo_inicial)) + ',' + 
@@ -46,7 +46,7 @@ public class Cenario04 {
     
     public static void main(String[] args) throws IOException {
         int N[] = {1000, 5000, 10000, 50000, 100000, 500000}; //Array com a quantidade de valores a serem testados
-        int tam = 2*N[N.length-1]; //Quantidade de valores a serem lidos
+        int tam = 3*N[N.length-1]; //Quantidade de valores a serem lidos
         
         // Lendo dados dos deputados
         LeituraDados reader = new LeituraDados("/home/victor/Documentos/ED2/Java/data/deputies_dataset_tratado.csv", tam);
@@ -104,14 +104,14 @@ public class Cenario04 {
             for (int i = 0; i < N.length; i++) {
                 ini = System.currentTimeMillis();   // Inicio da execução
 
+                tabela_SLinear = new SLinear(N[i]);
+
                 runtime.gc(); // Rodando o Garbage Collector
                 memory_inicial = runtime.totalMemory() - runtime.freeMemory();  // Memoria utilizada em bytes
 
-                tabela_SLinear = new SLinear(N[i]);
-
                 for (int j = 0; j < N[i]; j++) {
                     pos = Math.abs(rand.nextInt() % (tam-1)); // Modulo para evitar valores maiores que o indice
-                    tabela_SLinear.inserir(deputados[pos]);
+                    tabela_SLinear.inserir(deputados[pos], "deputy_id");
                 }
 
                 imprime_dados(ini,memory_inicial,tabela_SLinear, fw_SLinear);
@@ -124,14 +124,14 @@ public class Cenario04 {
             for (int i = 0; i < N.length; i++) {
                 ini = System.currentTimeMillis();   // Inicio da execução
                 
+                tabela_SQuadratica = new SQuadratica(N[i]);
+                
                 runtime.gc(); // Rodando o Garbage Collector
                 memory_inicial = runtime.totalMemory() - runtime.freeMemory();  // Memoria utilizada em bytes
 
-                tabela_SQuadratica = new SQuadratica(N[i]);
-
                 for (int j = 0; j < N[i]; j++) {
                     pos = Math.abs(rand.nextInt() % (tam-1)); // Modulo para evitar valores maiores que o indice
-                    tabela_SQuadratica.inserir(deputados[pos]);
+                    tabela_SQuadratica.inserir(deputados[pos], "deputy_id");
                 }
 
                 imprime_dados(ini,memory_inicial,tabela_SQuadratica, fw_SQuad);
@@ -145,14 +145,14 @@ public class Cenario04 {
             for (int i = 0; i < N.length; i++) {
                 ini = System.currentTimeMillis();   // Inicio da execução
                 
+                tabela_DuploHash = new DuploHash(N[i]);
+                
                 runtime.gc(); // Rodando o Garbage Collector
                 memory_inicial = runtime.totalMemory() - runtime.freeMemory();  // Memoria utilizada em bytes
 
-                tabela_DuploHash = new DuploHash(N[i]);
-
                 for (int j = 0; j < N[i]; j++) {
                     pos = Math.abs(rand.nextInt() % (tam-1)); // Modulo para evitar valores maiores que o indice
-                    tabela_DuploHash.inserir(deputados[pos]);
+                    tabela_DuploHash.inserir(deputados[pos], "deputy_id");
                 }
 
                 imprime_dados(ini,memory_inicial,tabela_DuploHash, fw_DuploHash);
@@ -165,14 +165,14 @@ public class Cenario04 {
             for (int i = 0; i < N.length; i++) {
                 ini = System.currentTimeMillis();   // Inicio da execução
                 
+                tabela_ESeparado = new ESeparado(N[i]);
+                
                 runtime.gc(); // Rodando o Garbage Collector
                 memory_inicial = runtime.totalMemory() - runtime.freeMemory();  // Memoria utilizada em bytes
 
-                tabela_ESeparado = new ESeparado(N[i]);
-
                 for (int j = 0; j < N[i]; j++) {
                     pos = Math.abs(rand.nextInt() % (tam-1)); // Modulo para evitar valores maiores que o indice
-                    tabela_ESeparado.inserir(deputados[pos]);
+                    tabela_ESeparado.inserir(deputados[pos], "deputy_id");
                 }
 
                 imprime_dados(ini,memory_inicial,tabela_ESeparado, fw_ESeparado);
@@ -184,15 +184,15 @@ public class Cenario04 {
                     
             for (int i = 0; i < N.length; i++) {
                 ini = System.currentTimeMillis();   // Inicio da execução
-                
-                runtime.gc(); // Rodando o Garbage Collector
-                memory_inicial = runtime.totalMemory() - runtime.freeMemory();  // Memoria utilizada em bytes
 
                 tabela_ECoalescido = new ECoalescido(N[i]);
 
+                runtime.gc(); // Rodando o Garbage Collector
+                memory_inicial = runtime.totalMemory() - runtime.freeMemory();  // Memoria utilizada em bytes
+
                 for (int j = 0; j < N[i]; j++) {
                     pos = Math.abs(rand.nextInt() % (tam-1)); // Modulo para evitar valores maiores que o indice
-                    tabela_ECoalescido.inserir(deputados[pos]);
+                    tabela_ECoalescido.inserir(deputados[pos], "deputy_id");
                 }
 
                 imprime_dados(ini,memory_inicial,tabela_ECoalescido, fw_ECoalescido);

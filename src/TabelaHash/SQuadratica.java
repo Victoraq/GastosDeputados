@@ -19,7 +19,7 @@ public class SQuadratica extends THash{
     * @param k - Valor da chave.
     * @param colisoes - Quantidade de colisoes.
     */
-    private int hashQuadratica(int k, int colisoes) {
+    private int hashQuadratica(Integer k, int colisoes) {
         int hk = super.hashDivisao(k); // Usa a hash de divisao
         double auxPos = (hk + (0.5*colisoes) + (0.5*colisoes*colisoes)) % this.m;
         int pos = (int) auxPos;
@@ -29,24 +29,42 @@ public class SQuadratica extends THash{
     /**
      * Metodo que faz a insercao de objetos na tabela.
      * @param dep - objeto da classe Deputado a ser inserido na tabela.
+     * @param coluna - campo que irá servir de chave para a inserção
      */
-    public void inserir(Deputado dep) {
-        int k;
-        
+    public void inserir(Deputado dep, String coluna) {
+        if (null != coluna) // Inserindo por id do deputado se a sua coluna for passada ou for uma string vazia.
+        switch (coluna) {
+            case "deputy_id":
+            case " ":
+                inserirAux(dep, dep.getDeputy_id());
+                break;
+            case "receipt_value":
+                inserirAux(dep, (int) dep.getReceipt_value());
+                break;
+            case "political_party":
+                inserirAux(dep, super.stringToNum(dep.getPolitical_party()));
+                break;
+            default:
+                break;
+        }
+    }
+    
+    /**
+     * Metodo que faz a insercao de objetos na tabela.
+     * @param dep - objeto da classe Deputado a ser inserido na tabela.
+     * @param k - valor chave para inserção
+     */
+    private void inserirAux(Deputado dep, Integer k) {
         // Verifica se ha local vazio na tabela, caso contrario não realiza a insercao.
         if(this.numPosPreenchidas >= this.m){
             System.out.println("Tabela cheia!");
             System.out.println(dep);
         }else{
-            try{
-                k = dep.getDeputy_id();
-            }catch(Exception ex) {
-                // Evita a inserção de valor null.
-                // Se acontecer, imprime a mensagem e retorna.
-                System.out.println(ex.getMessage());
-                System.out.println(dep);
+            
+            if (k == null) {
+                System.out.println("Valor nulo");
                 return;
-            }    
+            }  
             
             int numColisoes = 0; // Auxiliar para contagem de colisoes 
             int pos = this.hashQuadratica(k, numColisoes); // Funcao de hash de sondagem quadratica
