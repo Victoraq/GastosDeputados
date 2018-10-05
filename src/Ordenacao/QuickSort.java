@@ -39,6 +39,7 @@ public class QuickSort extends Ordenacao{
         if (inicio >= fim) return;
         
         while(i < j) {
+            super.compara();
             // Percorre o vetor enquanto i < pivo e j > pivo
             // ind_pivo != i para evitar casos em que os valores são iguais
             while (array[i] <= pivo && ind_pivo != i) {
@@ -61,9 +62,11 @@ public class QuickSort extends Ordenacao{
         }
         
         if (inicio < j) {
+            super.compara();
             this.auxQuickSort(array, inicio, j-1);
         }
         if (i < fim) {
+            super.compara();
             this.auxQuickSort(array, i+1, fim);
         }
     }
@@ -79,6 +82,7 @@ public class QuickSort extends Ordenacao{
         if (inicio >= fim) return;
         
         while(i < j) {
+            super.compara();
             // Percorre o vetor enquanto i < pivo e j > pivo
             // ind_pivo != i para evitar casos em que os valores são iguais
             while (array[i].getDeputy_id() <= pivo && ind_pivo != i) {
@@ -100,9 +104,11 @@ public class QuickSort extends Ordenacao{
         }
         
         if (inicio < j) {
+            super.compara();
             this.auxQuickSort(array, inicio, j-1);
         }
         if (i < fim) {
+            super.compara();
             this.auxQuickSort(array, i+1, fim);
         }
     }

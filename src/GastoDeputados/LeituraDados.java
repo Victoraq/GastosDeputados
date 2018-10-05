@@ -8,7 +8,7 @@ import java.io.IOException;
 
 public class LeituraDados {
     
-    Deputado[] deputados;
+    private Deputado[] deputados;
     private int error_count, tam;
     private File file;
     
@@ -23,6 +23,10 @@ public class LeituraDados {
     
         this.reader();
         
+    }
+
+    public int getError_count() {
+        return error_count;
     }
     
     public Deputado[] getDeputados() {
@@ -50,12 +54,18 @@ public class LeituraDados {
                     continue;
                 }
 
-
-                Deputado dept = new Deputado(Integer.parseInt(position[0]), position[1], Integer.parseInt(position[2]), position[3],
-                                            position[4], position[5], position[6], position[7],
-                                            position[8], Float.parseFloat(position[9]));
-                deputados[i] = dept;
-
+                try {
+                    Deputado dept = new Deputado(Integer.parseInt(position[0]), position[1], Integer.parseInt(position[2]), position[3],
+                                                position[4], position[5], position[6], position[7],
+                                                position[8], Float.parseFloat(position[9]));
+                    deputados[i] = dept;
+                } catch(NumberFormatException e) {
+                    Deputado dept = new Deputado(-1, "", -1, "", "", "", "", "", "", -1);
+                    deputados[i] = dept;
+                    System.out.println(e.getMessage());
+                    System.out.println("Erro de leitura em: "+i);
+                    this.error_count++;
+                }
 
             }
 
