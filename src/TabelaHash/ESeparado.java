@@ -6,15 +6,16 @@ import java.util.ArrayList;
  * Classe que implementa o algoritmo de tratamento de colisao Encadeamento Separado.
  */
 public class ESeparado extends THash{
-    private ArrayList[] tabelaESeparado; // Estrutura de lista utilizada no algoritmo.
+    protected ArrayList[] tabelaESeparado; // Estrutura de lista utilizada no algoritmo.
     
     /**
      * Construtor da classe ESeparado.
      * @param tam - tamanho da tabela
      */
     public ESeparado(int tam){
-        super(tam);
-        this.tabelaESeparado = new ArrayList[this.m];
+        super(0); // Não é necessária instanciar vetor de THash
+        super.m = super.encontraPrimo(tam);
+        this.tabelaESeparado = new ArrayList[super.m];
     }
     
     /**
