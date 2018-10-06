@@ -58,7 +58,7 @@ public class THash {
      * @param x - valor determinante para encontrar primo
      * @return Primeiro primo maior que x
      */
-    private int encontraPrimo(int x) {
+    protected int encontraPrimo(int x) {
         //System.out.println("Buscando primo");
         // In general Sieve of Sundaram, produces 
         // primes smaller than (2*x + 2) for a number
@@ -120,6 +120,17 @@ public class THash {
     */
     protected int hashDivisao(int k) {
         int pos = k % this.m;
+        return pos;
+    }
+    
+    /**
+     * Método que retorna o valor do hash da divisao para Strings.
+     * @param k - valor da chave.
+     * @return Valor da funcao hash de acordo com o parametro k.
+    */
+    protected int hashDivisao(String k) {
+        int key = this.stringToNum(k);
+        int pos = key % this.m;
         return pos;
     }
     
