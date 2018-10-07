@@ -42,45 +42,55 @@ public class QuickSortMed extends Ordenacao {
      if(vetor[pivo]>vetor[f]){
          troca(pivo,f);
      }
+
   }
 
 
   public void ordenarAjudando(int inicio,int fim){
-
       int i=inicio;
 
       int f=fim;
       int pivo=pivoMed(i,f);
-      auxOrdenar(i,f,pivo);
+
       int k=f-i+1;
       super.compara();
-      if (i >= f) return;// verifica quando possuir uma partição de tamanho 1
+      if (i >= f){
+          return ;
+      }// verifica quando possuir uma partição de tamanho 1
       super.compara();
       if(k>3){ //Condição mínima para conseguirmos adquirir tres valores do vetor, não sendo escolher se o vetor for de tamanho 3 ou menor 
+        auxOrdenar(i,f,pivo);
+                 
           while(i<f){
+
                 super.compara();
-                while(vetor[i]<vetor[pivo]&& i!=pivo){
+
+                while(vetor[i]<=vetor[pivo]&& i!=pivo&&i<=fim){
+
                     i++;                  
                     super.compara();
                 }
-                super.compara();                
+                super.compara(); 
+
                 if(vetor[i]>vetor[pivo]){
                     troca(i,pivo);
                     pivo=i;
-                }
-                while(vetor[f]>vetor[pivo]&& f!=pivo){                   
+                }             
+                while(vetor[f]>=vetor[pivo]&& f!=pivo&&f>=inicio){     
                     f--;   
                     super.compara();
                 }   
                 super.compara();
-                if(vetor[f]<vetor[pivo]){              
+                
+                if(vetor[f]<vetor[pivo]){   
                     troca(f,pivo);
                     pivo=f;
                 }
           }
-            
+
        
       } 
+
       if(k==3){ // tratando os casos quando o vetor for de tamanho igual a tres
         auxOrdenar(i,f,pivo); //Portanto, posso pular a escolha do pivo direto para a ordenação. Isso ocorre também para k=2.
       }
@@ -92,7 +102,6 @@ public class QuickSortMed extends Ordenacao {
 
    
       if(inicio<f){ 
-
           ordenarAjudando(inicio,f-1);
       }
       if(i<fim){
@@ -103,9 +112,12 @@ public class QuickSortMed extends Ordenacao {
     public void ordenar(int i,int f){
         long inicio, fim;
         inicio = System.currentTimeMillis();
+
         ordenarAjudando(i,f);
         fim = System.currentTimeMillis();
+
         super.setDuracao(fim - inicio);
+        
     }
   
 }
