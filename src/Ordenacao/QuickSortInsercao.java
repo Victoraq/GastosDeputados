@@ -34,7 +34,7 @@ public class QuickSortInsercao extends Ordenacao {
                 i++;
             }
             super.compara();
-            while(array[j] >= pivo && j >= inicio) { // Percorre-se o vetor da direita para a esquerda.
+            while(array[j] >= pivo && j > inicio) { // Percorre-se o vetor da direita para a esquerda.
                 super.compara();
                 j--;
             }
