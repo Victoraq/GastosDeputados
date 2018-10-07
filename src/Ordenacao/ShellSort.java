@@ -1,9 +1,16 @@
 package Ordenacao;
 
+/**
+ * Classe que implementa o algoritmo de ordenacao ShellSort.
+ */
 public class ShellSort extends Ordenacao{
     
     public ShellSort() {}
     
+    /**
+    * Metodo que ordena em ordem crescente um vetor.
+    * @param array - vetor a ser ordenado.
+    */
     public void ordenar(Integer[] array){
         int i , j , value;
         int pos = 1;

@@ -1,20 +1,16 @@
 package Ordenacao;
 
 /**
- *
- * @author Carlos Alexandre
+ * Classe que implementa o algoritmo de ordenacao HeapSort.
  */
 public class HeapSort extends Ordenacao{
     
-    /**
-     *
-     */
     public HeapSort() {}
     
     /**
-     *
-     * @param array
-     */
+    * Metodo que ordena em ordem crescente um vetor.
+    * @param array - vetor a ser ordenado.
+    */
     public void ordenar(Integer[] array){
         int tam = array.length;
         long inicio, fim;
@@ -30,6 +26,11 @@ public class HeapSort extends Ordenacao{
         super.setDuracao(fim - inicio);
     }
     
+    /**
+    * Metodo que realiza o MaxHeapfy.
+    * @param array - vetor a ser operado.
+    * @param fim - indice do vetor que indica o final.
+    */
     private void maxHeapfy(Integer[] array, int fim) {
         int tam = fim;
         int p = (int) tam/2 - 1; // Ponteiro para percorrer o array

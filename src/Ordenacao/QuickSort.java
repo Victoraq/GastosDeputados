@@ -2,10 +2,17 @@ package Ordenacao;
 
 import GastoDeputados.Deputado;
 
+/**
+ * Classe que implementa o algoritmo de ordenacao QuickSort normal.
+ */
 public class QuickSort extends Ordenacao{
     
     public QuickSort() {}
     
+    /**
+    * Metodo que ordena em ordem crescente um vetor.
+    * @param array - vetor a ser ordenado.
+    */
     public void ordenar(Integer[] array){
         long inicio, fim;
         
@@ -17,6 +24,10 @@ public class QuickSort extends Ordenacao{
         super.setDuracao(fim - inicio);
     }
     
+    /**
+    * Metodo que ordena em ordem crescente um vetor de objeto.
+    * @param array - vetor a ser ordenado.
+    */
     public void ordenar(Deputado[] array){
         long inicio, fim;
         
