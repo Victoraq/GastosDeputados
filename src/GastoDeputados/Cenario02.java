@@ -4,11 +4,11 @@ package GastoDeputados;
 import Ordenacao.QuickSortInsercao;
 import Ordenacao.QuickSort;
 import Ordenacao.QuickSortMed;
-import java.io.BufferedReader;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Random;
-import java.io.FileReader;
+
 import java.io.FileWriter;
 import java.io.IOException;
 /**
@@ -17,13 +17,16 @@ import java.io.IOException;
  */
 public class Cenario02 {
     private Deputado [] dep;
-    private Integer []vet ;
-    int n;
-    private long []duracao;
+    private Integer []vet ;//será usado para armazenar os índices do vetor de deputados
+    int n;// tamanho do vetor
+    private long []duracao;// duracao, comparacao e copia irão armazenar esses dados para cada um dos quicks
     private double []comparacao;
     private double [] copia;
     public  Cenario02(){
-        dep=new LeituraDados("C:\\Users\\gabic\\Downloads\\Engenharia computacional\\ED2\\GastosDeputados\\deputies_dataset_tratado.csv",500000).getDeputados();
+        dep=new LeituraDados("C:\\Users\\gabic\\Downloads\\Engenharia computacional\\ED2\\GastosDeputados\\deputies_dataset_tratado.csv",3000000).getDeputados();
+        duracao=new long [3];
+        comparacao=new double [3];
+        copia=new double [3];
     }
     public Integer[] getVet() {
         return vet;
@@ -48,94 +51,69 @@ public class Cenario02 {
 
             int ind=Math.abs(rand.nextInt())%(dep.length-1);
             try{
-               vet[i]=dep[ind].getDeputy_id(); 
+               vet[i]=dep[ind].getDeputy_id(); //pega valores de indices aleatoriamente
             } catch(NullPointerException e) {
                 System.out.println(e.getMessage());
                 return;
             }  
-            System.out.println("vet[i]:"+vet[i]);
+        
         }      
     }
     public void sementeDif( int n){
         this.n=n;
         vet=new Integer [n];
         for(int i=1;i<=5;i++){
-            System.out.println("vai imprmir semente");
+
             preencheVetor_random();
-            System.out.println("passou random");
             testaQuickSort();
-            System.out.println("passou testa quicksort");
-            int m=10;
+
+            int m=10;// os valores de m foram informados na descrição do trabalho
             for(int j=0;j<2;j++){
-               testaQuickSortInsertion(m);               
+               testaQuickSortInsertion(m);   
+
                m=100; 
             }
 
             testaQuickSortMed();
-              
         }
     }
-    public void testaQuickSort(){
-        Integer [] vetor=vet;
-        System.out.println("vetor:"+vetor[0]);
+    public void testaQuickSort(){// testar o QuickSort e armazenar os dados na posição 0 do vetor
+        Integer []vetor1=new Integer[n];
+        vetor1=vet.clone();
         QuickSort quick=new QuickSort();
-        quick.ordenar(vetor);
- 
-
-       
-        duracao[0]=quick.getDuracao();
-        System.out.println("Duração: "+duracao[0]);        
+        quick.ordenar(vetor1);
+        duracao[0]=quick.getDuracao();       
         comparacao[0]=quick.getNumComparacoes();
-        System.out.println("Comparacao: "+comparacao[0]);
         copia[0]=quick.getNumCopias();
-        System.out.println("Copias: "+copia[0]);
     }
-    public void testaQuickSortInsertion(int m){
-        Integer [] vetor=vet;
+    public void testaQuickSortInsertion(int m){//testar o QuickSortInsertion e armazenar os dados na posição 1 do vetor
+        Integer [] vetor2=new Integer[n];
+        vetor2=vet.clone();
+
         QuickSortInsercao quick=new QuickSortInsercao();
-        try {
-            quick.ordenar(vetor,m);
-        } catch(NullPointerException e) {
-            System.out.println(e.getMessage());
-            return;
-        }    
-        try{
-            duracao[1]=quick.getDuracao();
-        }catch(NullPointerException e) {
-            System.out.println(e.getMessage());
-            return;
-        }    
+        
+        quick.ordenar(vetor2,m);
+        duracao[1]=quick.getDuracao(); 
         comparacao[1]=quick.getNumComparacoes();
         copia[1]=quick.getNumCopias();        
     }
-    public void testaQuickSortMed(){
-        Integer [] vetor=vet;
-        QuickSortMed quick=new QuickSortMed(vetor);
-        try{
-            quick.ordenar(0,n-1);
-        } catch(NullPointerException e) {
-            System.out.println(e.getMessage());
-            return;
-        }   
-        System.out.println("duração: "+ quick.getDuracao());
-        try{
-            duracao[2]=quick.getDuracao();
-        }catch(NullPointerException e) {
-            System.out.println(e.getMessage());
-            return;
-        }    
+    public void testaQuickSortMed(){// testar o QuickSortMed e armazenar os dados na posição 2 do vetor 
+        Integer [] vetor3=new Integer[n];
+        vetor3=vet.clone();
+        QuickSortMed quick=new QuickSortMed(vetor3);
+        quick.ordenar(0,n-1);
+        duracao[2]=quick.getDuracao();  
         comparacao[2]=quick.getNumComparacoes();
         copia[2]=quick.getNumCopias();        
-        //k=3 e k=5
         
 
     }
 
     public static void main(String[] args) throws IOException {
         File saida1_int = new File("C:\\Users\\gabic\\Downloads\\Engenharia computacional\\ED2\\GastosDeputados\\saidaNormal_int.csv");
-        File saida2_int = new File("C:\\Users\\gabic\\Downloads\\Engenharia computacional\\ED2\\GastosDeputados\\saidaMed_int.csv");
-        File saida3_int = new File("C:\\Users\\gabic\\Downloads\\Engenharia computacional\\ED2\\GastosDeputados\\saidaInser_int.csv");
-        FileWriter fw1_int,fw2_int,fw3_int;
+        File saida3_int = new File("C:\\Users\\gabic\\Downloads\\Engenharia computacional\\ED2\\GastosDeputados\\saidaMed_int.csv");
+        File saida2_int = new File("C:\\Users\\gabic\\Downloads\\Engenharia computacional\\ED2\\GastosDeputados\\saidaInser_int.csv");
+        FileWriter fw1_int,fw2_int,fw3_int;//arquivos de saída dos dados
         try {
             
             fw1_int = new FileWriter(saida1_int);
@@ -171,12 +149,15 @@ public class Cenario02 {
                }    
                 if(aux==0){
                     fw1_int.write(result);
+                     fw1_int.flush();
                 }
                 if(aux==1){
                     fw2_int.write(result);
+                     fw2_int.flush();
                 }
                 else{
                     fw3_int.write(result);                    
+                    fw3_int.flush();
                 }
            }           
  
