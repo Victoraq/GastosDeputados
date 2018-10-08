@@ -22,7 +22,7 @@ public class Cenario03 {
     Deputado[] array;
 
     public Cenario03() { // Cria o vetor com os dados de deputados.
-        array = new LeituraDados("C:\\Users\\Laura\\Documents\\deputies_dataset_tratado.csv", 10 /*500000*/).getDeputados();
+        array = new LeituraDados("C:\\Users\\Laura\\Documents\\deputies_dataset_tratado.csv", 500000).getDeputados();
     }
           
     // Preenche o vetor com o id de posições aleatórias do vetor de deputados.
