@@ -27,10 +27,14 @@ public class ShellSort extends Ordenacao{
                 value = array[i];
                 j = i;
                 while (j >= pos && value < array[j - pos]) {
+                    super.compara();
                     array[j] = array[j - pos];
+                    super.copia();
                     j = j - pos;
                 }
+                super.compara();
                 array[j] = value;
+                super.copia();
             }
         }
         
