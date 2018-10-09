@@ -5,7 +5,7 @@
  */
 package GastoDeputados;
 
-import java.util.Random;
+import Ordenacao.QuickSortMed;
 
 /**
  *
@@ -33,20 +33,47 @@ public class MaioresGastos {
             tabela_partidos.inserir(dep[i].getPolitical_party(), dep[i].getReceipt_value());
         }
         
-        // Testes
-        Random rand = new Random();
+        // Ordenando valores dos gastos
+        QuickSortMed ord = new QuickSortMed();
         
-        for (int i = 0; i < 20; i++) {
-            int pos = Math.abs(rand.nextInt() % (tam_leitura -1));
-            String part = (String) tabela_partidos.get(dep[pos].getPolitical_party()).getTag();
-            float gasto = tabela_partidos.get(dep[pos].getPolitical_party()).getGastos();
-            System.out.println("Partido: "+part+" Gasto: "+gasto);
+        TagGastos[] deps = (TagGastos[]) tabela_dep.getTabela();
+        TagGastos[] partidos = (TagGastos[]) tabela_partidos.getTabela();
+        System.out.println(deps[0]);
+        for (int i = 0; i < deps.length; i++) {
+            System.out.println(deps[i].getGastos());
         }
-        for (int i = 0; i < 50; i++) {
-            int pos = Math.abs(rand.nextInt() % (tam_leitura -1));
-            String part = (String) tabela_dep.get(dep[pos].getName()).getTag();
-            float gasto = tabela_dep.get(dep[pos].getName()).getGastos();
-            System.out.println("Deputado: "+part+" Gasto: "+gasto);
+        
+        ord.ordenar(deps);
+        ord.ordenar(partidos);
+        
+        System.out.println("Partidos que menos gastaram:");
+        for (int i = 0; i < 10; i++) {
+            String part = partidos[i].getTag();
+            float gasto = partidos[i].getGastos();
+            System.out.println("Partido: "+part+"       Gasto: "+gasto);
+        }
+        
+        System.out.println("Deputados que menos gastaram:");
+        for (int i = 0; i < 10; i++) {
+            String part = deps[i].getTag();
+            float gasto = deps[i].getGastos();
+            System.out.println("Deputado: "+part+"      Gasto: "+gasto);
+        }
+        
+        System.out.println("Partidos que mais gastaram:");
+        int tam = partidos.length-1;
+        for (int i = tam-10; i < tam; i++) {
+            String part = partidos[i].getTag();
+            float gasto = partidos[i].getGastos();
+            System.out.println("Partido: "+part+"       Gasto: "+gasto);
+        }
+        
+        System.out.println("Deputados que mais gastaram:");
+        tam = deps.length-1;
+        for (int i = tam-10; i < tam; i++) {
+            String part = deps[i].getTag();
+            float gasto = deps[i].getGastos();
+            System.out.println("Deputado: "+part+"      Gasto: "+gasto);
         }
         
     }

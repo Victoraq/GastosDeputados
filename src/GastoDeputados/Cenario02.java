@@ -23,7 +23,7 @@ public class Cenario02 {
     private double []comparacao;
     private double [] copia;
     public  Cenario02(){
-        dep=new LeituraDados("C:\\Users\\gabic\\Downloads\\Engenharia computacional\\ED2\\GastosDeputados\\deputies_dataset_tratado.csv",3000000).getDeputados();
+        dep=new LeituraDados("/home/victor/Documentos/ED2/Java/data/deputies_dataset_tratado.csv",800000).getDeputados();
         duracao=new long [3];
         comparacao=new double [3];
         copia=new double [3];
@@ -74,7 +74,7 @@ public class Cenario02 {
                m=100; 
             }
 
-            testaQuickSortMed();
+            //testaQuickSortMed();
         }
     }
     public void testaQuickSort(){// testar o QuickSort e armazenar os dados na posição 0 do vetor
@@ -84,6 +84,7 @@ public class Cenario02 {
         quick.ordenar(vetor1);
         duracao[0]=quick.getDuracao();       
         comparacao[0]=quick.getNumComparacoes();
+        System.out.println("Copias quick: "+quick.getNumCopias());
         copia[0]=quick.getNumCopias();
     }
     public void testaQuickSortInsertion(int m){//testar o QuickSortInsertion e armazenar os dados na posição 1 do vetor
@@ -95,24 +96,28 @@ public class Cenario02 {
         quick.ordenar(vetor2,m);
         duracao[1]=quick.getDuracao(); 
         comparacao[1]=quick.getNumComparacoes();
+        System.out.println("Copias insert: "+quick.getNumCopias());
+
         copia[1]=quick.getNumCopias();        
     }
     public void testaQuickSortMed(){// testar o QuickSortMed e armazenar os dados na posição 2 do vetor 
         Integer [] vetor3=new Integer[n];
         vetor3=vet.clone();
-        QuickSortMed quick=new QuickSortMed(vetor3);
-        quick.ordenar(0,n-1);
+        QuickSortMed quick=new QuickSortMed();
+        quick.ordenar(vetor3);
         duracao[2]=quick.getDuracao();  
         comparacao[2]=quick.getNumComparacoes();
+        System.out.println("Copias med: "+quick.getNumCopias());
+
         copia[2]=quick.getNumCopias();        
         
 
     }
 
     public static void main(String[] args) throws IOException {
-        File saida1_int = new File("C:\\Users\\gabic\\Downloads\\Engenharia computacional\\ED2\\GastosDeputados\\saidaNormal_int.csv");
-        File saida3_int = new File("C:\\Users\\gabic\\Downloads\\Engenharia computacional\\ED2\\GastosDeputados\\saidaMed_int.csv");
-        File saida2_int = new File("C:\\Users\\gabic\\Downloads\\Engenharia computacional\\ED2\\GastosDeputados\\saidaInser_int.csv");
+        File saida1_int = new File("/home/victor/Documentos/ED2/Java/data/saidaNormal_int.csv");
+        File saida3_int = new File("/home/victor/Documentos/ED2/Java/data/saidaMed_int.csv");
+        File saida2_int = new File("/home/victor/Documentos/ED2/Java/data/saidaInser_int.csv");
         FileWriter fw1_int,fw2_int,fw3_int;//arquivos de saída dos dados
         try {
             

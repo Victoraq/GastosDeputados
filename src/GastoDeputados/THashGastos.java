@@ -28,11 +28,9 @@ public class THashGastos extends ESeparado {
         int pos = super.hashDivisao(tag); // Funcao hash de divisao
         TagGastos gasto = new TagGastos(tag,valor); // Estrutura para associar tag e valor
         
-        //if ("Otavio Leite".equals(tag)) System.out.println("Pos: "+ pos);
 
         // Se a posição estiver com o valor null cria-se uma lista e insere o valor na lista
         if (this.tabelaESeparado[pos] == null) {
-            //if ("Otavio Leite".equals(tag)) System.out.println("Primeira vez");
             ArrayList<TagGastos> list = new ArrayList<>();
             this.tabelaESeparado[pos] = list;
             this.tabelaESeparado[pos].add(gasto); // Adicionando o valor na lista
@@ -40,25 +38,24 @@ public class THashGastos extends ESeparado {
             // Procurando se o item já foi inserido e soma o valor de gastos
             for (int i = 0; i < this.tabelaESeparado[pos].size(); i++) {
                 TagGastos item = (TagGastos) this.tabelaESeparado[pos].get(i);
-                //if ("Otavio Leite".equals(tag)) System.out.println(item.getTag().equals(gasto.getTag()));
 
                 if (item.getTag().equals(gasto.getTag())) {
-                    //if ("Otavio Leite".equals(tag)) System.out.println("Achou aqui: "+i + " Antes: "+ item.getGastos());
                     item.setGastos(item.getGastos() + gasto.getGastos());
-                    TagGastos it = (TagGastos) this.tabelaESeparado[pos].get(i);
-                    //if ("Otavio Leite".equals(tag)) System.out.println("Depois: "+it.getGastos());
                     return;
                 }
             }
-            //if ("Otavio Leite".equals(tag)) System.out.println("Não achou");
             // Adicionando o valor na lista se não estiver já inserido
             this.tabelaESeparado[pos].add(gasto);
         }
     }
     
+    /**
+     * Método para retornar o valor a partir de uma tag
+     * @param tag
+     * @return TagGastos procurada
+     */
     public TagGastos get(String tag) {
         int pos = super.hashDivisao(tag); // Funcao hash de divisao
-        //System.out.println("Pos: "+pos+" Tag: "+tag);
         // Se a posição estiver com o valor null o item não está na tabela
         if (this.tabelaESeparado[pos] == null) {
             return null;
@@ -73,6 +70,29 @@ public class THashGastos extends ESeparado {
         }
         // Se não encontra nenhum valor retorna 
         return null;
+    }
+    
+    /**
+     * Método que retorna a Tabela em formato de vetor 
+     * @return tags - array de todas as tags
+     */
+    public Object[] getTabela() {
+        ArrayList<TagGastos> tags = new ArrayList<>();
+        
+        for (int i = 0; i < this.m; i++){
+            if (this.tabelaESeparado[i] != null) {
+                for (int j = 0; j < this.tabelaESeparado[i].size(); j++) {
+                    if (this.tabelaESeparado[i].get(j) != null){
+                        tags.add((TagGastos) this.tabelaESeparado[i].get(j));
+                    }
+                }
+            }
+        }
+        
+        // Passando a lista para array
+        TagGastos[] array = tags.toArray(new TagGastos[tags.size()]);
+        
+        return array;
     }
     
 }
