@@ -33,14 +33,14 @@ public class AVL {
         
         for (NoAVL noaux = no; noaux != null; noaux = noaux.pai) {
             noaux.fatorb = this.calculaFatorBalanceamento(noaux);
-            if (noaux.fatorb == 2) {
+            if (noaux.fatorb >= 2) {
                 if (noaux.fesq.fatorb == -1) {
                     this.rotacaoLR(noaux);
                     continue;
                 }
                 this.rotacaoDir(noaux);
                 
-            } else if(noaux.fatorb == -2) {
+            } else if(noaux.fatorb <= -2) {
                 if (noaux.fdir.fatorb == 1) {
                     this.rotacaoRL(noaux);
                     continue;
@@ -104,7 +104,7 @@ public class AVL {
     
     private int auxFator(NoAVL no) {
         if (no == null)
-            return 0;
+            return 1;
         else 
             return 1 + Math.max(auxFator(no.getFesq()), auxFator(no.getFdir()));
     }
@@ -114,14 +114,16 @@ public class AVL {
         
         if (x0 == raiz) {
             raiz = x1;
+            x1.setPai(null);
         } else {
-            x1.pai = x0.pai;
-            x0.pai.fdir = x1;
+            x1.setPai(x0.getPai());
+            x0.getPai().setFesq(x1);
         }
         
-        x0.fdir = x1.fesq;
-        x1.fesq = x0;
-        x0.pai = x1;
+        x0.setFdir(x1.getFesq());
+        if (x0.getFdir()!= null) x0.getFdir().setPai(x0);
+        x1.setFesq(x0);
+        x0.setPai(x1);
         
     }
     
@@ -130,14 +132,17 @@ public class AVL {
         
         if (x0 == raiz) {
             raiz = x1;
+            x1.setPai(null);
         } else {
-            x1.pai = x0.pai;
-            x0.pai.fesq = x1;
+            x1.setPai(x0.getPai());
+            x0.getPai().setFdir(x1);
         }
         
-        x0.fesq = x1.fdir;
-        x1.fdir = x0;
-        x0.pai = x1;
+        x0.setFesq(x1.getFdir());
+        if (x0.getFesq()!= null) x0.getFesq().setPai(x0);
+        x1.setFdir(x0);
+        x0.setPai(x1);
+        
     }
     
     private void rotacaoLR(NoAVL x) {

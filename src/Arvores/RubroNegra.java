@@ -103,14 +103,16 @@ public class RubroNegra {
         
         if (x0 == raiz) {
             raiz = x1;
+            x1.setPai(null);
         } else {
-            x1.pai = x0.pai;
-            x0.pai.fdir = x1;
+            x1.setPai(x0.getPai());
+            x0.getPai().setFesq(x1);
         }
         
-        x0.fdir = x1.fesq;
-        x1.fesq = x0;
-        x0.pai = x1;
+        x0.setFdir(x1.getFesq());
+        if (x0.getFdir()!= null) x0.getFdir().setPai(x0);
+        x1.setFesq(x0);
+        x0.setPai(x1);
         
     }
     
@@ -119,15 +121,16 @@ public class RubroNegra {
         
         if (x0 == raiz) {
             raiz = x1;
-            x1.pai = null;
+            x1.setPai(null);
         } else {
-            x1.pai = x0.pai;
-            x0.pai.fesq = x1;
+            x1.setPai(x0.getPai());
+            x0.getPai().setFdir(x1);
         }
         
-        x0.fesq = x1.fdir;
-        x1.fdir = x0;
-        x0.pai = x1;
+        x0.setFesq(x1.getFdir());
+        if (x0.getFesq()!= null) x0.getFesq().setPai(x0);
+        x1.setFdir(x0);
+        x0.setPai(x1);
     }
     
     private void rotacaoLR(NoRubroNegra x) {
