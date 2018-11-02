@@ -34,67 +34,84 @@ public class RubroNegra {
         
         auxInsere(raiz, no); // Chamando função auxiliar recursiva.
         
-        // Variaveis para analise das propriedades
-        NoRubroNegra pai = no.pai;
-        NoRubroNegra avo = pai.pai;
-        NoRubroNegra tio;
-        NoRubroNegra irmao = null;
+        this.verifica_propriedades(no); // verificando se ocorreu tudo bem com a inserção
         
-        while (avo != null) {
-            System.out.println("entrou");
-            if (avo.fdir == pai) tio = avo.fesq;
-            else tio = avo.fdir;
+        // Verificando as propriedades para os nós superiores
+        for (NoRubroNegra noaux = no; noaux != null && noaux.pai != null; noaux = noaux.pai) 
+            this.verifica_propriedades(noaux);
         
         
-            // Caso 2
-            if (tio != null && tio.cor == 'v') {
-                if (avo != this.raiz) avo.cor = 'v';
-                tio.cor = 'p';
-                pai.cor = 'p';
-            } else { //Caso 3
-
-                if (tio == avo.fesq) {
-                    if (pai.fdir == no) this.rotacaoEsq(avo); // rotação a esquerda
-                    else this.rotacaoRL(avo); // rotação direita esquerda
-                    pai = no.pai;
-                    irmao = pai.fesq;
-                } else if (tio == avo.fdir) {
-                    if (pai.fesq == no) this.rotacaoDir(avo); // rotação a direita
-                    else this.rotacaoLR(avo); // rotação esquerda direita
-                    pai = no.pai;
-                    irmao = pai.fdir;
-                }
-                pai.cor = 'p';
-                irmao.cor = 'v';
-            }
-            System.out.println("Antes");
-            System.out.println("No: "+no);
-            System.out.println("Pai: "+pai);
-            System.out.println("Avo: "+avo);
-            no = pai;
-            pai = no.pai;
-            avo = pai.pai;
-            System.out.println("Depois");
-            System.out.println("No: "+no);
-            System.out.println("Pai: "+pai);
-            System.out.println("Avo: "+avo);
-        }
     }
     
     private void auxInsere(NoRubroNegra raiz, NoRubroNegra no) {
-        if (raiz.valor >= no.valor) { // Se valor for menor ou igual, insere a esquerda
+        if (raiz.valor > no.valor) { // Se valor for menor ou igual, insere a esquerda
             if (raiz.fesq == null) { // Se não tiver nenhum nó a equerda já é inserido
                 raiz.fesq = no;
                 no.pai = raiz;
             } else
                 auxInsere(raiz.fesq, no); // Senão é chamado a recursão para a arvore a esquerda
         }
-        if (raiz.valor < no.valor) { // Se valor for maior, insere a direita
+        if (raiz.valor <= no.valor) { // Se valor for maior, insere a direita
             if (raiz.fdir == null) { // Se não tiver nenhum nó a direita já é inserido
                 raiz.fdir = no;
                 no.pai = raiz;
             } else
                 auxInsere(raiz.fdir, no); // Senão é chamado a recursão para a arvore a direita
+        }
+    }
+    
+    private void verifica_propriedades(NoRubroNegra no) {
+        // Variaveis para analise das propriedades
+        NoRubroNegra pai = no.pai;
+        NoRubroNegra avo = pai.pai;
+        NoRubroNegra tio;
+        NoRubroNegra irmao = null;
+        
+        // Executa medidas se quebra requisito de todo nó vermelho não tem filho vermelho
+        if (avo != null && pai.cor == 'v' && no.cor == 'v') {
+            if (avo.fdir == pai) tio = avo.fesq;
+            else tio = avo.fdir;
+        
+            if (tio != null && tio.cor == 'v') { // Caso 2
+                if (avo != this.raiz) avo.cor = 'v';
+                tio.cor = 'p';
+                pai.cor = 'p';
+            } else { //Caso 3
+
+                if (tio == avo.fesq) {
+                    if (pai.fdir == no) {
+                        this.rotacaoEsq(avo); // rotação a esquerda
+                        pai = no.pai;
+                        irmao = pai.fesq;
+                        
+                        pai.cor = 'p';
+                        irmao.cor = 'v';
+                        
+                    } else {
+                        this.rotacaoRL(avo); // rotação direita esquerda
+                        
+                        no.cor = 'p';
+                        no.getFesq().cor = 'v';
+                    }
+                    
+                } else if (tio == avo.fdir) {
+                    if (pai.fesq == no) {
+                        this.rotacaoDir(avo); // rotação a direita
+                        
+                        pai = no.pai;
+                        irmao = pai.fdir;
+                        
+                        pai.cor = 'p';
+                        irmao.cor = 'v';
+                    
+                    } else {
+                        this.rotacaoLR(avo); // rotação esquerda direita
+                        
+                        no.cor = 'p';
+                        no.getFdir().cor = 'v';
+                    } 
+                }
+            }
         }
     }
     
