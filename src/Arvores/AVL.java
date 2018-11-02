@@ -117,7 +117,10 @@ public class AVL {
             x1.setPai(null);
         } else {
             x1.setPai(x0.getPai());
-            x0.getPai().setFesq(x1);
+            if (x0.getPai().getFdir() == x0)
+                x0.getPai().setFdir(x1);
+            else
+                x0.getPai().setFesq(x1);
         }
         
         x0.setFdir(x1.getFesq());
@@ -135,7 +138,10 @@ public class AVL {
             x1.setPai(null);
         } else {
             x1.setPai(x0.getPai());
-            x0.getPai().setFdir(x1);
+            if (x0.getPai().getFdir() == x0)
+                x0.getPai().setFdir(x1);
+            else
+                x0.getPai().setFesq(x1);
         }
         
         x0.setFesq(x1.getFdir());
