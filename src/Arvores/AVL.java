@@ -76,7 +76,7 @@ public class AVL {
     
     private NoAVL auxBusca(NoAVL no, int valor) {
         
-        if (no == null || (no.fesq == null && no.fdir == null))
+      /*  if (no == null || (no.fesq == null && no.fdir == null))
             return null;
         
         if (no.valor == valor) {
@@ -87,7 +87,22 @@ public class AVL {
             auxBusca(no.fesq, valor);
         }
         
-        return null;
+        return null;*/
+        
+        if (no == null) {
+            return null;
+       }
+       else{
+        if (no.valor == valor) {
+            return no;
+        } else if (no.fesq == null && no.fdir == null) {
+            return null;
+        } else if (no.valor < valor) {
+            return auxBusca(no.fdir, valor);
+        } else {
+            return auxBusca(no.fesq, valor);
+        }
+       }
         
     }
     
