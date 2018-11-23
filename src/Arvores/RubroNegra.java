@@ -11,6 +11,7 @@ package Arvores;
  */
 public class RubroNegra {
     private NoRubroNegra raiz;
+    private long duracaoInsercao, duracaoBusca;
     
     public RubroNegra() {
     }
@@ -18,6 +19,20 @@ public class RubroNegra {
     public RubroNegra(NoRubroNegra raiz) {
         this.raiz = raiz;
         this.raiz.setCor('p');
+    }
+    
+    public void inserir(Integer[] vetor) {
+        long inicio, fim;
+        
+        inicio = System.currentTimeMillis(); // tempo inicial
+        
+        for (Integer vetor1 : vetor) {
+            this.inserir(vetor1);
+        }
+        
+        fim = System.currentTimeMillis(); // tempo final
+        
+        this.duracaoInsercao = fim - inicio;
     }
     
     public void inserir(int valor) {
@@ -220,6 +235,14 @@ public class RubroNegra {
     private void rotacaoRL(NoRubroNegra x) {
         this.rotacaoDir(x.fdir);
         this.rotacaoEsq(x);
+    }
+
+    public long getDuracaoInsercao() {
+        return this.duracaoInsercao;
+    }
+    
+    public long getDuracaoBusca() {
+        return this.duracaoBusca;
     }
     
     public void imprime() {
