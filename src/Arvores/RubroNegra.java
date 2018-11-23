@@ -115,6 +115,62 @@ public class RubroNegra {
         }
     }
     
+    public boolean[] busca(Integer[] vetor) {
+        long inicio, fim;
+        // vetor com tags se encontrou ou não os valores
+        boolean[] resultado = new boolean[vetor.length]; 
+        
+        inicio = System.currentTimeMillis(); // tempo inicial
+        
+        for (int i = 0; i < vetor.length; i++) {
+            NoRubroNegra n = this.busca(vetor[i]);
+            
+            resultado[i] = (n == null); // Armazenando se encontrou ou não
+        }
+        
+        fim = System.currentTimeMillis(); // tempo final
+        
+        this.duracaoBusca = fim - inicio;
+        
+        return resultado;
+    }
+    
+    public NoRubroNegra busca(int valor) {
+        return this.auxBusca(this.raiz, valor);
+    }
+    
+    private NoRubroNegra auxBusca(NoRubroNegra no, int valor) {
+        
+      /*  if (no == null || (no.fesq == null && no.fdir == null))
+            return null;
+        
+        if (no.valor == valor) {
+            return no;
+        } else if (no.valor < valor) {
+            auxBusca(no.fdir, valor);
+        } else {
+            auxBusca(no.fesq, valor);
+        }
+        
+        return null;*/
+        
+        if (no == null) {
+            return null;
+       }
+       else{
+        if (no.valor == valor) {
+            return no;
+        } else if (no.fesq == null && no.fdir == null) {
+            return null;
+        } else if (no.valor < valor) {
+            return auxBusca(no.fdir, valor);
+        } else {
+            return auxBusca(no.fesq, valor);
+        }
+       }
+        
+    }
+    
     private void rotacaoEsq(NoRubroNegra x0) {
         NoRubroNegra x1= x0.fdir;
         
