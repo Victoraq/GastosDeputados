@@ -11,12 +11,27 @@ package Arvores;
  */
 public class AVL {
     private NoAVL raiz;
+    private long duracaoInsercao, duracaoBusca;
     
     public AVL() {
     }
 
     public AVL(NoAVL raiz) {
         this.raiz = raiz;
+    }
+    
+    public void inserir(Integer[] vetor) {
+        long inicio, fim;
+        
+        inicio = System.currentTimeMillis(); // tempo inicial
+        
+        for (Integer vetor1 : vetor) {
+            this.inserir(vetor1);
+        }
+        
+        fim = System.currentTimeMillis(); // tempo final
+        
+        this.duracaoInsercao = fim - inicio;
     }
     
     public void inserir(int valor) {
@@ -70,13 +85,33 @@ public class AVL {
         }
     }
     
+    public boolean[] busca(Integer[] vetor) {
+        long inicio, fim;
+        // vetor com tags se encontrou ou não os valores
+        boolean[] resultado = new boolean[vetor.length]; 
+        
+        inicio = System.currentTimeMillis(); // tempo inicial
+        
+        for (int i = 0; i < vetor.length; i++) {
+            NoAVL n = this.busca(vetor[i]);
+            
+            resultado[i] = (n == null); // Armazenando se encontrou ou não
+        }
+        
+        fim = System.currentTimeMillis(); // tempo final
+        
+        this.duracaoBusca = fim - inicio;
+        
+        return resultado;
+    }
+    
     public NoAVL busca(int valor) {
         return this.auxBusca(this.raiz, valor);
     }
     
     private NoAVL auxBusca(NoAVL no, int valor) {
         
-        if (no == null || (no.fesq == null && no.fdir == null))
+      /*  if (no == null || (no.fesq == null && no.fdir == null))
             return null;
         
         if (no.valor == valor) {
@@ -87,7 +122,22 @@ public class AVL {
             auxBusca(no.fesq, valor);
         }
         
-        return null;
+        return null;*/
+        
+        if (no == null) {
+            return null;
+       }
+       else{
+        if (no.valor == valor) {
+            return no;
+        } else if (no.fesq == null && no.fdir == null) {
+            return null;
+        } else if (no.valor < valor) {
+            return auxBusca(no.fdir, valor);
+        } else {
+            return auxBusca(no.fesq, valor);
+        }
+       }
         
     }
     
@@ -159,6 +209,14 @@ public class AVL {
     private void rotacaoRL(NoAVL x) {
         this.rotacaoDir(x.fdir);
         this.rotacaoEsq(x);
+    }
+
+    public long getDuracaoInsercao() {
+        return this.duracaoInsercao;
+    }
+    
+    public long getDuracaoBusca() {
+        return this.duracaoBusca;
     }
     
     public void imprime() {
