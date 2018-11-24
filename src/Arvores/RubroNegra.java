@@ -9,9 +9,8 @@ package Arvores;
  *
  * @author victor
  */
-public class RubroNegra {
+public class RubroNegra extends Arvore {
     private NoRubroNegra raiz;
-    private long duracaoInsercao, duracaoBusca;
     
     public RubroNegra() {
     }
@@ -21,6 +20,7 @@ public class RubroNegra {
         this.raiz.setCor('p');
     }
     
+    @Override
     public void inserir(Integer[] vetor) {
         long inicio, fim;
         
@@ -35,6 +35,7 @@ public class RubroNegra {
         this.duracaoInsercao = fim - inicio;
     }
     
+    @Override
     public void inserir(int valor) {
         
         // Caso 1
@@ -130,6 +131,7 @@ public class RubroNegra {
         }
     }
     
+    @Override
     public boolean[] busca(Integer[] vetor) {
         long inicio, fim;
         // vetor com tags se encontrou ou não os valores
@@ -150,6 +152,7 @@ public class RubroNegra {
         return resultado;
     }
     
+    @Override
     public NoRubroNegra busca(int valor) {
         return this.auxBusca(this.raiz, valor);
     }
@@ -235,14 +238,6 @@ public class RubroNegra {
     private void rotacaoRL(NoRubroNegra x) {
         this.rotacaoDir(x.fdir);
         this.rotacaoEsq(x);
-    }
-
-    public long getDuracaoInsercao() {
-        return this.duracaoInsercao;
-    }
-    
-    public long getDuracaoBusca() {
-        return this.duracaoBusca;
     }
     
     public void imprime() {

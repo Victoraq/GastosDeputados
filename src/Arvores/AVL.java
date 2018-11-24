@@ -9,9 +9,8 @@ package Arvores;
  *
  * @author victor
  */
-public class AVL {
+public class AVL extends Arvore {
     private NoAVL raiz;
-    private long duracaoInsercao, duracaoBusca;
     
     public AVL() {
     }
@@ -20,20 +19,7 @@ public class AVL {
         this.raiz = raiz;
     }
     
-    public void inserir(Integer[] vetor) {
-        long inicio, fim;
-        
-        inicio = System.currentTimeMillis(); // tempo inicial
-        
-        for (Integer vetor1 : vetor) {
-            this.inserir(vetor1);
-        }
-        
-        fim = System.currentTimeMillis(); // tempo final
-        
-        this.duracaoInsercao = fim - inicio;
-    }
-    
+    @Override
     public void inserir(int valor) {
         
         if (this.raiz == null) { // Se a arvore estiver vazia é inserido na raiz.
@@ -85,26 +71,7 @@ public class AVL {
         }
     }
     
-    public boolean[] busca(Integer[] vetor) {
-        long inicio, fim;
-        // vetor com tags se encontrou ou não os valores
-        boolean[] resultado = new boolean[vetor.length]; 
-        
-        inicio = System.currentTimeMillis(); // tempo inicial
-        
-        for (int i = 0; i < vetor.length; i++) {
-            NoAVL n = this.busca(vetor[i]);
-            
-            resultado[i] = (n == null); // Armazenando se encontrou ou não
-        }
-        
-        fim = System.currentTimeMillis(); // tempo final
-        
-        this.duracaoBusca = fim - inicio;
-        
-        return resultado;
-    }
-    
+    @Override
     public NoAVL busca(int valor) {
         return this.auxBusca(this.raiz, valor);
     }
@@ -138,10 +105,6 @@ public class AVL {
             return auxBusca(no.fesq, valor);
         }
        }
-        
-    }
-    
-    public void remove() {
         
     }
     
@@ -210,14 +173,6 @@ public class AVL {
         this.rotacaoDir(x.fdir);
         this.rotacaoEsq(x);
     }
-
-    public long getDuracaoInsercao() {
-        return this.duracaoInsercao;
-    }
-    
-    public long getDuracaoBusca() {
-        return this.duracaoBusca;
-    }
     
     public void imprime() {
         printArvore(raiz, 0);
@@ -236,5 +191,10 @@ public class AVL {
             System.out.println(raiz.getValor());
         printArvore(raiz.fesq, level+1);
     } 
+
+    @Override
+    public void remover(int valor) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }
