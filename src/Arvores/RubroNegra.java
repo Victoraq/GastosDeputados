@@ -21,28 +21,15 @@ public class RubroNegra extends Arvore {
     }
     
     @Override
-    public void inserir(Integer[] vetor) {
-        long inicio, fim;
-        
-        inicio = System.currentTimeMillis(); // tempo inicial
-        
-        for (Integer vetor1 : vetor) {
-            this.inserir(vetor1);
-        }
-        
-        fim = System.currentTimeMillis(); // tempo final
-        
-        this.duracaoInsercao = fim - inicio;
-    }
-    
-    @Override
     public void inserir(int valor) {
         
         // Caso 1
         if (this.raiz == null) { // Se a arvore estiver vazia é inserido na raiz.
+           super.copia();
            NoRubroNegra no = new NoRubroNegra(valor);
            no.setCor('p');
            this.raiz = no;
+           super.copia();
            return;
         }
         
@@ -62,6 +49,8 @@ public class RubroNegra extends Arvore {
     private void auxInsere(NoRubroNegra raiz, NoRubroNegra no) {
         if (raiz.valor > no.valor) { // Se valor for menor ou igual, insere a esquerda
             if (raiz.fesq == null) { // Se não tiver nenhum nó a equerda já é inserido
+                super.copia();
+                super.copia();
                 raiz.fesq = no;
                 no.pai = raiz;
             } else
@@ -69,6 +58,8 @@ public class RubroNegra extends Arvore {
         }
         if (raiz.valor <= no.valor) { // Se valor for maior, insere a direita
             if (raiz.fdir == null) { // Se não tiver nenhum nó a direita já é inserido
+                super.copia();
+                super.copia();
                 raiz.fdir = no;
                 no.pai = raiz;
             } else
@@ -85,18 +76,26 @@ public class RubroNegra extends Arvore {
         
         // Executa medidas se quebra requisito de todo nó vermelho não tem filho vermelho
         if (avo != null && pai.cor == 'v' && no.cor == 'v') {
+            super.copia();
+            super.compara();
             if (avo.fdir == pai) tio = avo.fesq;
             else tio = avo.fdir;
-        
+            
+            super.compara();
             if (tio != null && tio.cor == 'v') { // Caso 2
                 if (avo != this.raiz) avo.cor = 'v';
                 tio.cor = 'p';
                 pai.cor = 'p';
             } else { //Caso 3
-
+                
+                super.compara();
                 if (tio == avo.fesq) {
+                    super.compara();
                     if (pai.fdir == no) {
+                        super.copia();
+                        super.copia();
                         this.rotacaoEsq(avo); // rotação a esquerda
+                        
                         pai = no.pai;
                         irmao = pai.fesq;
                         
@@ -109,9 +108,12 @@ public class RubroNegra extends Arvore {
                         no.cor = 'p';
                         no.getFesq().cor = 'v';
                     }
-                    
+                super.compara();
                 } else if (tio == avo.fdir) {
+                    super.compara();
                     if (pai.fesq == no) {
+                        super.copia();
+                        super.copia();
                         this.rotacaoDir(avo); // rotação a direita
                         
                         pai = no.pai;
@@ -129,27 +131,6 @@ public class RubroNegra extends Arvore {
                 }
             }
         }
-    }
-    
-    @Override
-    public boolean[] busca(Integer[] vetor) {
-        long inicio, fim;
-        // vetor com tags se encontrou ou não os valores
-        boolean[] resultado = new boolean[vetor.length]; 
-        
-        inicio = System.currentTimeMillis(); // tempo inicial
-        
-        for (int i = 0; i < vetor.length; i++) {
-            NoRubroNegra n = this.busca(vetor[i]);
-            
-            resultado[i] = (n == null); // Armazenando se encontrou ou não
-        }
-        
-        fim = System.currentTimeMillis(); // tempo final
-        
-        this.duracaoBusca = fim - inicio;
-        
-        return resultado;
     }
     
     @Override
@@ -172,26 +153,30 @@ public class RubroNegra extends Arvore {
         
         return null;*/
         
+        super.compara();
         if (no == null) {
             return null;
-       }
-       else{
-        if (no.valor == valor) {
-            return no;
-        } else if (no.fesq == null && no.fdir == null) {
-            return null;
-        } else if (no.valor < valor) {
-            return auxBusca(no.fdir, valor);
-        } else {
-            return auxBusca(no.fesq, valor);
         }
-       }
+        else{
+            super.compara();
+            if (no.valor == valor) {
+                return no;
+            } else if (no.fesq == null && no.fdir == null) {
+                return null;
+            } else if (no.valor < valor) {
+                return auxBusca(no.fdir, valor);
+            } else {
+                return auxBusca(no.fesq, valor);
+            }
+        }
         
     }
     
     private void rotacaoEsq(NoRubroNegra x0) {
         NoRubroNegra x1= x0.fdir;
         
+        super.copia();
+        super.compara();
         if (x0 == raiz) {
             raiz = x1;
             x1.setPai(null);
@@ -203,6 +188,7 @@ public class RubroNegra extends Arvore {
                 x0.getPai().setFesq(x1);
         }
         
+        super.copia();
         x0.setFdir(x1.getFesq());
         if (x0.getFdir()!= null) x0.getFdir().setPai(x0);
         x1.setFesq(x0);
@@ -213,6 +199,8 @@ public class RubroNegra extends Arvore {
     private void rotacaoDir(NoRubroNegra x0) {
         NoRubroNegra x1 = x0.fesq;
         
+        super.copia();
+        super.compara();
         if (x0 == raiz) {
             raiz = x1;
             x1.setPai(null);
@@ -224,6 +212,7 @@ public class RubroNegra extends Arvore {
                 x0.getPai().setFesq(x1);
         }
         
+        super.copia();
         x0.setFesq(x1.getFdir());
         if (x0.getFesq()!= null) x0.getFesq().setPai(x0);
         x1.setFdir(x0);
@@ -256,6 +245,11 @@ public class RubroNegra extends Arvore {
         else
             System.out.println(raiz.getValor()+" "+raiz.getCor());
         printArvore(raiz.fesq, level+1);
+    }
+
+    @Override
+    public void remover(int valor) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

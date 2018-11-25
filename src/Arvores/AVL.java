@@ -22,6 +22,7 @@ public class AVL extends Arvore {
     @Override
     public void inserir(int valor) {
         
+        super.compara();
         if (this.raiz == null) { // Se a arvore estiver vazia é inserido na raiz.
            NoAVL no = new NoAVL(valor);
            raiz = no;
@@ -34,7 +35,9 @@ public class AVL extends Arvore {
         
         for (NoAVL noaux = no; noaux != null; noaux = noaux.pai) {
             noaux.fatorb = this.calculaFatorBalanceamento(noaux);
+            super.compara();
             if (noaux.fatorb >= 2) {
+                super.compara();
                 if (noaux.fesq.fatorb == -1) {
                     this.rotacaoLR(noaux);
                     continue;
@@ -42,12 +45,14 @@ public class AVL extends Arvore {
                 this.rotacaoDir(noaux);
                 
             } else if(noaux.fatorb <= -2) {
+                super.compara();
                 if (noaux.fdir.fatorb == 1) {
                     this.rotacaoRL(noaux);
                     continue;
                 }
                 this.rotacaoEsq(noaux);
             }
+            super.compara();
             if (noaux == raiz) {
                 break;
             }
@@ -55,15 +60,21 @@ public class AVL extends Arvore {
     }
     
     private void auxInsere(NoAVL raiz, NoAVL no) {
+        super.compara();
         if (raiz.valor >= no.valor) { // Se valor for menor ou igual, insere a esquerda
             if (raiz.fesq == null) { // Se não tiver nenhum nó a equerda já é inserido
+                super.copia();
+                super.copia();
                 raiz.fesq = no;
                 no.pai = raiz;
             } else
                 auxInsere(raiz.fesq, no); // Senão é chamado a recursão para a arvore a esquerda
         }
+        super.compara();
         if (raiz.valor < no.valor) { // Se valor for maior, insere a direita
             if (raiz.fdir == null) { // Se não tiver nenhum nó a direita já é inserido
+                super.copia();
+                super.copia();
                 raiz.fdir = no;
                 no.pai = raiz;
             } else
@@ -90,21 +101,22 @@ public class AVL extends Arvore {
         }
         
         return null;*/
-        
+        super.compara();
         if (no == null) {
             return null;
-       }
-       else{
-        if (no.valor == valor) {
-            return no;
-        } else if (no.fesq == null && no.fdir == null) {
-            return null;
-        } else if (no.valor < valor) {
-            return auxBusca(no.fdir, valor);
-        } else {
-            return auxBusca(no.fesq, valor);
         }
-       }
+        else{
+            super.compara();
+            if (no.valor == valor) {
+                return no;
+            } else if (no.fesq == null && no.fdir == null) {
+                return null;
+            } else if (no.valor < valor) {
+                return auxBusca(no.fdir, valor);
+            } else {
+                return auxBusca(no.fesq, valor);
+            }
+        }
         
     }
     
@@ -125,6 +137,8 @@ public class AVL extends Arvore {
     private void rotacaoEsq(NoAVL x0) {
         NoAVL x1= x0.fdir;
         
+        super.copia();
+        super.compara();
         if (x0 == raiz) {
             raiz = x1;
             x1.setPai(null);
@@ -136,6 +150,7 @@ public class AVL extends Arvore {
                 x0.getPai().setFesq(x1);
         }
         
+        super.copia();
         x0.setFdir(x1.getFesq());
         if (x0.getFdir()!= null) x0.getFdir().setPai(x0);
         x1.setFesq(x0);
@@ -146,6 +161,8 @@ public class AVL extends Arvore {
     private void rotacaoDir(NoAVL x0) {
         NoAVL x1 = x0.fesq;
         
+        super.copia();
+        super.compara();
         if (x0 == raiz) {
             raiz = x1;
             x1.setPai(null);
@@ -157,6 +174,7 @@ public class AVL extends Arvore {
                 x0.getPai().setFesq(x1);
         }
         
+        super.copia();
         x0.setFesq(x1.getFdir());
         if (x0.getFesq()!= null) x0.getFesq().setPai(x0);
         x1.setFdir(x0);
