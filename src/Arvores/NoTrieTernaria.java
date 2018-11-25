@@ -13,13 +13,14 @@ public class NoTrieTernaria {
     private Character c;
     private NoTrieTernaria esq, centro, dir;
     private Boolean finalt;
+    private double gasto = 0; // gasto para inserção de gasto de deputados
 
     public NoTrieTernaria(Character c) {
         this.c = c;
         this.centro = null;
         this.esq = null;
         this.dir = null;
-        finalt = false;
+        this.finalt = false;
     }
 
     public Character getChar() {
@@ -62,6 +63,12 @@ public class NoTrieTernaria {
         this.finalt = finalt;
     }
     
+    public double getGasto() {
+        return this.gasto;
+    }    
     
+    public void setGasto(double gasto) {
+        this.gasto += gasto;
+    }
     
 }

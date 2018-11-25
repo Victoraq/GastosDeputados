@@ -9,9 +9,8 @@ package Arvores;
  *
  * @author victor
  */
-public class AVL {
+public class AVL extends Arvore {
     private NoAVL raiz;
-    private long duracaoInsercao, duracaoBusca;
     
     public AVL() {
     }
@@ -20,22 +19,10 @@ public class AVL {
         this.raiz = raiz;
     }
     
-    public void inserir(Integer[] vetor) {
-        long inicio, fim;
-        
-        inicio = System.currentTimeMillis(); // tempo inicial
-        
-        for (Integer vetor1 : vetor) {
-            this.inserir(vetor1);
-        }
-        
-        fim = System.currentTimeMillis(); // tempo final
-        
-        this.duracaoInsercao = fim - inicio;
-    }
-    
+    @Override
     public void inserir(int valor) {
         
+        super.compara();
         if (this.raiz == null) { // Se a arvore estiver vazia é inserido na raiz.
            NoAVL no = new NoAVL(valor);
            raiz = no;
@@ -48,7 +35,9 @@ public class AVL {
         
         for (NoAVL noaux = no; noaux != null; noaux = noaux.pai) {
             noaux.fatorb = this.calculaFatorBalanceamento(noaux);
+            super.compara();
             if (noaux.fatorb >= 2) {
+                super.compara();
                 if (noaux.fesq.fatorb == -1) {
                     this.rotacaoLR(noaux);
                     continue;
@@ -56,12 +45,14 @@ public class AVL {
                 this.rotacaoDir(noaux);
                 
             } else if(noaux.fatorb <= -2) {
+                super.compara();
                 if (noaux.fdir.fatorb == 1) {
                     this.rotacaoRL(noaux);
                     continue;
                 }
                 this.rotacaoEsq(noaux);
             }
+            super.compara();
             if (noaux == raiz) {
                 break;
             }
@@ -69,15 +60,21 @@ public class AVL {
     }
     
     private void auxInsere(NoAVL raiz, NoAVL no) {
+        super.compara();
         if (raiz.valor >= no.valor) { // Se valor for menor ou igual, insere a esquerda
             if (raiz.fesq == null) { // Se não tiver nenhum nó a equerda já é inserido
+                super.copia();
+                super.copia();
                 raiz.fesq = no;
                 no.pai = raiz;
             } else
                 auxInsere(raiz.fesq, no); // Senão é chamado a recursão para a arvore a esquerda
         }
+        super.compara();
         if (raiz.valor < no.valor) { // Se valor for maior, insere a direita
             if (raiz.fdir == null) { // Se não tiver nenhum nó a direita já é inserido
+                super.copia();
+                super.copia();
                 raiz.fdir = no;
                 no.pai = raiz;
             } else
@@ -85,26 +82,7 @@ public class AVL {
         }
     }
     
-    public boolean[] busca(Integer[] vetor) {
-        long inicio, fim;
-        // vetor com tags se encontrou ou não os valores
-        boolean[] resultado = new boolean[vetor.length]; 
-        
-        inicio = System.currentTimeMillis(); // tempo inicial
-        
-        for (int i = 0; i < vetor.length; i++) {
-            NoAVL n = this.busca(vetor[i]);
-            
-            resultado[i] = (n == null); // Armazenando se encontrou ou não
-        }
-        
-        fim = System.currentTimeMillis(); // tempo final
-        
-        this.duracaoBusca = fim - inicio;
-        
-        return resultado;
-    }
-    
+    @Override
     public NoAVL busca(int valor) {
         return this.auxBusca(this.raiz, valor);
     }
@@ -123,25 +101,22 @@ public class AVL {
         }
         
         return null;*/
-        
+        super.compara();
         if (no == null) {
             return null;
-       }
-       else{
-        if (no.valor == valor) {
-            return no;
-        } else if (no.fesq == null && no.fdir == null) {
-            return null;
-        } else if (no.valor < valor) {
-            return auxBusca(no.fdir, valor);
-        } else {
-            return auxBusca(no.fesq, valor);
         }
-       }
-        
-    }
-    
-    public void remove() {
+        else{
+            super.compara();
+            if (no.valor == valor) {
+                return no;
+            } else if (no.fesq == null && no.fdir == null) {
+                return null;
+            } else if (no.valor < valor) {
+                return auxBusca(no.fdir, valor);
+            } else {
+                return auxBusca(no.fesq, valor);
+            }
+        }
         
     }
     
@@ -162,6 +137,8 @@ public class AVL {
     private void rotacaoEsq(NoAVL x0) {
         NoAVL x1= x0.fdir;
         
+        super.copia();
+        super.compara();
         if (x0 == raiz) {
             raiz = x1;
             x1.setPai(null);
@@ -173,6 +150,7 @@ public class AVL {
                 x0.getPai().setFesq(x1);
         }
         
+        super.copia();
         x0.setFdir(x1.getFesq());
         if (x0.getFdir()!= null) x0.getFdir().setPai(x0);
         x1.setFesq(x0);
@@ -183,6 +161,8 @@ public class AVL {
     private void rotacaoDir(NoAVL x0) {
         NoAVL x1 = x0.fesq;
         
+        super.copia();
+        super.compara();
         if (x0 == raiz) {
             raiz = x1;
             x1.setPai(null);
@@ -194,6 +174,7 @@ public class AVL {
                 x0.getPai().setFesq(x1);
         }
         
+        super.copia();
         x0.setFesq(x1.getFdir());
         if (x0.getFesq()!= null) x0.getFesq().setPai(x0);
         x1.setFdir(x0);
@@ -209,14 +190,6 @@ public class AVL {
     private void rotacaoRL(NoAVL x) {
         this.rotacaoDir(x.fdir);
         this.rotacaoEsq(x);
-    }
-
-    public long getDuracaoInsercao() {
-        return this.duracaoInsercao;
-    }
-    
-    public long getDuracaoBusca() {
-        return this.duracaoBusca;
     }
     
     public void imprime() {
@@ -236,5 +209,10 @@ public class AVL {
             System.out.println(raiz.getValor());
         printArvore(raiz.fesq, level+1);
     } 
+
+    @Override
+    public void remover(int valor) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }
