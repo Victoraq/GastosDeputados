@@ -212,7 +212,116 @@ public class AVL extends Arvore {
 
     @Override
     public void remover(int valor) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        NoAVL no = busca(valor);
+        
+        super.compara();
+        if(no!= null) {
+                if(no.getFdir() == null && no.getFesq() == null) {
+                    super.compara();
+                    if(no == raiz) {
+                        raiz = null;
+                    }
+                    else {
+                        super.compara();
+                        if(no.getPai().getFesq() == no) {
+                            no.getPai().setFesq(null);
+                        }
+                        else {
+                            no.getPai().setFdir(null);
+                        }
+                    }
+                }
+                else {
+                    if(no.getFesq() == null) {
+                        super.compara();
+                        if(no == raiz) {
+                            raiz.getFdir().setPai(null);
+                            raiz = raiz.getFdir();
+                            super.copia();
+                        }
+                        else {
+                            super.compara();
+                            if(no.getPai().getFesq() == no) {
+                                no.getFdir().setPai(no.getPai());
+                                no.getPai().setFesq(no.getFdir());
+                            }
+                            else {
+                                no.getFdir().setPai(no.getPai());
+                                no.getPai().setFdir(no.getFdir());
+                            }
+                        }
+                    }
+                    else {
+                        if(no.getFdir() == null) {
+                            super.compara();
+                            if(no == raiz) {
+                                raiz.getFesq().setPai(null);
+                                raiz = raiz.getFesq();
+                                super.copia();
+                            }
+                            else {
+                                super.compara();
+                                if(no.getPai().getFesq() == no) {
+                                    no.getFesq().setPai(no.getPai());
+                                    no.getPai().setFesq(no.getFesq());
+                                }
+                                else {
+                                    no.getFesq().setPai(no.getPai());
+                                    no.getPai().setFdir(no.getFesq());
+                                }
+                            }
+                        }
+                        else {
+                            NoAVL maiorEsq = no.getFesq();
+                            super.copia();
+                            super.compara();
+                            while(maiorEsq.getFdir() != null) {
+                                maiorEsq = maiorEsq.getFdir();
+                                super.copia();
+                            }
+                            no.valor = maiorEsq.valor;
+                            super.compara();
+                            if(maiorEsq.getPai().getFesq() == maiorEsq) {
+                                maiorEsq.getPai().setFesq(maiorEsq.getFesq());
+                            }
+                            else {
+                                maiorEsq.getPai().setFdir(maiorEsq.getFesq());
+                            }
+                        }
+                    }
+                }
+                
+                
+                for(NoAVL noaux = no; noaux != null; noaux = noaux.pai) {
+                    noaux.fatorb = this.calculaFatorBalanceamento(noaux);
+                    super.compara();
+                    if(noaux.getFesq() != null) {
+                        noaux.getFesq().fatorb = this.calculaFatorBalanceamento(noaux.getFesq());
+                    }
+                    super.compara();
+                    if(noaux.getFdir() != null) {
+                        noaux.getFdir().fatorb = this.calculaFatorBalanceamento(noaux.getFdir());
+                    }
+                    if(noaux.fatorb >= 2) {
+                        if(noaux.fesq.fatorb == -1) {
+                            this.rotacaoLR(noaux);
+                            continue;
+                        }
+                        this.rotacaoDir(noaux);
+                    }
+                    else if(noaux.fatorb <= -2) {
+                        if(noaux.fdir.fatorb == 1) {
+                            this.rotacaoRL(noaux);
+                            continue;
+                        }
+                        this.rotacaoEsq(noaux);
+                    }
+                    super.compara();
+                    if(noaux == raiz) {
+                        break;
+                    }
+                }
+        }
     }
     
 }

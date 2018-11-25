@@ -249,7 +249,222 @@ public class RubroNegra extends Arvore {
 
     @Override
     public void remover(int valor) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        NoRubroNegra no = busca(valor);
+        auxRemover(no);
+    }
+    
+    private void auxRemover(NoRubroNegra no) {        
+        super.compara();
+        if(no != null) {
+           NoRubroNegra p = no.getPai();
+           super.copia();
+           NoRubroNegra u;
+           NoRubroNegra s;
+           
+           if(p != null) {
+               super.compara();
+               if(p.getFesq() == no) {
+                    s = p.getFdir();
+                    super.copia();
+                }
+                else {
+                    s = p.getFesq();
+                    super.copia();
+                }
+           }
+           else {
+               s = null;
+           }
+           
+           if(no.getFdir() == null && no.getFesq() == null) {
+               u = null;
+           }
+           else {
+               if(no.getFdir() != null && no.getFesq() != null) {
+                   NoRubroNegra maiorEsq = no.getFesq();
+                   super.copia();
+                   super.compara();
+                   while(maiorEsq.getFdir() != null) {
+                       maiorEsq = maiorEsq.getFdir();
+                       super.copia();
+                   }
+                   u = maiorEsq;
+                   super.copia();
+               }
+               else {
+                   if(no.getFdir() != null) {
+                       u = no.getFdir();
+                       super.copia();
+                   }
+                   else {
+                       u = no.getFesq();
+                       super.copia();
+                   }
+               }
+           }
+           
+           if(u == null) {
+               super.compara();
+               if(raiz == no) {
+                   raiz = null;
+               }
+               else {
+                   if(no.cor == 'p') {
+                       eliminaDoubleBlack(no);
+                   }
+                   else {
+                       if(s != null) {
+                           s.cor = 'v';
+                       }
+                   }
+                   
+                   super.compara();
+                   if(p.getFesq() == no) {
+                       p.setFesq(null);
+                   }
+                   else {
+                       p.setFdir(null);
+                   }
+               }
+               
+               return;
+           }
+           
+           
+           if(no.getFdir() == null || no.getFesq() == null) {
+               super.compara();
+               if(raiz == no) {
+                   no.valor = u.valor;
+                   no.setFesq(null);
+                   no.setFdir(null);
+               }
+               else {
+                   super.compara();
+                   if(p.getFesq() == no) {
+                       p.setFesq(u);
+                   }
+                   else {
+                       p.setFdir(u);
+                   }
+                   u.setPai(p);
+                   
+                   if(u.cor == 'v' || no.cor == 'v') {
+                       u.cor = 'p';
+                   }
+                   else {
+                       eliminaDoubleBlack(u);
+                   }
+               }
+               
+               return;
+           }
+           
+           int aux;
+           aux = u.valor;
+           u.valor = no.valor;
+           no.valor = aux;
+           
+           auxRemover(u);
+        }
+    }
+    
+    private void eliminaDoubleBlack(NoRubroNegra no) {
+        super.compara();
+        if(no == raiz) {
+            return;
+        }
+        
+        NoRubroNegra p = no.getPai();
+        super.copia();
+        NoRubroNegra s;
+        char corSobrinhoDir, corSobrinhoEsq;
+        
+        super.compara();
+        if(p.getFesq() == no) {
+            s = p.getFdir();
+            super.copia();
+        }
+        else {
+            s = p.getFesq();
+            super.copia();
+        }
+        
+        if(s != null) {
+            if(s.getFesq() != null) {
+                corSobrinhoEsq = s.getFesq().getCor();
+            }
+            else {
+                corSobrinhoEsq = 'p';
+            }
+                    
+            if(s.getFdir() != null) {
+                corSobrinhoDir = s.getFdir().getCor();
+            }
+            else {
+                corSobrinhoDir = 'p';
+            }
+        }
+        else {
+            corSobrinhoDir = 'p';
+            corSobrinhoEsq = 'p';
+        }
+        
+        if(s == null) {
+            eliminaDoubleBlack(p);
+        }
+        else {
+            if(s.getCor() == 'v') {
+                p.cor = 'v';
+                s.cor = 'p';
+                
+                if(p.getFesq() == s) {
+                    rotacaoDir(p);
+                }
+                else {
+                    rotacaoEsq(p);
+                }
+                
+                eliminaDoubleBlack(no);
+            }
+            else {
+                if(corSobrinhoDir == 'v' || corSobrinhoEsq == 'v') {
+                    if(s.getFesq() != null && s.getFesq().getCor() == 'v') {
+                        if(p.getFesq() == s) {
+                            s.getFesq().cor = s.cor;
+                            s.cor = p.cor;
+                            rotacaoDir(p);
+                        }
+                        else {
+                            s.getFesq().cor = p.cor;
+                            rotacaoRL(p);
+                        }
+                    }
+                    else {
+                        super.compara();
+                        if(p.getFesq() == s) {
+                            s.getFdir().cor = p.cor;
+                            rotacaoLR(p);
+                        }
+                        else {
+                            s.getFdir().cor = s.cor;
+                            s.cor = p.cor;
+                            rotacaoEsq(p);
+                        }
+                    }
+                    p.cor = 'p';
+                }
+                else {
+                    s.cor = 'v';
+                    if(p.cor == 'p') {
+                        eliminaDoubleBlack(p);
+                    }
+                    else {
+                        p.cor = 'p';
+                    }
+                }
+            }
+        }
+        
     }
     
 }
