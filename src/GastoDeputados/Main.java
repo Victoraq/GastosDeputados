@@ -1,11 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package GastoDeputados;
 
 import Arvores.AVL;
+import Arvores.B;
 import Arvores.NoAVL;
 import Arvores.RubroNegra;
 import Arvores.Splay;
@@ -27,16 +24,17 @@ public class Main {
      */
     public static void main(String[] args) {
         
-        AVL arvore = new AVL();
+        Splay arvore = new Splay();
         Random rand = new Random(System.currentTimeMillis());
         
         System.out.println("Teste sem repeticao");
         for (int k = 0; k < 200; k++) {
-            Integer a[] = new Integer[100];
+            arvore = new Splay();
+            Integer a[] = new Integer[35];
 
             // Preenchendo com valores aleatorios não repetidos
             for (int i = 0; i < a.length; i++) {
-                int num = Math.abs(rand.nextInt() % 250);
+                int num = Math.abs(rand.nextInt() % 100);
                 boolean test = true;
                 for (int j = 0; j < i; j++){
                     if (num == a[j]) {
