@@ -233,11 +233,11 @@ public class Splay extends Arvore{
              prox = z;
              super.copia();
              super.compara();
-             if (ele > z.getValor()){
+             if (ele >= z.getValor()){
                  z = z.getFdir();
                  super.copia();
              }
-             else if (ele < z.getValor()){
+             else if (ele <= z.getValor()){
                  z = z.getFesq();
                  super.copia();
              }
