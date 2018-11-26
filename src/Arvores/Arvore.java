@@ -19,6 +19,8 @@ public abstract class Arvore {
     
     public void inserir(Integer[] vetor) {
         long inicio, fim;
+        this.numComparacoes = 0;
+        this.numCopias = 0;
         
         inicio = System.currentTimeMillis(); // tempo inicial
         
@@ -37,6 +39,8 @@ public abstract class Arvore {
         long inicio, fim;
         // vetor com tags se encontrou ou não os valores
         boolean[] resultado = new boolean[vetor.length]; 
+        this.numComparacoes = 0;
+        this.numCopias = 0;
         
         inicio = System.currentTimeMillis(); // tempo inicial
         
@@ -57,6 +61,8 @@ public abstract class Arvore {
     
     public void remover(Integer[] vetor) {
         long inicio, fim;
+        this.numComparacoes = 0;
+        this.numCopias = 0;
         
         inicio = System.currentTimeMillis(); // tempo inicial
         
