@@ -9,7 +9,7 @@ package Arvores;
  *
  * @author victor
  */
-public class B {
+public class B extends Arvore {
     
     private NoB raiz;
     private int ordem;
@@ -94,74 +94,55 @@ public class B {
         
     }
     
-    public boolean busca(int valor) {
+    @Override
+    public Boolean busca(int valor) {
         Busca b = buscaB(valor);
         return b.valida == 1;
     }
     
+    @Override    
     public void inserir(int valor) {
-        NoB no, pai;
-        int pos, valida;
         
-        Busca busca = this.buscaB(valor); // busca posição para inserção
-        
-        no = busca.no;
-        pai = busca.pai;
-        pos = busca.pos;
-        valida = busca.valida;
-        
-        // Arvore vazia
-        if (this.raiz == null) {
-            this.raiz = new NoB(ordem);
-            this.raiz.chaves[0] = valor;
-            return;
-        }
-        
-        // para numeros iguais a busca encontra o no em que eles está
-        // mas se ele estiver cheio irei forçar a ida para o filho a direita
-//        if (valida == 1 && no.chaves[this.ordem-1] != 0) { 
-//            if(no.filhos[this.ordem] == null) no.filhos[this.ordem] = new NoB(this.ordem);
-//            no = no.filhos[this.ordem];
-//        }
-        
-        if (no.folha)
-            this.insere_vetor(no, valor); // inserindo no nó encontrado
-        else {
-            NoB n = new NoB(this.ordem);
-            this.insere_vetor(n, valor);
-            no.filhos[pos] = n;
-        }
-        
-        if (no.chaves[ordem-1] != 0) { // Overflow na folha inserida
+        if(this.raiz == null){///Verifica se a arvore esta vazia, se sim, apenas cria a raiz
 
-            busca = this.buscaB(valor);
+        this.raiz = new NoB(this.ordem);
+        this.insere_vetor(this.raiz, valor);
 
-            no = busca.no;
-            pai = busca.pai;
+        }else{///Caso contrario, chama a insercao
 
-            while (no != this.raiz) { // verifica para os nós superiores se ocorreu overflow
-                
-                // Corrigir depois!!! Pois não posso comparar null com int e o 0 pode ser valor inserido
-                if (no.chaves[ordem-1] != 0) { // se a ulima posição estiver preenchida ocorreu overflow
-                    this.split(no, pai);
-                }
+            this.auxInserir(raiz,valor);
 
-                busca = this.buscaB(pai.chaves[0]); // Busco um valor do pai para subir na arvore
+            if(raiz.chaves[this.ordem-1] != 0){///Verifica se a raiz esta em overflow, se estiver faz o split
 
-                no = busca.no;  
-                pai = busca.pai; 
-
-            }
-
-            if (this.raiz.chaves[ordem-1] != 0) { // Overflow na raiz
                 NoB nRaiz = new NoB(ordem);
                 split(this.raiz, nRaiz);
                 this.raiz = nRaiz;
                 this.raiz.folha = false;
+
             }
 
         }
+    }
+    
+    private void auxInserir(NoB no, int valor){
         
+        int pos = 0;
+        while(pos < this.ordem) {
+            
+            if (no.chaves[pos] < valor) pos++;
+            else break;
+            
+        }
+        if (no.filhos[pos] == null) {
+            this.insere_vetor(no, valor);
+        } else {
+            this.auxInserir(no.filhos[pos], valor);
+            
+            if (no.filhos[pos].chaves[this.ordem-1] != 0) {
+                this.split(no.filhos[pos], no);
+            }
+            
+        }
     }
     
     private void split(NoB no, NoB pai) {
@@ -209,19 +190,31 @@ public class B {
     }
 
     private int insere_vetor(NoB no, int chave) {
-//        int i = this.ultima_posicao(no.chaves);
-        int i = this.ordem-1;
+        int pos = 0;
         
-        // Irá deslocando as chaves para inserir ordenado
-        while(i >= 0 && (chave < no.chaves[i] || no.chaves[i] == 0)) {
-            if (i+1 < ordem) no.chaves[i+1] = no.chaves[i];
-            no.filhos[i+1] = no.filhos[i];
-            i--;
+        // encontra posição a ser inserido
+        while(pos < this.ordem-1 && no.chaves[pos] < chave && no.chaves[pos] != 0) {
+
+            pos++;
+
         }
         
-        no.chaves[i+1] = chave;
+        // deslocando chaves
+        for(int i = this.ordem-2; i >= pos; i--){
+
+            no.chaves[i+1] = no.chaves[i];
+        }
+        // deslocando filhos a partir da ultima posição inserida a fim de evitar duplicações
+        int ult = this.ultima_posicao(no.chaves);
+        for(int i = ult; i >= pos; i--){
+
+            no.filhos[i+1] = no.filhos[i];
+
+        }
         
-        return i+1;
+        no.chaves[pos] = chave;
+        
+        return pos;
         
     }
     
