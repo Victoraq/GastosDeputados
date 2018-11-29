@@ -25,7 +25,7 @@ public class Main {
      */
     public static void main(String[] args) {
         
-        B arvore = new B(4);
+        Splay arvore = new Splay();
         Random rand = new Random(System.currentTimeMillis());
         Integer a[];
 //        Integer ex[] = {5, 1, 2, 3, 10, 7, 8, 9, 30, 13, 18, 19, 40, 46, 49, 80, 89};
@@ -40,13 +40,13 @@ public class Main {
 
         
         System.out.println("Teste sem repeticao");
-        for (int k = 0; k < 20; k++) {
-            arvore = new B(4);
-            a = new Integer[5];
+        for (int k = 0; k < 200; k++) {
+            arvore = new Splay();
+            a = new Integer[50];
 
             // Preenchendo com valores aleatorios não repetidos
             for (int i = 0; i < a.length; i++) {
-                int num = Math.abs(rand.nextInt() % 25)+1;
+                int num = Math.abs(rand.nextInt() % 150)+1;
                 boolean test = true;
                 for (int j = 0; j < i; j++){
                     if (num == a[j]) {
@@ -70,7 +70,7 @@ public class Main {
         
         System.out.println("Teste com repeticao");
         for (int k = 0; k < 200; k++) {
-            arvore = new B(4);
+            arvore = new Splay();
             a = new Integer[50];
 
             // Preenchendo com valores aleatorios não repetidos
@@ -94,7 +94,7 @@ public class Main {
         
         System.out.println("Teste com remoção");
         for (int k = 0; k < 200; k++) {
-            arvore = new B(4);
+            arvore = new Splay();
             a = new Integer[200];
             Integer[] r = new Integer[200];
 
