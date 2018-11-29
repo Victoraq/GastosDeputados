@@ -10,7 +10,7 @@ package Arvores;
  * @author Laura
  */
 public class NoAA {
-    protected int valor, nivel;
+    protected int valor, nivel; // Atributo 'nivel' representa o número de links à esquerda, do nó em questão até null.
     protected NoAA fEsq, fDir, pai;
 
     public NoAA() {
@@ -37,7 +37,7 @@ public class NoAA {
             return 0;
         }
         else {
-            if(no.getfEsq() == null && no.getfDir() == null) {
+            if(no.getfEsq() == null && no.getfDir() == null) { // Nós folha estão sempre no nível 1.
                 return 1;
             }
             else {

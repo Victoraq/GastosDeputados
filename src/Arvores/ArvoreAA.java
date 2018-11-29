@@ -11,7 +11,20 @@ package Arvores;
  */
 public class ArvoreAA extends Arvore {
     private NoAA raiz;
-
+    
+    // Árvore alternativa à rubro-negra. É mais simples, por eliminar muitas das condições que devem ser consideradas
+    // para a rubro-negra.
+    // Uma regra nova e importante dessa árvore é algo que seria equivalente a 'filhos à esquerda não podem ser
+    // vermelhos' para uma rubro-negra. A árvore AA não utiliza o atributo de cor para os nós, trocando-o pelo atributo
+    // de nível.
+    
+    // Árvores AA devem obedecer às seguintes condições:
+    // 1) O nível de uma folha é sempre 1;
+    // 2) O nível de um filho à esquerda é sempre menor que o nível de seu pai;
+    // 3) O nível de um filho à direita é menor ou igual ao nível de seu pai;
+    // 4) O nível de um neto à direita é sempre menor que o nível de seu avô;
+    // 5) Se um nó possui nível maior que 1, ele deve ter 2 filhos.
+    
     public ArvoreAA() {
     }
 
@@ -33,8 +46,10 @@ public class ArvoreAA extends Arvore {
             auxInsere(raiz, no);
         }
         
+        // Após a inserção do valor, verifica se as condições da árvore AA são atendidas.
         verifica_propriedades(no);
-                
+        
+        // Verifica-se as condições em toda a árvore.        
         for(NoAA noaux = no; noaux != null; noaux = noaux.pai) {
             verifica_propriedades(noaux);
             noaux.calculaNivel(noaux);
@@ -42,6 +57,7 @@ public class ArvoreAA extends Arvore {
         
     }
     
+    // Inserção comum de uma BST.
     public void auxInsere(NoAA raiz, NoAA no) {
         super.compara();
         if(no.valor > raiz.valor) {
@@ -68,7 +84,8 @@ public class ArvoreAA extends Arvore {
         }
     }
     
-    
+    // Método que verifica se as condições da árvore AA foram violadas ou não. Se há alguma violação, podem ser
+    // chamadas as operações skew e split.
     public void verifica_propriedades(NoAA no) {
         super.compara();
         if(no != null) {
@@ -79,14 +96,14 @@ public class ArvoreAA extends Arvore {
         
             super.compara();
             if(fEsq != null) {
-                if(no.getfEsq().nivel == no.nivel) {
+                if(no.getfEsq().nivel == no.nivel) { // Filho à esquerda possui mesmo nível que pai, chama skew.
                    NoAA skew = skew(no);
                    super.copia();
                 }
             }
             super.compara();
             if(fDir != null && fDir.getfDir() != null) {
-                if(no.getfDir().getfDir().nivel == no.nivel) {
+                if(no.getfDir().getfDir().nivel == no.nivel) { // Nó neto à direita possui mesmo nível que nó avô, chama split.
                    NoAA split = split(no);
                    super.copia();
                 }
@@ -95,7 +112,8 @@ public class ArvoreAA extends Arvore {
         
     }
     
-    
+    // Essa operação resolve violações na regra 2). Utiliza-se skew para eliminar um caso de um link horizontal
+    // à esquerda, que não é permitido. É feita uma rotação à direita.
     public NoAA skew (NoAA no) {
         super.compara();
         if(no != null && no.getfEsq() != null) {
@@ -103,7 +121,7 @@ public class ArvoreAA extends Arvore {
             NoAA pai = no.getPai();
             super.copia();
             super.copia();
-            if(no.getfEsq().nivel == no.nivel) {
+            if(no.getfEsq().nivel == no.nivel) { // Filho à esquerda possui mesmo nível que pai.
                 super.compara();
                 if(raiz == no) {
                  filho.setPai(null);
@@ -137,7 +155,8 @@ public class ArvoreAA extends Arvore {
         return no;
     }
     
-    
+    // Essa operação resolve violações na regra 4). Utiliza-se split para eliminar um caso de links horizontais à direita
+    // consecutivos, que não é permitido. É feita uma rotação à esquerda, incrementando o nível do nó que está no meio.
     public NoAA split(NoAA no) {
         NoAA filho = no.getfDir();
         NoAA pai = no.getPai();
@@ -146,9 +165,9 @@ public class ArvoreAA extends Arvore {
         
         super.compara();
         if(filho != null && filho.getfDir() != null) {
-            if(no.nivel == filho.getfDir().nivel) {
+            if(no.nivel == filho.getfDir().nivel) { // Nó neto à direita possui mesmo nível que nó avô.
                 super.compara();
-                if(raiz == no) {
+                if(raiz == no) { 
                   filho.setPai(null);
                   raiz = filho;
                   super.copia();
@@ -172,7 +191,7 @@ public class ArvoreAA extends Arvore {
                 if(no.getfDir() != null) {
                     no.getfDir().setPai(no);
                 }
-                filho.nivel++;
+                filho.nivel++; // Incrementa nível do nó do meio, que é o filho à direita de 'no'.
                 
                 return filho;
             }
@@ -186,6 +205,7 @@ public class ArvoreAA extends Arvore {
         return auxBusca(raiz, valor);
     }
     
+    // Método que realiza busca por um valor em uma árvore/sub-árvore de raiz 'no'. Mesmo método usado em outras árvores.
     public NoAA auxBusca(NoAA no, int valor) {
         super.compara();
         if(no == null) {
@@ -204,10 +224,10 @@ public class ArvoreAA extends Arvore {
                 else {
                     super.compara();
                     if(valor <= no.getValor()) {
-                        return auxBusca(no.getfEsq(), valor);
+                        return auxBusca(no.getfEsq(), valor); // Busca valor na sub-árvore à esquerda.
                     }
                     else {
-                        return auxBusca(no.getfDir(), valor);
+                        return auxBusca(no.getfDir(), valor); // Busca valor na sub-árvore à direita.
                     }
                 }
             }
@@ -216,7 +236,7 @@ public class ArvoreAA extends Arvore {
 
     @Override
     public void remover(int valor) {
-        NoAA no = busca(valor);
+        NoAA no = busca(valor); // Busca na árvore o valor que vai ser removido.
         
         super.compara();
         if(no != null) {
@@ -226,7 +246,7 @@ public class ArvoreAA extends Arvore {
             super.copia();
             super.copia();
             super.copia();
-            if(no.getfDir() == null && no.getfEsq() == null) {
+            if(no.getfDir() == null && no.getfEsq() == null) { // Nó é folha. Basta remover o nó.
                 super.compara();
                 if(pai.getfDir() == no) {
                     pai.setfDir(null);
@@ -236,7 +256,7 @@ public class ArvoreAA extends Arvore {
                 }
             }
             else {
-                if(no.getfEsq() == null && no.getfDir() != null) {
+                if(no.getfEsq() == null && no.getfDir() != null) { // Nó tem um filho. Coloca filho à direita no lugar.
                     super.compara();
                     if(pai.getfDir() == no) {
                         pai.setfDir(fdir);
@@ -247,7 +267,7 @@ public class ArvoreAA extends Arvore {
                         fdir.setPai(pai);
                     }
                 }
-                else {
+                else { // Nó interno.
                     super.compara();
                     if(pai.getfDir() == no) {
                         pai.setfDir(no.getfEsq());
@@ -260,15 +280,18 @@ public class ArvoreAA extends Arvore {
                 }
             }
             
+            // Rebalancear a árvore.
             rebalancear(pai);
             }
     }
     
+    // Método que reestrutura a árvore depois de uma remoção.
     public void rebalancear(NoAA no) {
        
         NoAA noRaiz = no;
         super.copia();
-        for(NoAA noaux = no; noaux != null; noaux = noaux.pai) {    
+        for(NoAA noaux = no; noaux != null; noaux = noaux.pai) { // Decrementa o nível dos nós para que 
+                                                                 // as condições da árvore sejam satisfeitas.
             super.compara();
             if(noaux.getfDir() == null || noaux.getfEsq() == null) {
                 if(noaux.nivel > 1) {
@@ -308,7 +331,8 @@ public class ArvoreAA extends Arvore {
             }
             
         }
-
+            
+            // Após o decremento do nível dos nós, são realizadas operações de skew e split para reorganizar a árvore.
             noRaiz = skew(noRaiz);
             super.copia();
             noRaiz.setfDir(skew(noRaiz.getfDir()));
