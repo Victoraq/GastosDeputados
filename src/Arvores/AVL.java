@@ -212,11 +212,11 @@ public class AVL extends Arvore {
 
     @Override
     public void remover(int valor) {
-        NoAVL no = busca(valor);
+        NoAVL no = busca(valor); // Busca na árvore o valor que vai ser removido.
         
         super.compara();
         if(no!= null) {
-                if(no.getFdir() == null && no.getFesq() == null) {
+                if(no.getFdir() == null && no.getFesq() == null) { // Nó é folha. Basta remover o nó.
                     super.compara();
                     if(no == raiz) {
                         raiz = null;
@@ -232,7 +232,8 @@ public class AVL extends Arvore {
                     }
                 }
                 else {
-                    if(no.getFesq() == null) {
+                    if(no.getFesq() == null) { // Nó tem somente um filho à direita. Pai do nó a ser removido passa 
+                                               // a ter como filho esse nó à direita.
                         super.compara();
                         if(no == raiz) {
                             raiz.getFdir().setPai(null);
@@ -252,7 +253,8 @@ public class AVL extends Arvore {
                         }
                     }
                     else {
-                        if(no.getFdir() == null) {
+                        if(no.getFdir() == null) { // Nó tem somente um filho à esquerda. Pai do nó a ser rmeovido passa
+                                                   // a ter como filho esse nó à esquerda.
                             super.compara();
                             if(no == raiz) {
                                 raiz.getFesq().setPai(null);
@@ -271,7 +273,8 @@ public class AVL extends Arvore {
                                 }
                             }
                         }
-                        else {
+                        else { // Nó é interno. Encontrar o maior valor na sub-árvore à esquerda e colocá-lo
+                               // no lugar do nó a ser rmeovido.
                             NoAVL maiorEsq = no.getFesq();
                             super.copia();
                             super.compara();
@@ -291,7 +294,8 @@ public class AVL extends Arvore {
                     }
                 }
                 
-                
+                // Calcula fator de balanceamento dos nós e realiza operações necessárias para balancear
+                // a árvore após a remoção.
                 for(NoAVL noaux = no; noaux != null; noaux = noaux.pai) {
                     noaux.fatorb = this.calculaFatorBalanceamento(noaux);
                     super.compara();

@@ -249,7 +249,7 @@ public class RubroNegra extends Arvore {
 
     @Override
     public void remover(int valor) {
-        NoRubroNegra no = busca(valor);
+        NoRubroNegra no = busca(valor); // Busca na árvore o valor que vai ser removido.
         auxRemover(no);
     }
     
@@ -276,11 +276,12 @@ public class RubroNegra extends Arvore {
                s = null;
            }
            
-           if(no.getFdir() == null && no.getFesq() == null) {
+           if(no.getFdir() == null && no.getFesq() == null) { // Nó é folha.
                u = null;
            }
            else {
-               if(no.getFdir() != null && no.getFesq() != null) {
+               if(no.getFdir() != null && no.getFesq() != null) { // Nó é interno. 'u' será o maior valor da sub-árvore 
+                                                                  // à esquerda.
                    NoRubroNegra maiorEsq = no.getFesq();
                    super.copia();
                    super.compara();
@@ -292,24 +293,24 @@ public class RubroNegra extends Arvore {
                    super.copia();
                }
                else {
-                   if(no.getFdir() != null) {
+                   if(no.getFdir() != null) { // Nó tem somente um filho à direita.
                        u = no.getFdir();
                        super.copia();
                    }
-                   else {
+                   else { // Nó tem somente um filho à esquerda.
                        u = no.getFesq();
                        super.copia();
                    }
                }
            }
            
-           if(u == null) {
+           if(u == null) { // 'u' é preto.
                super.compara();
                if(raiz == no) {
                    raiz = null;
                }
                else {
-                   if(no.cor == 'p') {
+                   if(no.cor == 'p') { // Caso: tanto 'u' quanto 'no' são pretos.
                        eliminaDoubleBlack(no);
                    }
                    else {
@@ -331,7 +332,7 @@ public class RubroNegra extends Arvore {
            }
            
            
-           if(no.getFdir() == null || no.getFesq() == null) {
+           if(no.getFdir() == null || no.getFesq() == null) { // 'no' só pussui um filho.
                super.compara();
                if(raiz == no) {
                    no.valor = u.valor;
@@ -348,7 +349,7 @@ public class RubroNegra extends Arvore {
                    }
                    u.setPai(p);
                    
-                   if(u.cor == 'v' || no.cor == 'v') {
+                   if(u.cor == 'v' || no.cor == 'v') { // Caso: ou 'u' é vermelho ou 'no' é vermelho.
                        u.cor = 'p';
                    }
                    else {
@@ -368,6 +369,7 @@ public class RubroNegra extends Arvore {
         }
     }
     
+    // Método que elimina o double black adquirido por um nó durante a remoção, reestruturando, assim, a árvore.
     private void eliminaDoubleBlack(NoRubroNegra no) {
         super.compara();
         if(no == raiz) {
@@ -409,11 +411,11 @@ public class RubroNegra extends Arvore {
             corSobrinhoEsq = 'p';
         }
         
-        if(s == null) {
+        if(s == null) { // 's' é preto.
             eliminaDoubleBlack(p);
         }
         else {
-            if(s.getCor() == 'v') {
+            if(s.getCor() == 'v') { // 's' é vermelho. Realiza-se rotação e recolore-se nós.
                 p.cor = 'v';
                 s.cor = 'p';
                 
@@ -426,26 +428,27 @@ public class RubroNegra extends Arvore {
                 
                 eliminaDoubleBlack(no);
             }
-            else {
-                if(corSobrinhoDir == 'v' || corSobrinhoEsq == 'v') {
-                    if(s.getFesq() != null && s.getFesq().getCor() == 'v') {
-                        if(p.getFesq() == s) {
+            else { // 's' é preto.
+                if(corSobrinhoDir == 'v' || corSobrinhoEsq == 'v') { // Ou um dos filhos de 's' é vermelho, ou ambos o são.
+                                                                     // Ocorre(m) rotação(ões).
+                    if(s.getFesq() != null && s.getFesq().getCor() == 'v') { // Filho à esquerda de 's' é vermelho.
+                        if(p.getFesq() == s) { // 's' é filho à esquerda.
                             s.getFesq().cor = s.cor;
                             s.cor = p.cor;
                             rotacaoDir(p);
                         }
-                        else {
+                        else { // 's' é filho à direita.
                             s.getFesq().cor = p.cor;
                             rotacaoRL(p);
                         }
                     }
-                    else {
+                    else { // Filho à direita de 's' é vermelho.
                         super.compara();
-                        if(p.getFesq() == s) {
+                        if(p.getFesq() == s) { // 's' é filho à esquerda.
                             s.getFdir().cor = p.cor;
                             rotacaoLR(p);
                         }
-                        else {
+                        else { // 's' é filho à direita.
                             s.getFdir().cor = s.cor;
                             s.cor = p.cor;
                             rotacaoEsq(p);
@@ -453,7 +456,7 @@ public class RubroNegra extends Arvore {
                     }
                     p.cor = 'p';
                 }
-                else {
+                else { // Filhos de 's' são pretos. Ocorre recoloração.
                     s.cor = 'v';
                     if(p.cor == 'p') {
                         eliminaDoubleBlack(p);
