@@ -1,20 +1,22 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Arvores;
 
 /**
- *
- * @author victor
+ * Classe que implementa a Árvore AVL.
  */
 public class AVL extends Arvore {
     private NoAVL raiz;
     
+    /**
+     * Construtor vazio da Árvore.
+     */
     public AVL() {
     }
-
+    
+    /**
+     * Construtor da Árvore que recebe um nó raiz.
+     * @param raiz - nó que irá ser a raiz da árvore
+     */
     public AVL(NoAVL raiz) {
         this.raiz = raiz;
     }
@@ -34,8 +36,11 @@ public class AVL extends Arvore {
         auxInsere(raiz, no); // Chamando função auxiliar recursiva.
         
         for (NoAVL noaux = no; noaux != null; noaux = noaux.pai) {
+            // Calculando fator de balanceamento do nó
             noaux.fatorb = this.calculaFatorBalanceamento(noaux);
             super.compara();
+            
+            // Determinando o tipo de rotação pelo fator de balanceamento do nó
             if (noaux.fatorb >= 2) {
                 super.compara();
                 if (noaux.fesq.fatorb == -1) {
@@ -52,6 +57,7 @@ public class AVL extends Arvore {
                 }
                 this.rotacaoEsq(noaux);
             }
+            
             super.compara();
             if (noaux == raiz) {
                 break;
@@ -89,18 +95,6 @@ public class AVL extends Arvore {
     
     private NoAVL auxBusca(NoAVL no, int valor) {
         
-      /*  if (no == null || (no.fesq == null && no.fdir == null))
-            return null;
-        
-        if (no.valor == valor) {
-            return no;
-        } else if (no.valor < valor) {
-            auxBusca(no.fdir, valor);
-        } else {
-            auxBusca(no.fesq, valor);
-        }
-        
-        return null;*/
         super.compara();
         if (no == null) {
             return null;
@@ -120,14 +114,24 @@ public class AVL extends Arvore {
         
     }
     
+    /**
+     * Método para calcular fator de balanceamento de um nó
+     * @param no - nó que irá ser calculado o fator
+     */
     private int calculaFatorBalanceamento(NoAVL no) {
         
+        // Fator calculado utilizando: altura_esquerda - altura_direita
         int fator = this.auxFator(no.getFesq()) - this.auxFator(no.getFdir());
         
         return fator;
     }
     
+    /**
+     * Método recursivo para calcular fator de balanceamento de um nó
+     * @param no - nó que irá ser calculado o fator
+     */
     private int auxFator(NoAVL no) {
+        super.compara();
         if (no == null)
             return 1;
         else 

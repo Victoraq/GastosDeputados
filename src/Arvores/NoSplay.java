@@ -1,30 +1,47 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Arvores;
 
 /**
- *
- * @author gabic
+ * Classe que implementa o Nó da Árvore Splay.
  */
 public class NoSplay {
+    /**
+    * valor - valor inteiro armazenado no nó
+    * fesq - filho a esquerda
+    * fdir - filho a direita
+    * pai - pai do nó
+    */
     protected int valor;
     protected NoSplay fesq,fdir,pai;
 
+    /**
+     * Construtor do nó da Árvore Splay
+     * @param valor - valor inteiro armazenado no nó
+     * @param fesq - filho a esquerda
+     * @param fdir - filho a direita
+     * @param pai - pai do nó
+     */
     public NoSplay(int valor, NoSplay fesq, NoSplay fdir, NoSplay pai) {
         this.valor = valor;
         this.fesq = fesq;
         this.fdir = fdir;
         this.pai = pai;
     }
+    
+    /**
+     * Construtor do nó da Árvore Splay
+     * @param valor - valor inteiro armazenado no nó
+     */
     public NoSplay(int valor){
         this.valor=valor;
         this.fesq=null;
         this.fdir=null;
         this.pai=null;
     }
+    
+    /**
+     * Métodos que retornam atributos da classe.
+     */
 
     public int getValor() {
         return valor;

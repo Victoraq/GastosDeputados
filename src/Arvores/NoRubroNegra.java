@@ -1,19 +1,28 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Arvores;
 
 /**
- *
- * @author victor
+ * Classe que implementa o Nó da Árvore Rubro Negra.
  */
 public class NoRubroNegra {
+    /**
+    * valor - valor inteiro armazenado no nó
+    * cor - cor do nó
+    * fesq - filho a esquerda
+    * fdir - filho a direita
+    * pai - pai do nó
+    */
     protected char cor;
     protected int valor;
     protected NoRubroNegra fesq, fdir, pai;
 
+    /**
+     * Construtor Nó da Rubro Negra.
+     * @param valor - valor inteiro armazenado no nó
+     * @param fesq - filho a esquerda
+     * @param pai - pai do nó
+     * @param fdir - filho a direita
+     */
     public NoRubroNegra(int valor, NoRubroNegra fesq, NoRubroNegra fdir, NoRubroNegra pai) {
         this.valor = valor;
         this.fesq = fesq;
@@ -22,6 +31,10 @@ public class NoRubroNegra {
         this.cor = 'v';
     }
 
+    /**
+     * Construtor Nó da AVL.
+     * @param valor - valor inteiro armazenado no nó
+     */
     public NoRubroNegra(int valor) {
         this.valor = valor;
         this.fesq = null;
@@ -29,6 +42,10 @@ public class NoRubroNegra {
         this.pai = null;
         this.cor = 'v';
     }
+    
+    /**
+     * Métodos que retornam atributos da classe.
+     */
     
     public int getValor() {
         return valor;

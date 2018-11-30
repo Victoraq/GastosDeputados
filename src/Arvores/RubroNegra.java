@@ -1,20 +1,22 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Arvores;
 
 /**
- *
- * @author victor
+ * Classe que implementa a Árvore Rubro Negra.
  */
 public class RubroNegra extends Arvore {
     private NoRubroNegra raiz;
     
+    /**
+     * Construtor vazio da Árvore.
+     */
     public RubroNegra() {
     }
-
+    
+    /**
+     * Construtor da Árvore que recebe um nó raiz.
+     * @param raiz - nó que irá ser a raiz da árvore
+     */
     public RubroNegra(NoRubroNegra raiz) {
         this.raiz = raiz;
         this.raiz.setCor('p');
@@ -24,6 +26,7 @@ public class RubroNegra extends Arvore {
     public void inserir(int valor) {
         
         // Caso 1
+        super.compara();
         if (this.raiz == null) { // Se a arvore estiver vazia é inserido na raiz.
            super.copia();
            NoRubroNegra no = new NoRubroNegra(valor);
@@ -67,6 +70,10 @@ public class RubroNegra extends Arvore {
         }
     }
     
+    /**
+     * Verifica propriedades da rubro negra a partir de um nó.
+     * @param no - nó que irá ser verificado
+     */
     private void verifica_propriedades(NoRubroNegra no) {
         // Variaveis para analise das propriedades
         NoRubroNegra pai = no.pai;
@@ -139,20 +146,7 @@ public class RubroNegra extends Arvore {
     }
     
     private NoRubroNegra auxBusca(NoRubroNegra no, int valor) {
-        
-      /*  if (no == null || (no.fesq == null && no.fdir == null))
-            return null;
-        
-        if (no.valor == valor) {
-            return no;
-        } else if (no.valor < valor) {
-            auxBusca(no.fdir, valor);
-        } else {
-            auxBusca(no.fesq, valor);
-        }
-        
-        return null;*/
-        
+                
         super.compara();
         if (no == null) {
             return null;

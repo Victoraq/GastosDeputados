@@ -1,22 +1,27 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Arvores;
 
 /**
- *
- * @author gabic
+ * Classe que implementa a Árvore Splay.
  */
 public class Splay extends Arvore{
     private NoSplay raiz;
+    
+    /**
+     * Construtor vazio da Árvore.
+     */
     public Splay(){
         raiz=null;
     }
+    
+    /**
+     * Construtor da Árvore que recebe um nó raiz.
+     * @param raiz - nó que irá ser a raiz da árvore
+     */
     public Splay(NoSplay no){
         raiz=no;
     }
+    
     @Override
     public void inserir(int valor){
         super.compara();
@@ -165,6 +170,7 @@ public class Splay extends Arvore{
          super.copia();
          remove(no);
      }
+     
      private void remove(NoSplay no)
      {
          super.compara();

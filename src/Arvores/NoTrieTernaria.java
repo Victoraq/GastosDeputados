@@ -1,20 +1,28 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Arvores;
 
 /**
- *
- * @author victor
+ * Classe que implementa o Nó da Árvore Trie Ternária.
  */
 public class NoTrieTernaria {
+    
+    /**
+     * c - Caracter do nó
+     * esq - Nó a esquerda
+     * centro - Nó subsequente
+     * dir - Nó a direita
+     * finalt - Tag para sinalizar se terminou ou não uma string
+     * gasto - gasto de determinada string
+     */
     private Character c;
     private NoTrieTernaria esq, centro, dir;
     private Boolean finalt;
     private double gasto = 0; // gasto para inserção de gasto de deputados
 
+    /**
+     * Construtor do Nó Trie Ternária.
+     * @param c - caracter do nó
+     */
     public NoTrieTernaria(Character c) {
         this.c = c;
         this.centro = null;
@@ -23,6 +31,10 @@ public class NoTrieTernaria {
         this.finalt = false;
     }
 
+    /**
+     * Métodos que retornam atributos da classe.
+     */
+    
     public Character getChar() {
         return c;
     }

@@ -11,12 +11,31 @@ package Arvores;
  */
 public abstract class Arvore {
     
+    /**
+     * duracaoInsercao - Duração em segundos da inserção 
+     * duracaoBusca - Duração em segundos da busca
+     * duracaoRemocao - Duração em segundos da remoção
+     * numComparacoes - quantidade de comparacoes feitas.
+     * numCopias - quantidade de copias feitas.
+     */
     private long duracaoInsercao, duracaoBusca, duracaoRemocao;
     private double numComparacoes, numCopias;
-
+    
+    /**
+     * Construtor da classe Ordenacao.
+     */
     public Arvore() {
+        this.duracaoBusca = 0;
+        this.duracaoInsercao = 0;
+        this.duracaoRemocao = 0;
+        this.numComparacoes = 0;
+        this.numCopias = 0;
     }
     
+    /**
+     * Insere um vetor de inteiros na arvore e contabiliza métricas
+     * @param vetor - vetor de valores a serem insseridos
+     */
     public void inserir(Integer[] vetor) {
         long inicio, fim;
         this.numComparacoes = 0;
@@ -24,6 +43,7 @@ public abstract class Arvore {
         
         inicio = System.currentTimeMillis(); // tempo inicial
         
+        // Inserindo valores
         for (Integer vetor1 : vetor) {
             this.inserir(vetor1);
         }
@@ -33,8 +53,16 @@ public abstract class Arvore {
         this.duracaoInsercao = fim - inicio;
     }
     
+    /**
+     * Insere um valor inteiro na arvore
+     * @param valor - valor inteiro a ser inserido
+     */
     public abstract void inserir(int valor);
     
+    /**
+     * Busca um vetor de inteiros na arvore e contabiliza métricas
+     * @param vetor - vetor de valores a serem buscados
+     */
     public boolean[] busca(Integer[] vetor) {
         long inicio, fim;
         // vetor com tags se encontrou ou não os valores
@@ -44,6 +72,7 @@ public abstract class Arvore {
         
         inicio = System.currentTimeMillis(); // tempo inicial
         
+        // Buscando valores
         for (int i = 0; i < vetor.length; i++) {
             Object n = this.busca(vetor[i]);
             
@@ -57,8 +86,17 @@ public abstract class Arvore {
         return resultado;
     }
     
+    /**
+     * Busca um valor inteiro na arvore
+     * @param valor - valor inteiro a ser buscado
+     * @return Object Boolean se foi encontrado ou não
+     */
     public abstract Object busca(int valor);
     
+    /**
+     * Remove valores de um vetor de inteiros na arvore e contabiliza métricas
+     * @param vetor - vetor de valores a serem removidos
+     */
     public void remover(Integer[] vetor) {
         long inicio, fim;
         this.numComparacoes = 0;
@@ -66,6 +104,7 @@ public abstract class Arvore {
         
         inicio = System.currentTimeMillis(); // tempo inicial
         
+        // Removendo valores
         for (Integer vetor1 : vetor) {
             this.remover(vetor1);
         }
@@ -75,6 +114,10 @@ public abstract class Arvore {
         this.duracaoRemocao = fim - inicio;
     }
     
+    /**
+     * Remove um valor inteiro na arvore
+     * @param valor - valor inteiro a ser removido
+     */
     public abstract void remover(int valor);
     
     
