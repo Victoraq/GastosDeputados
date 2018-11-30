@@ -1,5 +1,6 @@
-package Arvores;
+package GastoDeputados;
 
+import Arvores.TrieTernaria;
 import GastoDeputados.Deputado;
 import GastoDeputados.LeituraDados;
 import java.util.Scanner;

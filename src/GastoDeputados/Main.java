@@ -7,7 +7,7 @@ import Arvores.B;
 import Arvores.NoAVL;
 import Arvores.NoSplay;
 import Arvores.RubroNegra;
-import Arvores.Splay;
+import Arvores.B;
 import Ordenacao.HeapSort;
 import Ordenacao.InsertionSort;
 import Ordenacao.MergeSort;
@@ -26,7 +26,7 @@ public class Main {
      */
     public static void main(String[] args) {
         
-        Splay arvore = new Splay();
+        B arvore = new B(4);
         Random rand = new Random(System.currentTimeMillis());
         Integer a[];
         arvore.inserir(8);
