@@ -3,12 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Arvores;
+package GastoDeputados;
 
-import GastoDeputados.Deputado;
-import GastoDeputados.LeituraDados;
+import Arvores.AVL;
+import Arvores.ArvoreAA;
+import Arvores.B;
+import Arvores.RubroNegra;
+import Arvores.Splay;
 import Ordenacao.MergeSort;
-import Ordenacao.QuickSort;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -18,8 +20,8 @@ import java.io.IOException;
 import java.util.Random;
 
 /**
- *
- * @author victor
+ * Classe que gera dados para análise do desempenho das Árvores de Busca
+ * Utilizando dados ordenados e com taxa de repetição de dados fixa
  */
 public class AnaliseOrdenado {
     
@@ -139,7 +141,7 @@ public class AnaliseOrdenado {
         for (int seed = 0; seed < 5; seed++) {
             System.out.println("Seed "+seed);
             // Usando como limite de valores aleatório o tamanho do arquivo de deputados lido
-            preenche_rand(test, 15);
+            preenche_rand(test, tam_leitura - 1);
             
             for (int i = 0; i < num_testes; i++) {
                 int k = (int) (test[i].length * 0.7);
@@ -328,6 +330,8 @@ public class AnaliseOrdenado {
                 bus_b.flush();
                 
                 // REMOÇÃO
+                
+                System.out.println("\nRemocao");
                 
                 System.out.println("AVL");
 

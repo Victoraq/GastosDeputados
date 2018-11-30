@@ -1,12 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package Arvores;
 
-import GastoDeputados.Deputado;
-import GastoDeputados.LeituraDados;
+package GastoDeputados;
+
+import Arvores.AVL;
+import Arvores.ArvoreAA;
+import Arvores.B;
+import Arvores.RubroNegra;
+import Arvores.Splay;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -16,8 +15,8 @@ import java.io.IOException;
 import java.util.Random;
 
 /**
- *
- * @author victor
+ * Classe que gera dados para análise do desempenho das Árvores de Busca
+ * Utilizando dados não ordenados e sem taxa de repetição de dados fixa
  */
 public class AnaliseNaoOrdenado {
     
@@ -135,7 +134,7 @@ public class AnaliseNaoOrdenado {
         for (int seed = 0; seed < 5; seed++) {
             System.out.println("Seed "+seed);
             // Usando como limite de valores aleatório o tamanho do arquivo de deputados lido
-            preenche_rand(test, 15);
+            preenche_rand(test, tam_leitura - 1);
 
             for (int i = 0; i < num_testes; i++) {
                 
