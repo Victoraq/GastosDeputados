@@ -83,8 +83,12 @@ public class ArvoreAA extends Arvore {
         }
     }
     
-    // Método que verifica se as condições da árvore AA foram violadas ou não. Se há alguma violação, podem ser
-    // chamadas as operações skew e split.
+    /**
+     * Método que verifica se as condições da árvore AA foram violadas ou não. Se há alguma violação, podem ser
+     * chamadas as operações skew e split.
+     * 
+     * @param no - nó que terá suas propriedades verificadas.
+     */  
     public void verifica_propriedades(NoAA no) {
         super.compara();
         if(no != null) {
@@ -111,8 +115,13 @@ public class ArvoreAA extends Arvore {
         
     }
     
-    // Essa operação resolve violações na regra 2). Utiliza-se skew para eliminar um caso de um link horizontal
-    // à esquerda, que não é permitido. É feita uma rotação à direita.
+    /** 
+     * Método que realiza uma rotação à direita.
+     * Essa operação resolve violações na regra 2). Utiliza-se skew para eliminar um caso de um link horizontal
+     * à esquerda, que não é permitido.
+     * 
+     * @param no - nó que passará pela operação skew.
+     */
     public NoAA skew (NoAA no) {
         super.compara();
         if(no != null && no.getfEsq() != null) {
@@ -154,45 +163,53 @@ public class ArvoreAA extends Arvore {
         return no;
     }
     
-    // Essa operação resolve violações na regra 4). Utiliza-se split para eliminar um caso de links horizontais à direita
-    // consecutivos, que não é permitido. É feita uma rotação à esquerda, incrementando o nível do nó que está no meio.
+    /**
+     * Método que realiza uma rotação à esquerda e incrementa o nível do nó que estiver no meio (filho à direita de 'no').
+     * Essa operação resolve violações na regra 4). Utiliza-se split para eliminar um caso de links horizontais à direita
+     * consecutivos, que não é permitido.
+     * 
+     * @param no - nó que passará pela operação split.
+     */
     public NoAA split(NoAA no) {
-        NoAA filho = no.getfDir();
-        NoAA pai = no.getPai();
-        super.copia();
-        super.copia();
-        
         super.compara();
-        if(filho != null && filho.getfDir() != null) {
-            if(no.nivel == filho.getfDir().nivel) { // Nó neto à direita possui mesmo nível que nó avô.
-                super.compara();
-                if(raiz == no) { 
-                  filho.setPai(null);
-                  raiz = filho;
-                  super.copia();
-                }
-                else {
+        if(no != null){
+            NoAA filho = no.getfDir();
+            NoAA pai = no.getPai();
+            super.copia();
+            super.copia();
+        
+            super.compara();
+            if(filho != null && filho.getfDir() != null) {
+                if(no.nivel == filho.getfDir().nivel) { // Nó neto à direita possui mesmo nível que nó avô.
                     super.compara();
-                    if(pai.getfEsq() == no) {
-                       pai.setfEsq(filho);
+                    if(raiz == no) { 
+                      filho.setPai(null);
+                      raiz = filho;
+                      super.copia();
                     }
                     else {
-                        pai.setfDir(filho);
+                        super.compara();
+                        if(pai.getfEsq() == no) {
+                           pai.setfEsq(filho);
+                        }
+                        else {
+                            pai.setfDir(filho);
+                        }
+                    
+                        filho.setPai(pai);
                     }
-                
-                    filho.setPai(pai);
-                }
             
-                no.setfDir(filho.getfEsq());
-                filho.setfEsq(no);
-                no.setPai(filho);
-                super.compara();
-                if(no.getfDir() != null) {
-                    no.getfDir().setPai(no);
-                }
-                filho.nivel++; // Incrementa nível do nó do meio, que é o filho à direita de 'no'.
+                    no.setfDir(filho.getfEsq());
+                    filho.setfEsq(no);
+                    no.setPai(filho);
+                    super.compara();
+                    if(no.getfDir() != null) {
+                        no.getfDir().setPai(no);
+                    }
+                    filho.nivel++; // Incrementa nível do nó do meio, que é o filho à direita de 'no'.
                 
-                return filho;
+                    return filho;
+                }
             }
         }
         
@@ -247,35 +264,49 @@ public class ArvoreAA extends Arvore {
             super.copia();
             if(no.getfDir() == null && no.getfEsq() == null) { // Nó é folha. Basta remover o nó.
                 super.compara();
-                if(pai.getfDir() == no) {
-                    pai.setfDir(null);
+                if(pai != null) {
+                    if(pai.getfDir() == no) {
+                       pai.setfDir(null);
+                    }
+                    else {
+                       pai.setfEsq(null);
+                    }
                 }
-                else {
-                    pai.setfEsq(null);
+                else { // 'no' é raiz.
+                    raiz = null;
                 }
             }
             else {
                 if(no.getfEsq() == null && no.getfDir() != null) { // Nó tem um filho. Coloca filho à direita no lugar.
                     super.compara();
-                    if(pai.getfDir() == no) {
-                        pai.setfDir(fdir);
-                        fdir.setPai(pai);
+                    if(pai != null) {
+                       if(pai.getfDir() == no) {
+                           pai.setfDir(fdir);
+                       }
+                       else {
+                           pai.setfEsq(fdir);
+                       }
+                       fdir.setPai(pai);
                     }
-                    else {
-                        pai.setfEsq(fdir);
-                        fdir.setPai(pai);
+                    else { // 'no' é raiz.
+                        raiz = fdir;
+                        super.copia();
+                        fdir.setPai(null);
                     }
                 }
                 else { // Nó interno.
                     super.compara();
-                    if(pai.getfDir() == no) {
-                        pai.setfDir(no.getfEsq());
-                        fesq.setPai(pai);
+                    
+                    NoAA maiorEsq = no.getfEsq();
+                    super.copia();
+                    super.compara();
+                    while(maiorEsq.getfDir() != null) {
+                        maiorEsq = maiorEsq.getfDir();
+                        super.copia();
                     }
-                    else {
-                        pai.setfEsq(no.getfEsq());
-                        fesq.setPai(pai);
-                    }
+                    int aux = maiorEsq.valor;
+                    remover(maiorEsq.valor);
+                    no.valor = aux;
                 }
             }
             
@@ -284,7 +315,9 @@ public class ArvoreAA extends Arvore {
             }
     }
     
-    // Método que reestrutura a árvore depois de uma remoção.
+    /** Método que reestrutura a árvore depois de uma remoção.
+     *  @param no - nó a partir do qual a reestruturação será feita.
+     */
     public void rebalancear(NoAA no) {
        
         NoAA noRaiz = no;
@@ -334,11 +367,16 @@ public class ArvoreAA extends Arvore {
             // Após o decremento do nível dos nós, são realizadas operações de skew e split para reorganizar a árvore.
             noRaiz = skew(noRaiz);
             super.copia();
-            noRaiz.setfDir(skew(noRaiz.getfDir()));
-            noRaiz.getfDir().setfDir(skew(noRaiz.getfDir().getfDir()));
+            super.compara();
+            if(noRaiz != null) {
+                noRaiz.setfDir(skew(noRaiz.getfDir()));
+                noRaiz.getfDir().setfDir(skew(noRaiz.getfDir().getfDir()));
+            }
             noRaiz = split(noRaiz);
             super.copia();
-            noRaiz.setfDir(split(noRaiz.getfDir()));
+            if(noRaiz != null) {
+                noRaiz.setfDir(split(noRaiz.getfDir()));
+            }
     }
     
     public void imprime() {
