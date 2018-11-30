@@ -363,7 +363,10 @@ public class RubroNegra extends Arvore {
         }
     }
     
-    // Método que elimina o double black adquirido por um nó durante a remoção, reestruturando, assim, a árvore.
+    /** Método que elimina o double black adquirido por um nó durante a remoção, reestruturando, assim, a árvore.
+     * 
+     * @param no - nó que possui o double black, que precisa ser removido.
+     */
     private void eliminaDoubleBlack(NoRubroNegra no) {
         super.compara();
         if(no == raiz) {
