@@ -305,9 +305,16 @@ public class ArvoreAA extends Arvore {
                     while(maiorEsq.getfDir() != null) {
                         maiorEsq = maiorEsq.getfDir();
                     }
-                    int aux = maiorEsq.valor;
-                    remover(maiorEsq.valor);
-                    no.valor = aux;
+                    no.valor = maiorEsq.valor;
+                    super.compara();
+                    if(maiorEsq.getPai().getfEsq() == maiorEsq) {
+                        maiorEsq.getPai().setfEsq(maiorEsq.getfEsq());
+                    }
+                    else {
+                        maiorEsq.getPai().setfDir(maiorEsq.getfEsq());
+                    }
+                    
+                    pai = maiorEsq.getPai();
                 }
             }
             
@@ -359,8 +366,10 @@ public class ArvoreAA extends Arvore {
                 break;
             }
             super.compara();
-            if(noaux.getfDir().getfDir() != null && noaux.getfDir().getfDir().nivel == noaux.nivel) {
-                break;
+            if(noaux.getfDir() != null) {
+                if(noaux.getfDir().getfDir() != null && noaux.getfDir().getfDir().nivel == noaux.nivel) {
+                    break;
+                }
             }
             
         }
