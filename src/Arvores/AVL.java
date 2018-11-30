@@ -257,7 +257,7 @@ public class AVL extends Arvore {
                         }
                     }
                     else {
-                        if(no.getFdir() == null) { // Nó tem somente um filho à esquerda. Pai do nó a ser rmeovido passa
+                        if(no.getFdir() == null) { // Nó tem somente um filho à esquerda. Pai do nó a ser removido passa
                                                    // a ter como filho esse nó à esquerda.
                             super.compara();
                             if(no == raiz) {
@@ -278,7 +278,7 @@ public class AVL extends Arvore {
                             }
                         }
                         else { // Nó é interno. Encontrar o maior valor na sub-árvore à esquerda e colocá-lo
-                               // no lugar do nó a ser rmeovido.
+                               // no lugar do nó a ser removido.
                             NoAVL maiorEsq = no.getFesq();
                             super.copia();
                             super.compara();
