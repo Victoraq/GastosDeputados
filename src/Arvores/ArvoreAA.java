@@ -101,14 +101,14 @@ public class ArvoreAA extends Arvore {
             if(fEsq != null) {
                 if(no.getfEsq().nivel == no.nivel) { // Filho à esquerda possui mesmo nível que pai, chama skew.
                    NoAA skew = skew(no);
-                   super.copia();
+
                 }
             }
             super.compara();
             if(fDir != null && fDir.getfDir() != null) {
                 if(no.getfDir().getfDir().nivel == no.nivel) { // Nó neto à direita possui mesmo nível que nó avô, chama split.
                    NoAA split = split(no);
-                   super.copia();
+
                 }
             }
         }
@@ -121,6 +121,7 @@ public class ArvoreAA extends Arvore {
      * à esquerda, que não é permitido.
      * 
      * @param no - nó que passará pela operação skew.
+     * @return nó que é a nova raiz da sub-árvore.
      */
     public NoAA skew (NoAA no) {
         super.compara();
@@ -169,6 +170,7 @@ public class ArvoreAA extends Arvore {
      * consecutivos, que não é permitido.
      * 
      * @param no - nó que passará pela operação split.
+     * @return nó que é a nova raiz da sub-árvore.
      */
     public NoAA split(NoAA no) {
         super.compara();
@@ -302,7 +304,6 @@ public class ArvoreAA extends Arvore {
                     super.compara();
                     while(maiorEsq.getfDir() != null) {
                         maiorEsq = maiorEsq.getfDir();
-                        super.copia();
                     }
                     int aux = maiorEsq.valor;
                     remover(maiorEsq.valor);
@@ -366,14 +367,12 @@ public class ArvoreAA extends Arvore {
             
             // Após o decremento do nível dos nós, são realizadas operações de skew e split para reorganizar a árvore.
             noRaiz = skew(noRaiz);
-            super.copia();
             super.compara();
             if(noRaiz != null) {
                 noRaiz.setfDir(skew(noRaiz.getfDir()));
                 noRaiz.getfDir().setfDir(skew(noRaiz.getfDir().getfDir()));
             }
             noRaiz = split(noRaiz);
-            super.copia();
             if(noRaiz != null) {
                 noRaiz.setfDir(split(noRaiz.getfDir()));
             }
