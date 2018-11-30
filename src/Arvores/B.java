@@ -57,26 +57,8 @@ public class B extends Arvore {
                     
                     if (valor == n.chaves[i]) { // caso valor esteja na arvore
                         busca.valida = 1;
-                        
-                        // se a próxima posição estiver vazia é inserido no próximo
-//                        if (n.folha && n.chaves[i] != 0) {
-                            i = busca.pos = i+1;
-                            
-//                            if (i == this.ordem) {
-                                n = n.filhos[i];
-                                if (n != null && n.chaves[0] != valor)
-                                    n = null;
-//                            }
-                            
-//                            continue;
-//                        }
-                        // Problema ao buscar valores repetidos, sempre iremos ao mais inferior
-//                        else if (n.filhos[i+1]!= null && n.filhos[i+1].chaves[0] == valor){
-//                            n = n.filhos[i+1];
-//                            break;
-//                        }
-                        
-//                        n = null;
+                                                
+                        n = null;
                         break;
                     } else { // se for menor desce para filho a esquerda
                         n = n.filhos[i];
@@ -103,16 +85,16 @@ public class B extends Arvore {
     @Override    
     public void inserir(int valor) {
         
-        if(this.raiz == null){///Verifica se a arvore esta vazia, se sim, apenas cria a raiz
+        if(this.raiz == null){ //Verifica se a arvore esta vazia, se sim, apenas cria a raiz
 
-        this.raiz = new NoB(this.ordem);
-        this.insere_vetor(this.raiz, valor);
+            this.raiz = new NoB(this.ordem);
+            this.insere_vetor(this.raiz, valor);
 
-        }else{///Caso contrario, chama a insercao
+        } else {///Caso contrario, chama a insercao recursiva
 
             this.auxInserir(raiz,valor);
 
-            if(raiz.chaves[this.ordem-1] != 0){///Verifica se a raiz esta em overflow, se estiver faz o split
+            if(raiz.chaves[this.ordem-1] != 0){ //Verifica se a raiz esta em overflow, se estiver faz o split
 
                 NoB nRaiz = new NoB(ordem);
                 split(this.raiz, nRaiz);
@@ -161,12 +143,15 @@ public class B extends Arvore {
                if (i != (ordem/2)-1) no_esq.chaves[i] = no.chaves[i];
                
                no_esq.filhos[i] = no.filhos[i];
+               if (no.filhos[i] != null) no.filhos[i].pai = no_esq;
                
            } else {
                // evitando null pointer exception
                if (i < ordem) no_dir.chaves[pos_dir] = no.chaves[i];
                
                no_dir.filhos[pos_dir] = no.filhos[i];
+               if (no.filhos[i] != null) no.filhos[i].pai = no_dir;
+
                
                pos_dir++;
            }
@@ -185,6 +170,8 @@ public class B extends Arvore {
        pai.filhos[pos] = no_esq;
        pai.filhos[pos+1] = no_dir;
        pai.folha = false;
+       no_esq.pai = pai;
+       no_dir.pai = pai;
 
        
     }
@@ -228,16 +215,18 @@ public class B extends Arvore {
         }
     }
 
-    public boolean remover(int valor) {
+    @Override
+    public void remover(int valor) {
         
-        NoB no, pai, maior, irmao, pai_maior;
+        NoB no, pai, maior = null, irmao, pai_maior;
         int pos, ult_maior, pos_maior;
         
         Busca busca = buscaB(valor); // Buscando valor
         
         if (busca.valida == 0) {// não encontrou o valor
-            System.out.println("Valor não encontrado");
-            return false;
+//            System.out.println("Valor não encontrado");
+            return;
+//            return false;
         }
         
         no = busca.no;
@@ -257,19 +246,25 @@ public class B extends Arvore {
         } else { // se não for folha
             
             // Procuro a maior chave dentre as menores que o valor a ser retirado
-            pai = no;
-            maior = no.filhos[pos];
-            
-            while(maior.folha == false) {
+            for (int i = 0; i < this.ordem; i++){
+                if (no.filhos[i] != null)
+                    maior = no.filhos[i];
+            }
+            if (maior == null)
+                System.out.println("Puts grila");
+            while(maior != null && !maior.folha) {
                 
-                for (pos_maior = 0; pos_maior < ordem; pos_maior++) {
-                    if (maior.chaves[pos_maior] == 0)
-                        break;
-                }
+                pos_maior = this.ultima_posicao(maior.chaves);
                 
-                pai = maior;
+//                for (pos_maior = 0; pos_maior < ordem; pos_maior++) {
+//                    if (maior.chaves[pos_maior] == 0)
+//                        break;
+//                }
                 
-                maior = maior.filhos[pos_maior];
+                if (maior.filhos[pos_maior] != null) {
+                    maior = maior.filhos[pos_maior];
+                } else
+                    break;
             }
             
             // Encontrando posição do maior valor
@@ -280,16 +275,23 @@ public class B extends Arvore {
             
             this.remove_vetor(maior, ult_maior); // removendo o valor do nó folha
             
+            int i = ult_maior;
+            while (i < ordem) {
+                no.filhos[i] = no.filhos[i+1];
+                i++;
+            }
+            
             no = maior;
             
         }
+        if (no != this.raiz)
+            this.verifica_remocao(no.pai, no);
         
-        this.verifica_remocao(pai, no);
         
         
-        return true;
+//        return true;
     }
-    
+        
     private int ultima_posicao(int[] vetor) {
         int i;
         for (i = vetor.length-1; i >= 0; i--) {
@@ -308,7 +310,7 @@ public class B extends Arvore {
         
         if (tam_no < ordem/2) {
             // Descobrindo o irmao
-            for (int i = 0; i < ordem; i++) {
+            for (int i = 0; i <= ordem; i++) {
                 // Se o nó for estiver na primeira posicao o irmao é o subsequente
                 if (no == pai.filhos[0]) { 
                     
@@ -326,16 +328,33 @@ public class B extends Arvore {
                 }
             
             }
+            if (irmao == null)
+                System.out.println("nao tenho irmaaao!!!");
             
             // Coletando numero de chaves do irmao e do nó
-            int tam_irmao = this.ultima_posicao(irmao.chaves)+1;
+            int tam_irmao;
+            if (irmao != null) tam_irmao = this.ultima_posicao(irmao.chaves)+1;
+            else {
+                tam_irmao = 0;
+                irmao = new NoB(this.ordem);
+                irmao.pai = pai;
+                pai.filhos[1] = irmao;
+            }
             
             tam_no = this.ultima_posicao(no.chaves)+1;
 
             if (tam_no + tam_irmao < ordem) {
-                this.concatenacao(pai,no,irmao);
+//                if (irmao == null) {
+//                    irmao = new NoB(this.ordem);
+//                    irmao.pai = no.pai;
+//                }
+                this.concatenacao(no.pai,no,irmao);
             } else {
-                this.redistribuicao(pai,no,irmao);
+//                if (irmao == null) {
+//                    irmao = new NoB(this.ordem);
+//                    irmao.pai = no.pai;
+//                }
+                this.redistribuicao(no.pai,no,irmao);
             }
             
         }
@@ -343,12 +362,12 @@ public class B extends Arvore {
     }
     
     private void concatenacao(NoB pai, NoB no, NoB irmao) {
-        NoB novo_no, avo;
+        NoB novo_no;
         int pos, pos_no, ult_no, ult_irmao, tam_pai, i;
         Busca busca;
                  
         novo_no = new NoB(this.ordem);
-        avo = this.buscaB(pai.chaves[0]).pai; // adquirindo avo para futuras operações
+        pai = no.pai;
 
         //Descobrindo posição do filho a esquerda e da chave do pai a ser concatenado
         for (pos_no = 0; pos_no < ordem; pos_no++) {
@@ -366,12 +385,15 @@ public class B extends Arvore {
         for (i = 0; i <= ult_no && no.chaves[i] != 0; i++) {
             pos = this.insere_vetor(novo_no, no.chaves[i]);
             novo_no.filhos[pos] = no.filhos[i];
+            if (no.filhos[i] != null) no.filhos[i].pai = novo_no;
         }
         if (no.filhos[i] != null) { // inserindo ultimo filho que pode ser pulado
             pos++;
             novo_no.filhos[pos] = no.filhos[i];
+            no.filhos[i].pai = novo_no;
         }
-
+        if (pos_no == 50)
+            System.out.println("Puxa vida");
         // inserindo chave do pai a ser concatenada
         if (pai.chaves[pos_no] != 0)
             pos = this.insere_vetor(novo_no, pai.chaves[pos_no]);
@@ -382,10 +404,12 @@ public class B extends Arvore {
         for (i = 0; i <= ult_irmao && irmao.chaves[i] != 0; i++) {
             pos = this.insere_vetor(novo_no, irmao.chaves[i]);
             novo_no.filhos[pos] = irmao.filhos[i];
+            if (irmao.filhos[i] != null) irmao.filhos[i].pai = novo_no;
         }
         if (irmao.filhos[i] != null) { // inserindo ultimo filho que pode ser pulado
             pos++;
             novo_no.filhos[pos] = irmao.filhos[i];
+            irmao.filhos[i].pai = novo_no;
         }
 
         // verificando se é folha
@@ -396,12 +420,14 @@ public class B extends Arvore {
         this.remove_vetor(pai, pos_no);
         // realocando filhos
         pai.filhos[pos_no] = novo_no;
+        novo_no.pai = pai;
         for (i = pos_no + 1; i < ordem; i++) {
             pai.filhos[i] = pai.filhos[i + 1];
         }
         
         if (this.raiz.chaves[0] == 0) {
             this.raiz = novo_no;
+            novo_no.pai = null;
             return;
         }
 
@@ -413,7 +439,7 @@ public class B extends Arvore {
             
             // Subindo na arvore
             no = pai;
-            pai = avo;
+            pai = pai.pai;
 
             // encontrando irmao
             for (i = 0; i < ordem; i++) {
@@ -428,11 +454,22 @@ public class B extends Arvore {
                     break;
                 }
             }
+            
+            if (irmao == null)
+                System.out.println("ta de sacanagem");
+            
             int tam_no = this.ultima_posicao(no.chaves)+1;
             
-            int tam_irmao = this.ultima_posicao(irmao.chaves)+1;
+            int tam_irmao;
+            if (irmao != null) tam_irmao = this.ultima_posicao(irmao.chaves)+1;
+            else {
+                tam_irmao = 0;
+                irmao = new NoB(this.ordem);
+                irmao.pai = pai;
+                pai.filhos[1] = irmao;
+            }
             
-            if(tam_no + tam_irmao < ordem) this.concatenacao(pai, no, irmao);
+            if(tam_no + tam_irmao < ordem) this.concatenacao(no.pai, no, irmao);
         }
  
         
@@ -445,6 +482,7 @@ public class B extends Arvore {
         for (int i = 0; i < ordem; i++) {
             pos = this.insere_vetor(irmao, no.chaves[i]);
             irmao.filhos[pos] = no.filhos[i];
+            if (no.filhos[i] != null) no.filhos[i].pai = irmao;
         } 
 
         this.split(irmao, pai);
