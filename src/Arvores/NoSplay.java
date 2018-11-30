@@ -38,6 +38,13 @@ public class NoSplay {
         this.fdir=null;
         this.pai=null;
     }
+
+    public NoSplay() {
+        this.fesq=null;
+        this.fdir=null;
+        this.pai=null;
+       
+    }
     
     /**
      * Métodos que retornam atributos da classe.

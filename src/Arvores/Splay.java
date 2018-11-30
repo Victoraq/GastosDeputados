@@ -240,10 +240,12 @@ public class Splay extends Arvore{
              super.copia();
              super.compara();
              if (ele >= z.getValor()){
+                 System.out.println("z antigo, valor maior:"+z.getValor());
                  z = z.getFdir();
                  super.copia();
              }
              else if (ele <= z.getValor()){
+                 System.out.println("z antigo, valor menor:"+z.getValor());
                  z = z.getFesq();
                  super.copia();
              }
@@ -256,14 +258,14 @@ public class Splay extends Arvore{
          super.compara();
          if(prox != null)
          {
+             System.out.println("Não achei, achei esse:"+prox.getValor());
              Splay(prox);
-             return null;
+             return prox;
          }
          return null;
      }
   
-     
-     
+  
     private void printArvore(NoSplay raiz, int level){
         if(raiz==null)
              return;
@@ -277,9 +279,8 @@ public class Splay extends Arvore{
             System.out.println(raiz.getValor()+" ");
         printArvore(raiz.fesq, level+1);
     }     
-    public void imprime() {
+      public void imprime() {
         printArvore(raiz, 0);
-    }    
-    
-    
+    }         
+     
 }
