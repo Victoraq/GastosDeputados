@@ -1,13 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Arvores;
 
 /**
- *
- * @author Laura
+ * Classe que implementa a Árvore AA.
  */
 public class ArvoreAA extends Arvore {
     private NoAA raiz;
@@ -28,6 +23,10 @@ public class ArvoreAA extends Arvore {
     public ArvoreAA() {
     }
 
+    /**
+     * Construtor da Árvore que recebe um nó raiz.
+     * @param raiz - nó que irá ser a raiz da árvore
+     */
     public ArvoreAA(NoAA raiz) {
         this.raiz = raiz;
     }

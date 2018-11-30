@@ -1,21 +1,33 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Arvores;
 
 /**
- *
- * @author Laura
+ * Classe que implementa o Nó da Árvore AA.
  */
 public class NoAA {
-    protected int valor, nivel; // Atributo 'nivel' representa o número de links à esquerda, do nó em questão até null.
+    /**
+    * valor - valor inteiro armazenado no nó
+    * nivel - nível em que o nó está na árvore
+    * fEsq - filho a esquerda
+    * fDir - filho a direita
+    * pai - pai do nó
+    */
+    protected int valor, nivel;
     protected NoAA fEsq, fDir, pai;
 
+    /**
+     * Construtor vazio da Árvore.
+     */
     public NoAA() {
     }
 
+    /**
+     * Construtor Nó da AA.
+     * @param valor - valor inteiro armazenado no nó
+     * @param fEsq - filho a esquerda
+     * @param pai - pai do nó
+     * @param fDir - filho a direita
+     */
     public NoAA(int valor, NoAA fEsq, NoAA fDir, NoAA pai) {
         this.valor = valor;
         this.fEsq = fEsq;
@@ -24,6 +36,10 @@ public class NoAA {
         this.nivel = 1 + calculaNivel(fEsq);
     }
 
+    /**
+     * Construtor Nó da AA.
+     * @param valor - valor inteiro armazenado no nó
+     */
     public NoAA(int valor) {
         this.valor = valor;
         this.fEsq = null;
@@ -32,6 +48,11 @@ public class NoAA {
         this.nivel = 1;
     }
     
+    /**
+     * Calcula nível em que o nó está
+     * @param no - nó a ser avaliado o nível
+     * @return Nível do nó
+     */
     public int calculaNivel(NoAA no) {
         if(no == null) {
             return 0;
@@ -45,6 +66,10 @@ public class NoAA {
             }
         }
     }
+    
+    /**
+     * Métodos que retornam atributos da classe.
+     */
     
     public NoAA getfEsq() {
         return fEsq;
