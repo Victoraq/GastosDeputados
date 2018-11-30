@@ -7,7 +7,7 @@ package Arvores;
 public class NoAA {
     /**
     * valor - valor inteiro armazenado no nó
-    * nivel - nível em que o nó está na árvore
+    * nivel - representa o número de links à esquerda, do nó em questão até null.
     * fEsq - filho a esquerda
     * fDir - filho a direita
     * pai - pai do nó
