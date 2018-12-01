@@ -35,22 +35,30 @@ public class B extends Arvore {
     private Busca buscaB(int valor) {
         Busca busca = new Busca();
         
+        super.copia();
+        super.copia();
         NoB n = busca.pai = this.raiz;
         busca.valida = 0;
         
+        super.compara();
         while (n != null) {
             int i = busca.pos = 0;
             
+            super.copia();
+            super.copia();
             busca.pai = busca.no;
             busca.no = n;
             
+            super.compara();
             while (i < this.ordem) {
+                super.compara();
                 if (valor > n.chaves[i]) {
+                    super.compara();
                     if (n.chaves[i] == 0) { // caso em que esta vazio, ai desce para filho 
                         n = n.filhos[i];
                         break;
                     }
-                    
+                    super.copia();
                     i = busca.pos = i+1;
                 
                 } else { 
@@ -61,6 +69,7 @@ public class B extends Arvore {
                         n = null;
                         break;
                     } else { // se for menor desce para filho a esquerda
+                        super.copia();
                         n = n.filhos[i];
                         break;
                     }
@@ -68,6 +77,7 @@ public class B extends Arvore {
                 
                 // ultima posição livre para inserção
                 if (i == ordem) n = n.filhos[ordem]; 
+                super.copia();
             }
             
         }
@@ -85,6 +95,7 @@ public class B extends Arvore {
     @Override    
     public void inserir(int valor) {
         
+        super.compara();
         if(this.raiz == null){ //Verifica se a arvore esta vazia, se sim, apenas cria a raiz
 
             this.raiz = new NoB(this.ordem);
@@ -93,7 +104,8 @@ public class B extends Arvore {
         } else {///Caso contrario, chama a insercao recursiva
 
             this.auxInserir(raiz,valor);
-
+            
+            super.compara();
             if(raiz.chaves[this.ordem-1] != 0){ //Verifica se a raiz esta em overflow, se estiver faz o split
 
                 NoB nRaiz = new NoB(ordem);
@@ -109,17 +121,20 @@ public class B extends Arvore {
     private void auxInserir(NoB no, int valor){
         
         int pos = 0;
+        super.compara();
         while(pos < this.ordem) {
             
             if (no.chaves[pos] < valor) pos++;
             else break;
             
         }
+        super.compara();
         if (no.filhos[pos] == null) {
             this.insere_vetor(no, valor);
         } else {
             this.auxInserir(no.filhos[pos], valor);
             
+            super.compara();
             if (no.filhos[pos].chaves[this.ordem-1] != 0) {
                 this.split(no.filhos[pos], no);
             }
@@ -136,19 +151,25 @@ public class B extends Arvore {
        int pos_dir = 0;
        
        for (int i = 0; i <= ordem; i++) { // Preenchendo nós separados
+           super.compara();
+           super.copia();
            // Preenchendo chaves e filhos
            if (i <= (ordem/2)-1) {
                
+               super.compara();
                // Pulando valor que subiu para o nó superior
                if (i != (ordem/2)-1) no_esq.chaves[i] = no.chaves[i];
                
+               super.copia();
                no_esq.filhos[i] = no.filhos[i];
                if (no.filhos[i] != null) no.filhos[i].pai = no_esq;
                
            } else {
+               super.compara();
                // evitando null pointer exception
                if (i < ordem) no_dir.chaves[pos_dir] = no.chaves[i];
                
+               super.copia();
                no_dir.filhos[pos_dir] = no.filhos[i];
                if (no.filhos[i] != null) no.filhos[i].pai = no_dir;
 
@@ -159,6 +180,7 @@ public class B extends Arvore {
        
        //Verificando se filhos irão ser folhas
        for (int i = 0; i <= ordem; i++) {
+           super.compara();
            if (no_esq.filhos[i] != null) 
                no_esq.folha = false;
            if (no_dir.filhos[i] != null) 
@@ -167,6 +189,8 @@ public class B extends Arvore {
        
        // Assinalando os seus respectivos ponteiros
        
+       super.copia();
+       super.copia();
        pai.filhos[pos] = no_esq;
        pai.filhos[pos+1] = no_dir;
        pai.folha = false;
@@ -181,20 +205,22 @@ public class B extends Arvore {
         
         // encontra posição a ser inserido
         while(pos < this.ordem-1 && no.chaves[pos] < chave && no.chaves[pos] != 0) {
-
+            super.compara();
             pos++;
 
         }
         
         // deslocando chaves
         for(int i = this.ordem-2; i >= pos; i--){
-
+            super.compara();
+            super.copia();
             no.chaves[i+1] = no.chaves[i];
         }
         // deslocando filhos a partir da ultima posição inserida a fim de evitar duplicações
         int ult = this.ultima_posicao(no.chaves);
         for(int i = ult; i >= pos; i--){
-
+            super.compara();
+            super.copia();
             no.filhos[i+1] = no.filhos[i];
 
         }
@@ -210,6 +236,8 @@ public class B extends Arvore {
             
         // Desloco as chaves para remover o valor
         while (i < ordem-1) { 
+            super.compara();
+            super.copia();
             no.chaves[i] = no.chaves[i+1];
             i++;
         }
@@ -221,6 +249,7 @@ public class B extends Arvore {
         NoB no, pai, maior = null, irmao, pai_maior;
         int pos, ult_maior, pos_maior;
         
+        super.copia();
         Busca busca = buscaB(valor); // Buscando valor
         
         if (busca.valida == 0) {// não encontrou o valor
@@ -295,6 +324,7 @@ public class B extends Arvore {
     private int ultima_posicao(int[] vetor) {
         int i;
         for (i = vetor.length-1; i >= 0; i--) {
+            super.compara();
             if (vetor[i] != 0)
                 break;
         }
@@ -392,7 +422,7 @@ public class B extends Arvore {
             novo_no.filhos[pos] = no.filhos[i];
             no.filhos[i].pai = novo_no;
         }
-        if (pos_no == 50)
+        if (pos_no == 4)
             System.out.println("Puxa vida");
         // inserindo chave do pai a ser concatenada
         if (pai.chaves[pos_no] != 0)
