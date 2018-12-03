@@ -1,13 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Arvores;
 
 /**
- *
- * @author victor
+ * Classe que implementa a Árvore B.
  */
 public class B extends Arvore {
     
@@ -32,6 +27,9 @@ public class B extends Arvore {
         int valida; // validação se encontrou ou não o valor
     }
     
+    /**
+    * Busca interna por um valor
+    */
     private Busca buscaB(int valor) {
         Busca busca = new Busca();
         
@@ -279,8 +277,6 @@ public class B extends Arvore {
                 if (no.filhos[i] != null)
                     maior = no.filhos[i];
             }
-            if (maior == null)
-                System.out.println("Puts grila");
             while(maior != null && !maior.folha) {
                 
                 pos_maior = this.ultima_posicao(maior.chaves);
@@ -358,8 +354,6 @@ public class B extends Arvore {
                 }
             
             }
-            if (irmao == null)
-                System.out.println("nao tenho irmaaao!!!");
             
             // Coletando numero de chaves do irmao e do nó
             int tam_irmao;
@@ -422,8 +416,6 @@ public class B extends Arvore {
             novo_no.filhos[pos] = no.filhos[i];
             no.filhos[i].pai = novo_no;
         }
-        if (pos_no == 4)
-            System.out.println("Puxa vida");
         // inserindo chave do pai a ser concatenada
         if (pai.chaves[pos_no] != 0)
             pos = this.insere_vetor(novo_no, pai.chaves[pos_no]);
@@ -485,8 +477,6 @@ public class B extends Arvore {
                 }
             }
             
-            if (irmao == null)
-                System.out.println("ta de sacanagem");
             
             int tam_no = this.ultima_posicao(no.chaves)+1;
             
