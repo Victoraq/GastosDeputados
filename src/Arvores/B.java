@@ -110,6 +110,7 @@ public class B extends Arvore {
                 split(this.raiz, nRaiz);
                 this.raiz = nRaiz;
                 this.raiz.folha = false;
+                this.raiz.pai = null;
 
             }
 
@@ -122,7 +123,7 @@ public class B extends Arvore {
         super.compara();
         while(pos < this.ordem) {
             
-            if (no.chaves[pos] < valor) pos++;
+            if (no.chaves[pos] < valor && no.chaves[pos] != 0) pos++;
             else break;
             
         }
@@ -160,7 +161,7 @@ public class B extends Arvore {
                
                super.copia();
                no_esq.filhos[i] = no.filhos[i];
-               if (no.filhos[i] != null) no.filhos[i].pai = no_esq;
+               if (no.filhos[i] != null) no_esq.filhos[i].pai = no_esq;
                
            } else {
                super.compara();
@@ -169,7 +170,7 @@ public class B extends Arvore {
                
                super.copia();
                no_dir.filhos[pos_dir] = no.filhos[i];
-               if (no.filhos[i] != null) no.filhos[i].pai = no_dir;
+               if (no.filhos[i] != null) no_dir.filhos[pos_dir].pai = no_dir;
 
                
                pos_dir++;
